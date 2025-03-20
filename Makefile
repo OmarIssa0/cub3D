@@ -5,7 +5,9 @@ LIBS = -I/usr/local/include -L/usr/local/lib -lmlx42 -ldl -lglfw -pthread -lm
 LIBFT_DIR = ./Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC = src/main.c
+SRC = src/main.c				\
+	src/read_map/read_map.c		\
+	src/utils/exit_and_print.c	\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
