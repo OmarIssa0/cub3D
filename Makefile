@@ -8,6 +8,10 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = src/main.c				\
 	src/read_map/read_map.c		\
 	src/utils/exit_and_print.c	\
+	src/free/free_game.c		\
+	src/read_map/check_map.c	\
+	src/free/free_struct.c		\
+	src/read_map/get_values.c	\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

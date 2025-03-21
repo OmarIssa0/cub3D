@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/21 01:04:46 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/21 23:50:55 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,30 @@ typedef struct s_main
 
 
 /*
-    !read map function
+    ! read map function
 */
 void   read_map(t_main *main);
+void check_map(t_main *main);
+void check_map_empty(t_main *main);
+int skip_space(char *str, int i);
 
 /*
-    !exit and print function
+    ! exit and print function
 */
 void    exit_and_print(char *str, t_main *main, int status);
+
+
+/*
+    ! free game function
+*/
+void free_game(t_main *main);
+void free_all(t_main *main);
+
+/*
+    ! get values function
+*/
+void get_textures(t_main *main, char **lines);
+void get_colors(t_main *main, char **lines);
+void get_values(t_main *main);
 
 #endif
