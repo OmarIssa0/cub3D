@@ -12,6 +12,7 @@ SRC = src/main.c				\
 	src/read_map/check_map.c	\
 	src/free/free_struct.c		\
 	src/read_map/get_values.c	\
+	src/validity/map_validity.c	\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

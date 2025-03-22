@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:53:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/21 23:48:18 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/22 22:36:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ static void read_for_file(t_main *main)
     close(main->fd);
 }
 
+
+
 void   read_map(t_main *main)
 {
-    check_map(main);
+    check_file_name(main);
     main->fd = open(main->file_name, O_RDONLY);
     if (main->fd == -1)
     {
@@ -53,6 +55,6 @@ void   read_map(t_main *main)
         exit(EXIT_FAILURE);
     }
     read_for_file(main);
-    check_map_empty(main);
+    check_file_empty(main);
     get_values(main);
 }

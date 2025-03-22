@@ -6,13 +6,13 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:24:52 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/21 22:25:29 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/22 22:24:39 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void check_map(t_main *main)
+void check_file_name(t_main *main)
 {
     int len;
 
@@ -29,7 +29,7 @@ int skip_space(char *str, int i)
     return (i);
 }
 
-void check_map_empty(t_main *main)
+void check_file_empty(t_main *main)
 {
     int tmp;
 

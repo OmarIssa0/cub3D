@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:41:14 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/21 23:44:10 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/22 22:38:33 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,10 @@ void free_all(t_main *main)
     {
         free(main->file.east_texture);
         main->file.east_texture = NULL;
+    }
+    if (main->split.lines)
+    {
+        main->split.lines = ft_free_split(main->split.lines);
+        main->split.lines = NULL;
     }
 }

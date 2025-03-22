@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run cub3d",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cub3d", // مسار الملف التنفيذي
+            "args": [
+                "assets/maps/map.cub" // مسار ملف الخريطة
+            ], // يمكنك إضافة أي معاملات هنا
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build cub3d" // تأكد من وجود مهمة بناء في tasks.json
+        }
+    ]
+}

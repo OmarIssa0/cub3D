@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/21 23:50:55 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/23 00:12:54 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,22 @@ typedef struct s_file
 }         t_file;
 
 
+typedef struct s_splitter
+{
+    char **lines;
+    int i;
+    int j;
+    int k;
+    int len;
+}            t_splitter;
+
 typedef struct s_main
 {
     int fd;
     char *file_name;
     char *result;
     t_file file;
+    t_splitter split;
 }            t_main;
 
 
@@ -58,14 +68,15 @@ typedef struct s_main
     ! read map function
 */
 void   read_map(t_main *main);
-void check_map(t_main *main);
-void check_map_empty(t_main *main);
+void check_file_name(t_main *main);
+void check_file_empty(t_main *main);
 int skip_space(char *str, int i);
 
 /*
     ! exit and print function
 */
 void    exit_and_print(char *str, t_main *main, int status);
+void print_map_for_error(t_main *main, int i, int j, char *string);
 
 
 /*
@@ -77,8 +88,14 @@ void free_all(t_main *main);
 /*
     ! get values function
 */
-void get_textures(t_main *main, char **lines);
-void get_colors(t_main *main, char **lines);
+void get_textures(t_main *main, char **lines, int *i);
+void get_colors(t_main *main, char **lines, int *i);
 void get_values(t_main *main);
+
+/*
+    ! valid map function
+*/
+void check_map_content(t_main *main);
+void check_map(t_main *main);
 
 #endif
