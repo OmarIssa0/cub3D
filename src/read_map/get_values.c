@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:11 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/22 22:39:03 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/30 15:53:23 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,63 @@
 
 void get_textures(t_main *main, char **lines, int *i)
 {
-    while (lines[*i] && (main->file.north_texture == NULL || main->file.south_texture == NULL || main->file.west_texture == NULL || main->file.east_texture == NULL))
+    while (lines[*i] /*&& (main->file.north_texture == NULL || main->file.south_texture == NULL || main->file.west_texture == NULL || main->file.east_texture == NULL)*/)
     {
         if (ft_strncmp(lines[*i], "NO ", 3) == 0)
         {
+            main->helper.count_values_north++;
             if (ft_strlen(&lines[*i][3]) == 0)
-                exit_and_print("North texture is empty", main, 0);
+                exit_and_print("North texture is empty \"North\"", main, 0);
+            if (main->helper.count_values_north > 1)
+                exit_and_print("Texture is duplicated \"North\"", main, 0);
             main->file.north_texture = ft_strtrim(&lines[*i][3], " \t\n");
             if (main->file.north_texture == NULL)
                 exit_and_print("Malloc failed", main, 0);
+            int skip = skip_space(main->file.north_texture, 0);
+            if (main->file.north_texture[skip] == '\0')
+                exit_and_print("Texture is not valid \"North\"", main, 0);
         }
         else if (ft_strncmp(lines[*i], "SO ", 3) == 0)
         {
+            main->helper.count_values_south++;
             if (ft_strlen(&lines[*i][3]) == 0)
-                exit_and_print("South texture is empty", main, 0);
+                exit_and_print("South texture is empty \"South\"", main, 0);
+            if (main->helper.count_values_south > 1)
+                exit_and_print("Texture is duplicated \"South\"", main, 0);
             main->file.south_texture = ft_strtrim(&lines[*i][3], " \t\n");
             if (main->file.south_texture == NULL)
                 exit_and_print("Malloc failed", main, 0);
+            int skip = skip_space(main->file.south_texture, 0);
+            if (main->file.south_texture[skip] == '\0')
+                exit_and_print("Texture is not valid \"South\"", main, 0);
         }
         else if (ft_strncmp(lines[*i], "WE ", 3) == 0)
         {
+            main->helper.count_values_west++;
             if (ft_strlen(&lines[*i][3]) == 0)
-                exit_and_print("West texture is empty", main, 0);
+                exit_and_print("West texture is empty \"West\"", main, 0);
+            if (main->helper.count_values_west > 1)
+                exit_and_print("Texture is duplicated \"West\"", main, 0);
             main->file.west_texture = ft_strtrim(&lines[*i][3], " \t\n");
             if (main->file.west_texture == NULL)
                 exit_and_print("Malloc failed", main, 0);
+            int skip = skip_space(main->file.west_texture, 0);
+            if (main->file.west_texture[skip] == '\0')
+                exit_and_print("Texture is not valid \"West\"", main, 0);
         }
         else if (ft_strncmp(lines[*i], "EA ", 3) == 0)
         {
+            main->helper.count_values_east++;
             if (ft_strlen(&lines[*i][3]) == 0)
-                exit_and_print("East texture is empty", main, 0);
+                exit_and_print("East texture is empty \"East\"", main, 0);
+            if (main->helper.count_values_east > 1)
+                exit_and_print("Texture is duplicated \"East\"", main, 0);
             main->file.east_texture = ft_strtrim(&lines[*i][3], " \t\n");
             if (main->file.east_texture == NULL)
                 exit_and_print("Malloc failed", main, 0);
+            int skip = skip_space(main->file.east_texture, 0);
+            if (main->file.east_texture[skip] == '\0')
+                exit_and_print("Texture is not valid \"East\"", main, 0);
         }
         (*i)++;
     }
@@ -56,50 +80,133 @@ void get_textures(t_main *main, char **lines, int *i)
 
 void get_colors(t_main *main, char **lines, int *i)
 {
-    int index;
-    char *line_color_floor = NULL;
-    char *line_color_ceiling = NULL;
-
-    index = 0;
-    while (lines[*i] && (line_color_floor == NULL || line_color_ceiling == NULL))
+    *i = 0;
+    while (lines[*i] /*&& (main->helper.line_color_floor == NULL || main->helper.line_color_ceiling == NULL)*/)
     {
         if (ft_strncmp(lines[*i], "F ", 2) == 0)
-            line_color_floor = lines[*i];
+        {
+            main->helper.count_values_floor++;
+            main->helper.line_color_floor = lines[*i];
+            int cunter = 0;
+            int result = 0;
+            while (lines[*i][cunter])
+            {
+                if (lines[*i][cunter] == ',')
+                    result++;
+                cunter++;
+            }
+            if (result != 2)
+                exit_and_print("Color is not valid Floor", main, 0);
+        }
         else if (ft_strncmp(lines[*i], "C ", 2) == 0)
-            line_color_ceiling = lines[*i];
+        {
+            main->helper.count_values_ceiling++;   
+            main->helper.line_color_ceiling = lines[*i];
+            int count = 0;
+            int result = 0;
+            while (lines[*i][count])
+            {
+                if (lines[*i][count] == ',')
+                    result++;
+                count++;
+            }
+            if (result != 2)
+                exit_and_print("Color is not valid Ceiling", main, 0);
+            count = 0;
+            
+        }
         (*i)++;
+        if (main->helper.count_values_floor > 1 || main->helper.count_values_ceiling > 1)
+            exit_and_print("Color is duplicated", main, 0);
     }
-    if (line_color_floor == NULL || line_color_ceiling == NULL)
+    
+    if (main->helper.line_color_floor == NULL || main->helper.line_color_ceiling == NULL)
         exit_and_print("Color is missing", main, 0);
-    char **color_floor = ft_split(&line_color_floor[2], ',');
-    char **color_ceiling = ft_split(&line_color_ceiling[2], ',');
-    if (color_floor == NULL || color_ceiling == NULL)
+   
+    main->helper.color_floor = ft_split(&main->helper.line_color_floor[2], ',');
+    main->helper.color_ceiling = ft_split(&main->helper.line_color_ceiling[2], ',');
+    
+    if (main->helper.color_floor == NULL || main->helper.color_ceiling == NULL)
         exit_and_print("Malloc failed", main, 0);
-    index = -1;
-    while (color_floor[++index])
-        main->file.floor_color[index] = ft_atoi(color_floor[index]);
-    index = -1;
-    while (color_ceiling[++index])
-        main->file.ceiling_color[index] = ft_atoi(color_ceiling[index]);
-    index = -1;
-    while (++index < 3)
+    if (main->helper.color_floor[0] == NULL || main->helper.color_floor[1] == NULL || main->helper.color_floor[2] == NULL)
+        exit_and_print("Color is missing", main, 0);
+    if (main->helper.color_ceiling[0] == NULL || main->helper.color_ceiling[1] == NULL || main->helper.color_ceiling[2] == NULL)
+        exit_and_print("Color is missing", main, 0);
+  
+    main->helper.index = -1;
+    while (main->helper.color_floor[++main->helper.index])
     {
-        if (main->file.floor_color[index] < 0 || main->file.floor_color[index] > 255)
-            exit_and_print("Color is not valid", main, 0);
-        if (main->file.ceiling_color[index] < 0 || main->file.ceiling_color[index] > 255)
-            exit_and_print("Color is not valid", main, 0);
+        main->helper.trim = ft_strtrim(main->helper.color_floor[main->helper.index], " \t\n");
+        if (main->helper.trim == NULL)
+            exit_and_print("Malloc failed", main, 0);
+        int skip = skip_space(main->helper.trim, 0);
+        if (main->helper.trim[skip] == '\0')
+            exit_and_print("Color is not valid Floor", main, 0);
+        main->helper.j = 0;
+    
+        while (main->helper.trim[main->helper.j])
+        {
+            if (main->helper.trim[0] == '\0' || ft_isdigit(main->helper.trim[main->helper.j]) == 0)
+                exit_and_print("Color is not valid Floor", main, 0);
+            main->helper.j++;
+        }
+
+        free(main->helper.trim);
+        main->helper.trim = NULL;
+       
+        main->file.floor_color[main->helper.index] = ft_atoi(main->helper.color_floor[main->helper.index]);
     }
-    color_floor = ft_free_split(color_floor);
-    color_ceiling = ft_free_split(color_ceiling);
+    if (main->helper.index != 3)
+        exit_and_print("Color is not valid Floor", main, 0);
+    main->helper.index = -1;
+    while (main->helper.color_ceiling[++main->helper.index] != NULL)
+    {
+        main->helper.trim = ft_strtrim(main->helper.color_ceiling[main->helper.index], " \t\n");
+        if (main->helper.trim == NULL)
+            exit_and_print("Malloc failed", main, 0);
+        int skip = skip_space(main->helper.trim, 0);
+        if (main->helper.trim[skip] == '\0')
+            exit_and_print("Color is not valid Ceiling", main, 0);
+        main->helper.j = 0;
+        while (main->helper.trim[main->helper.j])
+        {
+            if (main->helper.trim[0] == '\0'  || ft_isdigit(main->helper.trim[main->helper.j]) == 0)
+                exit_and_print("Color is not valid Ceiling", main, 0);
+            main->helper.j++;
+        }
+        free(main->helper.trim);
+        main->helper.trim = NULL;
+        main->helper.j++;
+        main->file.ceiling_color[main->helper.index] = ft_atoi(main->helper.color_ceiling[main->helper.index]);
+    }
+    if (main->helper.index != 3)
+        exit_and_print("Color is not valid Ceiling", main, 0);
+    main->helper.index = -1;
+    while (++main->helper.index < 3)
+    {
+        if (main->file.floor_color[main->helper.index] < 0 || main->file.floor_color[main->helper.index] > 255)
+            exit_and_print("Color is not valid Floor", main, 0);
+        if (main->file.ceiling_color[main->helper.index] < 0 || main->file.ceiling_color[main->helper.index] > 255)
+            exit_and_print("Color is not valid Floor", main, 0);
+    }
+    main->helper.color_floor = ft_free_split(main->helper.color_floor);
+    main->helper.color_ceiling = ft_free_split(main->helper.color_ceiling);
 }
 
 void get_map(t_main *main, char **lines, int *i)
 {
-    (void)main;
+    *i = 0;
     while (lines[*i])
     {
-        if (lines[*i][0] != '\n')
-            break;
+        int skip = skip_space(lines[*i], 0);
+        if (lines[*i][0] != '\n' 
+            && ft_strncmp(lines[*i] + skip, "NO ", 3) != 0
+            && ft_strncmp(lines[*i] + skip, "SO ", 3) != 0
+            && ft_strncmp(lines[*i] + skip, "WE ", 3) != 0
+            && ft_strncmp(lines[*i] + skip, "EA ", 3) != 0
+            && ft_strncmp(lines[*i] + skip, "F ", 2) != 0
+            && ft_strncmp(lines[*i] + skip, "C ", 2) != 0)
+            break ;
         (*i)++;
     }
     main->file.map = lines + *i;
@@ -166,5 +273,5 @@ void get_values(t_main *main)
     // ? get the values of the map
     get_map(main, main->split.lines, &main->split.i);
     // ? print the values
-    // ! print_result(main);
+    // print_result(main);
 }
