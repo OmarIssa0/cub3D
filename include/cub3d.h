@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/27 22:51:16 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/30 16:25:49 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_helper
     int count_values_south;
     int count_values_west;
     int count_values_east;
+    int skip_space;
 }   t_helper;
 
 typedef struct s_game
@@ -119,6 +120,22 @@ void free_all(t_main *main);
 void get_textures(t_main *main, char **lines, int *i);
 void get_colors(t_main *main, char **lines, int *i);
 void get_values(t_main *main);
+// * 1) get value textures
+void function_north(t_main *main, char **lines, int *i);
+void function_south(t_main *main, char **lines, int *i);
+void function_west(t_main *main, char **lines, int *i);
+void function_east(t_main *main, char **lines, int *i);
+// * 2) get value colors
+void function_floor(t_main *main, char **lines, int *i);
+void function_ceiling(t_main *main, char **lines, int *i);
+void split_and_check(t_main *main);
+void check_floor_is_valid(t_main *main);
+void check_ceiling_is_valid(t_main *main);
+void check_max_min(t_main *main);
+// * 3) utils
+void ft_split_file(t_main *main);
+void loop_and_substr(t_main *main);
+
 
 /*
     ! valid map function

@@ -14,6 +14,10 @@ SRC = src/main.c				\
 	src/read_map/get_values.c	\
 	src/validity/map_validity.c	\
 	src/game/init_game.c		\
+	src/read_map/get_textures.c	\
+	src/read_map/get_color.c	\
+	src/read_map/utils_color.c	\
+	src/read_map/2d_array.c		\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

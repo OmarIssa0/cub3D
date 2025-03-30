@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:18:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/27 01:25:19 by oissa            ###   ########.fr       */
+/*   Updated: 2025/03/30 16:36:51 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,11 +213,6 @@ void check_player(t_main *main)
                 main->game.player_y = i;
                 main->game.player_direction = main->file.map[i][j];
                 player++;
-            //     ft_printf("Player found at [%d][%d]\n", i, j);
-            //    ft_printf("Player x: %d\n", main->game.player_x);
-            //     ft_printf("Player y: %d\n", main->game.player_y);
-            //     ft_printf("Colmun: %d\n", j);
-            //     ft_printf("Row: %d\n", i);
             }
             j++;
         }
