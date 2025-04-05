@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 14:20:56 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 18:54:15 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 #define BLUE "\033[0;34m"
 #define YELLOW "\033[0;33m"
 
-#define SCREEN_WIDTH 1200
-#define SCREEN_HEIGHT 720
-#define DEGUGGING 1
-#define TILE_SIZE 35
+#define SCREEN_WIDTH 1400
+#define SCREEN_HEIGHT 920
+#define DEGUGGING 0
+// #define TILE_SIZE 35
+#define TILE_SIZE 15
+
 #define MOV_SPEED 3.0
 #define ROT_SPEED 2.0
 

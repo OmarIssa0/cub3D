@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 14:12:16 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 19:04:52 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void move_player(t_main *main, double move_x, double move_y)
     if (main->file.map[(int)main->player.y][(int)new_x] != '1')
     main->player.x = new_x;
 }
-
 void handle_keys(mlx_key_data_t keydata, void *param)
 {
     t_main *main = (t_main *)param;
@@ -231,6 +230,46 @@ void handle_keys(mlx_key_data_t keydata, void *param)
             draw_2D_view(main);
         else
             draw_walls(main);
+        
+        int radius = SCREEN_WIDTH / 17;
+        int centerX = SCREEN_WIDTH / 7; // Centered horizontally
+        int centerY = SCREEN_HEIGHT - radius -SCREEN_WIDTH / 15; // Positioned 10 pixels above the bottom
+        int padding = 90; // Padding around the map
+
+        for (int y = -radius; y <= radius; y++)
+        {
+            for (int x = -radius; x <= radius; x++)
+            {
+            if (x * x + y * y <= radius * radius)
+            {
+                int mapX = (int)(main->player.x + (double)x * main->game.width_map / (2 * radius));
+                int mapY = (int)(main->player.y + (double)y * main->game.height_map / (2 * radius));
+
+                if (mapX >= -padding && mapX < main->game.width_map - 1 + padding && 
+                mapY >= -padding && mapY < main->game.height_map + padding)
+                {
+                int squareSize = 2; // Size of the square for each map cell
+                for (int sy = 0; sy < squareSize; sy++)
+                {
+                    for (int sx = 0; sx < squareSize; sx++)
+                    {
+                    if (mapX < 0 || mapX >= main->game.width_map || 
+                        mapY < 0 || mapY >= main->game.height_map)
+                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00000000); // Padding color
+                    else if (main->file.map[mapY][mapX] == '1')
+                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFF0000FF); // Wall color
+                    else if ((int)main->player.x == mapX && (int)main->player.y == mapY)
+                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00FF00FF); // Player color
+                    else
+                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFFFFFFFF); // Floor color
+                    }
+                }
+                }
+            }
+            }
+        }
+        draw_2D_view(main);
+        // draw_minimap(main);     
     }
     
 }
@@ -267,5 +306,6 @@ void init_game(t_main *main)
     else
         draw_walls(main);
     mlx_image_to_window(main->game.mlx, main->game.image, 0, 0);
+    draw_2D_view(main);
     mlx_key_hook(main->game.mlx, &handle_keys, main);
 }

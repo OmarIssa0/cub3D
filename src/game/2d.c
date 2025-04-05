@@ -6,16 +6,13 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 15:04:03 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 18:52:29 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-
-void mlx_draw_rectangle(mlx_image_t *image, int x, int y, int width, int height, uint32_t color)
-{
+void mlx_draw_rectangle(mlx_image_t *image, int x, int y, int width, int height, uint32_t color) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             mlx_put_pixel(image, x + j, y + i, color);
@@ -123,7 +120,7 @@ void draw_map(t_main *main) {
             if (tile == '1') color = 0xFFFFFF00;
             else if (tile == '0') color = 0x009000FF;
             else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W') color = 0xFF0000FF;
-            else color = 0x000000FF;
+            else continue;
 
             mlx_draw_rectangle(main->game.image, 
                 x * TILE_SIZE, y * TILE_SIZE, 
@@ -149,8 +146,7 @@ void draw_map(t_main *main) {
         0xFF0000FF, 3);
 }
 
-void draw_2D_view(t_main *main)
-{
+void draw_2D_view(t_main *main) {
     draw_map(main);
     draw_rays_2D(main);
 }
