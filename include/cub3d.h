@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 16:25:49 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 14:20:56 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 #define BLUE "\033[0;34m"
 #define YELLOW "\033[0;33m"
 
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 720
+#define DEGUGGING 1
+#define TILE_SIZE 35
+#define MOV_SPEED 3.0
+#define ROT_SPEED 2.0
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -34,14 +41,34 @@
 #include "libft.h"
 #include <stdbool.h>
 
+typedef char * string;
+
+typedef struct s_player
+{
+    double x;       
+    double y;       
+    double dir_x;    
+    double dir_y;    
+    double plane_x;  
+    double plane_y; 
+} t_player;
+
+typedef struct s_raycasting
+{
+    int     *drawEnd;
+    int     *drawStart;
+    int     *lineHeight;
+    
+}   t_raycasting;
+
 typedef struct s_helper
 {
     int index;
-    char *line_color_floor;
-    char *line_color_ceiling;
+    string line_color_floor;
+    string line_color_ceiling;
     char **color_floor;
     char **color_ceiling;
-    char *trim;
+    string trim;
     int j;
     int count_values_ceiling;
     int count_values_floor;
@@ -60,14 +87,15 @@ typedef struct s_game
     int width_map;
     char player_direction;
     mlx_t *mlx;
+    mlx_image_t *image;
 } t_game;
 
 typedef struct s_file
 {
-    char *north_texture;
-    char *south_texture;
-    char *west_texture;
-    char *east_texture;
+    string north_texture;
+    string south_texture;
+    string west_texture;
+    string east_texture;
     int floor_color[3];
     int ceiling_color[3];
     char **map;
@@ -86,16 +114,20 @@ typedef struct s_splitter
 typedef struct s_main
 {
     int fd;
-    char *file_name;
-    char *result;
+    string file_name;
+    string result;
     t_file file;
     t_splitter split;
     t_game game;
     t_helper helper;
+    t_player player;
+    t_raycasting raycasting;
 } t_main;
 
 /*
-    ! read map function
+! ***********************************************************************
+? =========                   read map function               
+! ***********************************************************************
 */
 void read_map(t_main *main);
 void check_file_name(t_main *main);
@@ -103,19 +135,26 @@ void check_file_empty(t_main *main);
 int skip_space(char *str, int i);
 
 /*
-    ! exit and print function
+! ***********************************************************************
+? =========                   exit and print function               
+! ***********************************************************************
 */
 void exit_and_print(char *str, t_main *main, int status);
 void print_map_for_error(t_main *main, int i, int j, char *string);
 
+
 /*
-    ! free game function
+! ***********************************************************************
+? =========                   free game function               
+! ***********************************************************************
 */
 void free_game(t_main *main);
 void free_all(t_main *main);
 
 /*
-    ! get values function
+! ***********************************************************************
+? =========                   get values function               
+! ***********************************************************************
 */
 void get_textures(t_main *main, char **lines, int *i);
 void get_colors(t_main *main, char **lines, int *i);
@@ -136,18 +175,28 @@ void check_max_min(t_main *main);
 void ft_split_file(t_main *main);
 void loop_and_substr(t_main *main);
 
-
 /*
-    ! valid map function
+! ***********************************************************************
+? =========                   valid map function               
+! ***********************************************************************
 */
 void check_map_content(t_main *main);
 void check_map(t_main *main);
 void check_player(t_main *main);
 
-/* 
-    ! game function
+
+/*
+! ***********************************************************************
+? =========                  game function               
+! ***********************************************************************
 */
 void init_game(t_main *main);
+// * 1) 2d game
+void draw_2D_view(t_main *main);
+void draw_map(t_main *main);
+void draw_rays_2D(t_main *main);
+void mlx_draw_line_thick(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color, int thickness);
+void mlx_draw_rectangle(mlx_image_t *image, int x, int y, int width, int height, uint32_t color);
 
 
 #endif

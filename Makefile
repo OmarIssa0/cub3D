@@ -1,7 +1,7 @@
 NAME = cub3d
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
-LIBS = -I/usr/local/include -L/usr/local/lib -lmlx42 -ldl -lglfw -pthread -lm 
+LIBS = -I/usr/local/include -L/usr/local/lib -lmlx42 -ldl -lglfw -lpthread -lm -lX11
 LIBFT_DIR = ./Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -18,6 +18,7 @@ SRC = src/main.c				\
 	src/read_map/get_color.c	\
 	src/read_map/utils_color.c	\
 	src/read_map/2d_array.c		\
+	src/game/2d.c				\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

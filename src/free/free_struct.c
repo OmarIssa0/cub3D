@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:41:14 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/27 16:59:27 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 12:28:56 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ void free_all(t_main *main)
         main->file.east_texture = NULL;
     }
     // ? free struct helper
-    // if (main->helper.line_color_floor != NULL)
-    // {
-    //     free(main->helper.line_color_floor);
-    //     main->helper.line_color_floor = NULL;
-    // }
-    // if (main->helper.line_color_ceiling != NULL)
-    // {
-    //     free(main->helper.line_color_ceiling);
-    //     main->helper.line_color_ceiling = NULL;
-    // }
     if (main->helper.color_floor != NULL)
     {
         main->helper.color_floor = ft_free_split(main->helper.color_floor);

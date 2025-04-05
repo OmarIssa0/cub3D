@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 16:35:45 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 12:25:46 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ int main (int ac, char **av)
     // ? Check if the content
     check_map(&main);
     // ? Initialize the game
-    // init_game(&main);
-    // ? Initialize the textures
+    init_game(&main);
     // ? loop the game
-    // mlx_loop(main.game.mlx);
+    mlx_loop(main.game.mlx);
     free_all(&main);
 }

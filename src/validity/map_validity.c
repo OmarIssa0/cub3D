@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:18:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 16:36:51 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/05 12:29:23 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void calculate_height_width(t_main *main) {
     
     while (main->file.map[i]) {
         int current_len = ft_strlen(main->file.map[i]);
-        if (current_len > max) max = current_len;
+        if (current_len > max)
+            max = current_len;
         i++;
     }
     
@@ -109,16 +110,7 @@ void check_map(t_main *main)
     calculate_height_width(main);
     // ? Check if the map is surrounded by walls
     check_map_surrounded_by_walls(main);
-    // ft_printf("Height: %d\n", main->game.height_map);
-    // ft_printf("Width: %d\n", main->game.width_map);
-    // ft_printf("Player x: %d\n", main->game.player_x);
-    // ft_printf("Player y: %d\n", main->game.player_y);
-    // ft_printf("South: %s\n" , main->file.south_texture);
-    // ft_printf("West: %s\n" , main->file.west_texture);
-    // ft_printf("East: %s\n" , main->file.east_texture);
-    // ft_printf("North: %s\n" , main->file.north_texture);
-    // ft_printf("Floor:  %d %d %d\n", main->file.floor_color[0], main->file.floor_color[1], main->file.floor_color[2]);
-    // ft_printf("Ceiling:  %d %d %d\n", main->file.ceiling_color[0], main->file.ceiling_color[1], main->file.ceiling_color[2]);
+   
 }
 
 void print_map_for_error(t_main *main, int i, int j, char *string)
