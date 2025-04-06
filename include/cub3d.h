@@ -38,7 +38,10 @@
 #include <string.h>
 #include <errno.h>
 #include <limits.h>
-#include <MLX42/MLX42.h>
+// #include <MLX42/MLX42.h>
+#include "MLX42/MLX42.h"
+// #include <MLX42/include/MLX42/MLX42.h>
+// #include "MLX/include/MLX42.h"
 #include <time.h>
 #include "libft.h"
 #include <stdbool.h>
