@@ -21,14 +21,14 @@
 #define BLUE "\033[0;34m"
 #define YELLOW "\033[0;33m"
 
-#define SCREEN_WIDTH 1400
-#define SCREEN_HEIGHT 920
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 #define DEGUGGING 0
-// #define TILE_SIZE 35
+// #define TILE_SIZE 45
 #define TILE_SIZE 15
 
-#define MOV_SPEED 3.0
-#define ROT_SPEED 2.0
+#define MOV_SPEED 1.0
+#define ROT_SPEED 1.0
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +63,12 @@ typedef struct s_raycasting
     int     *drawEnd;
     int     *drawStart;
     int     *lineHeight;
-    
+    // int     drawStart[SCREEN_WIDTH];
+    // int drawEnd[SCREEN_WIDTH];
+    int side[SCREEN_WIDTH];
+    float wall_x[SCREEN_WIDTH];
+    float ray_dir_x[SCREEN_WIDTH];
+    float ray_dir_y[SCREEN_WIDTH];
 }   t_raycasting;
 
 typedef struct s_helper
@@ -93,6 +98,10 @@ typedef struct s_game
     char player_direction;
     mlx_t *mlx;
     mlx_image_t *image;
+    mlx_texture_t *texture_north;
+    mlx_texture_t *texture_south;
+    mlx_texture_t *texture_west;
+    mlx_texture_t *texture_east;
 } t_game;
 
 typedef struct s_file

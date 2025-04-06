@@ -137,6 +137,66 @@ void cast_rays(t_main *main)
     }
 }
 
+// void draw_walls(t_main *main)
+// {
+//     uint32_t color_c = (main->file.ceiling_color[0] << 24) | (main->file.ceiling_color[1] << 16) | (main->file.ceiling_color[2] << 8) | 0xFF;
+//     uint32_t color_f = (main->file.floor_color[0] << 24) | (main->file.floor_color[1] << 16) | (main->file.floor_color[2] << 8) | 0xFF;
+
+//     for (int x = 0; x < SCREEN_WIDTH; x++)
+//     {
+//         int draw_start = main->raycasting.drawStart[x];
+//         int draw_end = main->raycasting.drawEnd[x];
+//         int line_height = draw_end - draw_start;
+
+//         // 🔸 اختيار الـ texture المناسب حسب الاتجاه
+//         mlx_texture_t *texture;
+//         if (main->raycasting.side[x] == 0) // ضرب جدار عمودي (شرق/غرب)
+//         {
+//             if (main->raycasting.ray_dir_x[x] > 0)
+//                 texture = main->game.texture_west;
+//             else
+//                 texture = main->game.texture_east;
+//         }
+//         else // ضرب جدار أفقي (شمال/جنوب)
+//         {
+//             if (main->raycasting.ray_dir_y[x] > 0)
+//                 texture = main->game.texture_north;
+//             else
+//                 texture = main->game.texture_south;
+//         }
+
+//         // 🔸 حساب texture_x
+//         float wall_x = main->raycasting.wall_x[x]; // القيمة بين 0 و 1
+//         int tex_x = (int)(wall_x * (float)texture->width);
+//         if ((main->raycasting.side[x] == 0 && main->raycasting.ray_dir_x[x] > 0) ||
+//             (main->raycasting.side[x] == 1 && main->raycasting.ray_dir_y[x] < 0))
+//         {
+//             tex_x = texture->width - tex_x - 1;
+//         }
+
+//         for (int y = 0; y < SCREEN_HEIGHT; y++)
+//         {
+//             if (y < draw_start)
+//                 mlx_put_pixel(main->game.image, x, y, color_c);
+//             else if (y >= draw_start && y <= draw_end)
+//             {
+//                 int d = y * 256 - SCREEN_HEIGHT * 128 + line_height * 128;
+//                 int tex_y = ((d * texture->height) / line_height) / 256;
+
+//                 int pixel_index = (tex_y * texture->width + tex_x) * 4;
+//                 uint8_t r = texture->pixels[pixel_index + 0];
+//                 uint8_t g = texture->pixels[pixel_index + 1];
+//                 uint8_t b = texture->pixels[pixel_index + 2];
+//                 uint8_t a = texture->pixels[pixel_index + 3];
+
+//                 uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
+//                 mlx_put_pixel(main->game.image, x, y, color);
+//             }
+//             else
+//                 mlx_put_pixel(main->game.image, x, y, color_f);
+//         }
+//     }
+// }
 
 void draw_walls(t_main *main)
 {
@@ -190,15 +250,16 @@ void move_player(t_main *main, double move_x, double move_y)
     if (main->file.map[(int)main->player.y][(int)new_x] != '1')
     main->player.x = new_x;
 }
-void handle_keys(mlx_key_data_t keydata, void *param)
+void handle_keys(void *param)
 {
     t_main *main = (t_main *)param;
     double move_step = MOV_SPEED * 0.05;
     double rot_step = ROT_SPEED * 0.05;
-    if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
-    {
+
+    // if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
+    // {
         // EXIT
-        if (keydata.key == MLX_KEY_ESCAPE || keydata.key == MLX_KEY_Q)
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_ESCAPE)  /*|| mlx_is_key_down(main->game.mlx, MLX_KEY_Q)*/ )
 
         {
             free_all(main);
@@ -206,22 +267,22 @@ void handle_keys(mlx_key_data_t keydata, void *param)
         }
 
         // الحركة الأمامية والخلفية
-        if (keydata.key == MLX_KEY_W)
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_W) )
             move_player(main, main->player.dir_x * move_step, main->player.dir_y * move_step);
-        if (keydata.key == MLX_KEY_S)
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_S) )
             move_player(main, -main->player.dir_x * move_step, -main->player.dir_y * move_step);
         
         // الحركة الجانبية
-        if (keydata.key == MLX_KEY_A)
-            move_player(main, -main->player.dir_y * move_step, main->player.dir_x * move_step);
-        if (keydata.key == MLX_KEY_D)
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_Q))
             move_player(main, main->player.dir_y * move_step, -main->player.dir_x * move_step);
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_E))
+            move_player(main, -main->player.dir_y * move_step, main->player.dir_x * move_step);
         
         // تدوير الكاميرا
-        if (keydata.key == MLX_KEY_LEFT)
-            rotate_player(&main->player, rot_step);
-        if (keydata.key == MLX_KEY_RIGHT)
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT) || mlx_is_key_down(main->game.mlx,  MLX_KEY_A))
             rotate_player(&main->player, -rot_step);
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT)  || mlx_is_key_down(main->game.mlx,  MLX_KEY_D))
+            rotate_player(&main->player, rot_step);
         // draw_walls(main);
         // إعادة رسم الشاشة
         cast_rays(main);
@@ -231,47 +292,63 @@ void handle_keys(mlx_key_data_t keydata, void *param)
         else
             draw_walls(main);
         
-        int radius = SCREEN_WIDTH / 17;
-        int centerX = SCREEN_WIDTH / 7; // Centered horizontally
-        int centerY = SCREEN_HEIGHT - radius -SCREEN_WIDTH / 15; // Positioned 10 pixels above the bottom
-        int padding = 90; // Padding around the map
+        // int radius = SCREEN_WIDTH / 25;
+        // int centerX = SCREEN_WIDTH / 11; // Centered horizontally
+        // int centerY = SCREEN_HEIGHT - radius -SCREEN_WIDTH / 15; // Positioned 10 pixels above the bottom
+        // int padding = 100; // Padding around the map
 
-        for (int y = -radius; y <= radius; y++)
-        {
-            for (int x = -radius; x <= radius; x++)
-            {
-            if (x * x + y * y <= radius * radius)
-            {
-                int mapX = (int)(main->player.x + (double)x * main->game.width_map / (2 * radius));
-                int mapY = (int)(main->player.y + (double)y * main->game.height_map / (2 * radius));
+        // for (int y = -radius; y <= radius; y++)
+        // {
+        //     for (int x = -radius; x <= radius; x++)
+        //     {
+        //     if (x * x + y * y <= radius * radius)
+        //     {
+        //         int mapX = (int)(main->player.x + (double)x * main->game.width_map / (2 * radius));
+        //         int mapY = (int)(main->player.y + (double)y * main->game.height_map / (2 * radius));
 
-                if (mapX >= -padding && mapX < main->game.width_map - 1 + padding && 
-                mapY >= -padding && mapY < main->game.height_map + padding)
-                {
-                int squareSize = 2; // Size of the square for each map cell
-                for (int sy = 0; sy < squareSize; sy++)
-                {
-                    for (int sx = 0; sx < squareSize; sx++)
-                    {
-                    if (mapX < 0 || mapX >= main->game.width_map || 
-                        mapY < 0 || mapY >= main->game.height_map)
-                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00000000); // Padding color
-                    else if (main->file.map[mapY][mapX] == '1')
-                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFF0000FF); // Wall color
-                    else if ((int)main->player.x == mapX && (int)main->player.y == mapY)
-                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00FF00FF); // Player color
-                    else
-                        mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFFFFFFFF); // Floor color
-                    }
-                }
-                }
-            }
-            }
-        }
+        //         if (mapX >= -padding && mapX < main->game.width_map  + padding && 
+        //         mapY >= -padding && mapY < main->game.height_map + padding)
+        //         {
+        //         int squareSize = 2; // Size of the square for each map cell
+        //         for (int sy = 0; sy < squareSize; sy++)
+        //         {
+        //             for (int sx = 0; sx < squareSize; sx++)
+        //             {
+        //             if (mapX < 0 || mapX >= main->game.width_map || 
+        //                 mapY < 0 || mapY >= main->game.height_map)
+        //                 mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00000000); // Padding color
+        //             else if (main->file.map[mapY][mapX] == '1')
+        //                 mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFF0000FF); // Wall color
+        //             else if ((int)main->player.x == mapX && (int)main->player.y == mapY)
+        //                 mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0x00FF00FF); // Player color
+        //             else
+        //                 mlx_put_pixel(main->game.image, centerX + x * squareSize + sx, centerY + y * squareSize + sy, 0xFFFFFFFF); // Floor color
+        //             }
+        //         }
+        //         }
+        //     }
+        //     }
+        // }
         draw_2D_view(main);
         // draw_minimap(main);     
-    }
+    // }
     
+}
+
+void handle_mouse(void *param)
+{
+    t_main *main = (t_main *)param;
+
+    static int last_x = SCREEN_WIDTH / 2;
+    int current_x, current_y;
+
+    mlx_get_mouse_pos(main->game.mlx, &current_x, &current_y);
+
+    int delta_x = current_x - last_x;
+    if (delta_x != 0)
+        rotate_player(&main->player, delta_x * -0.002); // Adjust sensitivity by changing the multiplier
+
+    last_x = current_x;
 }
 
 void init_game(t_main *main)
@@ -281,10 +358,7 @@ void init_game(t_main *main)
     else
         main->game.mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", true);
     if (main->game.mlx == NULL)
-    {
-        free_all(main);
         exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
-    }
     main->raycasting.drawStart = ft_calloc(sizeof(int) , SCREEN_WIDTH);
     main->raycasting.drawEnd = ft_calloc(sizeof(int) , SCREEN_WIDTH);
     main->raycasting.lineHeight = ft_calloc(sizeof(int) , SCREEN_WIDTH);
@@ -301,11 +375,31 @@ void init_game(t_main *main)
         free_all(main);
         exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
     }
+    main->game.texture_north = mlx_load_png(main->file.north_texture);
+    main->game.texture_east = mlx_load_png("assets/image/ice.png");
+    main->game.texture_south = mlx_load_png("assets/image/ice.png");
+    main->game.texture_west = mlx_load_png("assets/image/ice.png");
+    /*
+        ! check image --> NULL
+    */   
+    if (main->game.texture_north == NULL)
+        exit_and_print("trexture north :(", main, 0);
+    if (main->game.texture_east == NULL)
+        exit_and_print("trexture east :(", main, 0);
+    if (main->game.texture_south == NULL)
+        exit_and_print("trexture south :(", main, 0);
+    if (main->game.texture_west == NULL)
+        exit_and_print("trexture west :(", main, 0);
+
     if (DEGUGGING == true)
         draw_2D_view(main);
     else
         draw_walls(main);
     mlx_image_to_window(main->game.mlx, main->game.image, 0, 0);
     draw_2D_view(main);
-    mlx_key_hook(main->game.mlx, &handle_keys, main);
+    // mlx_key_hook(main->game.mlx, &handle_keys, main);
+    mlx_loop_hook(main->game.mlx, &handle_keys, main);
+    mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_HIDDEN);
+    mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    // mlx_mouse_hook(main->game.mlx, &handle_keys, main);
 }

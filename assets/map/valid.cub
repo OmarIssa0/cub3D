@@ -1,5 +1,5 @@
 F 6, 125, 28
-NO ./textures/wall2.xpm
+NO assets/image/ice.png
 C 130,200,229
 SO ./textures/wall2.xpm
 WE ./textures/wall1.xpm
@@ -8,8 +8,8 @@ EA ./textures/wall2.xpm
 
 
 
-111111111101
-100000000101
+111111111111
+100000000001
 100001000101
 100001000101
 100001000101
@@ -18,4 +18,4 @@ EA ./textures/wall2.xpm
 111111111101
 111111111101
 100000000001
-111111111101
+111111111111
