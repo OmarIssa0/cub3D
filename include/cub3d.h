@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 18:54:15 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/07 11:15:17 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 #define YELLOW "\033[0;33m"
 
 #define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+// #define SCREEN_WIDTH 2560 
+#define SCREEN_HEIGHT 720
 #define DEGUGGING 0
 // #define TILE_SIZE 45
-#define TILE_SIZE 15
+#define TILE_SIZE 25
 
 #define MOV_SPEED 1.0
 #define ROT_SPEED 1.0
@@ -60,11 +61,11 @@ typedef struct s_player
 
 typedef struct s_raycasting
 {
-    int     *drawEnd;
-    int     *drawStart;
+    // int     *drawEnd;
+    // int     *drawStart;
     int     *lineHeight;
-    // int     drawStart[SCREEN_WIDTH];
-    // int drawEnd[SCREEN_WIDTH];
+    int     drawStart[SCREEN_WIDTH];
+    int drawEnd[SCREEN_WIDTH];
     int side[SCREEN_WIDTH];
     float wall_x[SCREEN_WIDTH];
     float ray_dir_x[SCREEN_WIDTH];

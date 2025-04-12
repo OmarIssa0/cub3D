@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:41:14 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 12:28:56 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/07 09:24:06 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,38 @@ void free_all(t_main *main)
         main->split.lines = ft_free_split(main->split.lines);
         main->split.lines = NULL;
     }
+    // ? free struct raycasting
+    if (main->raycasting.lineHeight != NULL)
+    {
+        free(main->raycasting.lineHeight);
+        main->raycasting.lineHeight = NULL;
+    }
     // ? free struct game
+    if (main->game.image != NULL)
+    {
+        mlx_delete_image(main->game.mlx, main->game.image);
+        main->game.image = NULL;
+    }
+    if (main->game.texture_north != NULL)
+    {
+        mlx_delete_texture(main->game.texture_north);
+        main->game.texture_north = NULL;
+    }
+    if (main->game.texture_south != NULL)
+    {
+        mlx_delete_texture(main->game.texture_south);
+        main->game.texture_south = NULL;
+    }
+    if (main->game.texture_west != NULL)
+    {
+        mlx_delete_texture(main->game.texture_west);
+        main->game.texture_west = NULL;
+    }
+    if (main->game.texture_east != NULL)
+    {
+        mlx_delete_texture(main->game.texture_east);
+        main->game.texture_east = NULL;
+    }
     if (main->game.mlx != NULL)
     {
         mlx_terminate(main->game.mlx);

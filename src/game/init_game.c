@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 19:04:52 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/07 12:22:50 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,8 +237,6 @@ void rotate_player(t_player *player, double angle)
 
 void move_player(t_main *main, double move_x, double move_y)
 {
-    
-    
     double new_x = main->player.x + move_x;
     double new_y = main->player.y + move_y;
     if (new_x < 0 || new_x >= main->game.width_map ||
@@ -250,6 +248,29 @@ void move_player(t_main *main, double move_x, double move_y)
     if (main->file.map[(int)main->player.y][(int)new_x] != '1')
     main->player.x = new_x;
 }
+void handle_mouse_rotation(t_main *main)
+{
+    static int last_x = SCREEN_WIDTH / 2;
+    int current_x, current_y;
+
+    mlx_get_mouse_pos(main->game.mlx, &current_x, &current_y);
+
+    int delta_x = current_x - last_x;
+    last_x = current_x;
+
+    if (delta_x != 0)
+    {
+        float sensitivity = 0.00005f;
+        float angle = delta_x * sensitivity;
+
+        rotate_player(&main->player, angle); // دالة تدور اتجاه اللاعب
+    }
+
+    // نعيد ضبط المؤشر للمنتصف كل مرة (لأنه ما يخرجش)
+    mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    last_x = SCREEN_WIDTH / 2;
+}
+
 void handle_keys(void *param)
 {
     t_main *main = (t_main *)param;
@@ -259,6 +280,7 @@ void handle_keys(void *param)
     // if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
     // {
         // EXIT
+    handle_mouse_rotation(main);
         if (mlx_is_key_down(main->game.mlx, MLX_KEY_ESCAPE)  /*|| mlx_is_key_down(main->game.mlx, MLX_KEY_Q)*/ )
 
         {
@@ -267,9 +289,9 @@ void handle_keys(void *param)
         }
 
         // الحركة الأمامية والخلفية
-        if (mlx_is_key_down(main->game.mlx, MLX_KEY_W) )
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_W) || mlx_is_key_down(main->game.mlx, MLX_KEY_UP))
             move_player(main, main->player.dir_x * move_step, main->player.dir_y * move_step);
-        if (mlx_is_key_down(main->game.mlx, MLX_KEY_S) )
+        if (mlx_is_key_down(main->game.mlx, MLX_KEY_S) || mlx_is_key_down(main->game.mlx, MLX_KEY_DOWN))
             move_player(main, -main->player.dir_x * move_step, -main->player.dir_y * move_step);
         
         // الحركة الجانبية
@@ -351,6 +373,7 @@ void handle_mouse(void *param)
     last_x = current_x;
 }
 
+
 void init_game(t_main *main)
 {
     if (DEGUGGING == true)
@@ -359,8 +382,6 @@ void init_game(t_main *main)
         main->game.mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", true);
     if (main->game.mlx == NULL)
         exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
-    main->raycasting.drawStart = ft_calloc(sizeof(int) , SCREEN_WIDTH);
-    main->raycasting.drawEnd = ft_calloc(sizeof(int) , SCREEN_WIDTH);
     main->raycasting.lineHeight = ft_calloc(sizeof(int) , SCREEN_WIDTH);
     if (main->raycasting.drawStart == NULL || main->raycasting.drawEnd == NULL || main->raycasting.lineHeight == NULL)
     {
@@ -399,7 +420,10 @@ void init_game(t_main *main)
     draw_2D_view(main);
     // mlx_key_hook(main->game.mlx, &handle_keys, main);
     mlx_loop_hook(main->game.mlx, &handle_keys, main);
-    mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_HIDDEN);
-    mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_DISABLED); // أو MLX_MOUSE_DISABLED
+    mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCHAR_MAX  / 2);
+    
+
+    // mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
     // mlx_mouse_hook(main->game.mlx, &handle_keys, main);
 }

@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 18:52:29 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/07 12:10:46 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void mlx_draw_line_thick(mlx_image_t *img, int x0, int y0, int x1, int y1, uint3
 }
 
 void draw_rays_2D(t_main *main) {
+    int map_size = 12; // حجم الخريطة المصغرة (10x10)
+    int offsetY = SCREEN_HEIGHT - (map_size * TILE_SIZE) - 10; // وضع الخريطة في الجزء السفلي مع مسافة صغيرة
+    int offsetX = 10; // مسافة صغيرة من الجانب الأيسر
+
     for (int x = 0; x < SCREEN_WIDTH; x++) { 
         double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
         double rayDirX = main->player.dir_x + main->player.plane_x * cameraX;
@@ -97,55 +101,188 @@ void draw_rays_2D(t_main *main) {
         else
             perpWallDist = (mapY - main->player.y + (1 - stepY) / 2) / rayDirY;
 
-        // حساب نقاط البداية والنهاية
-        double rayStartX = main->player.x * TILE_SIZE ;
-        double rayStartY = main->player.y * TILE_SIZE;
+        // حساب نقاط البداية والنهاية بالنسبة للخريطة المصغرة
+        double rayStartX = offsetX + (main->player.x - (int)main->player.x) * TILE_SIZE + map_size / 2 * TILE_SIZE;
+        double rayStartY = offsetY + (main->player.y - (int)main->player.y) * TILE_SIZE + map_size / 2 * TILE_SIZE;
         double rayEndX = rayStartX + rayDirX * perpWallDist * TILE_SIZE;
         double rayEndY = rayStartY + rayDirY * perpWallDist * TILE_SIZE;
 
-        // رسم الشعاع بسمك 2 بكسل
+        // التحقق من أن الشعاع داخل حدود الخريطة المصغرة
+        double minX = offsetX;
+        double minY = offsetY;
+        double maxX = offsetX + map_size * TILE_SIZE;
+        double maxY = offsetY + map_size * TILE_SIZE;
+
+        if (rayEndX < minX) rayEndX = minX;
+        if (rayEndX > maxX) rayEndX = maxX;
+        if (rayEndY < minY) rayEndY = minY;
+        if (rayEndY > maxY) rayEndY = maxY;
+
+        // رسم الشعاع بسمك 2 بكسل داخل الخريطة المصغرة
         mlx_draw_line_thick(main->game.image, 
             (int)rayStartX, (int)rayStartY,
             (int)rayEndX, (int)rayEndY,
             0xffff00ff, 2);
     }
 }
-
 void draw_map(t_main *main) {
-    for (int y = 0; y < main->game.height_map; y++) {
-        for (int x = 0; x < main->game.width_map; x++) {
-            char tile = main->file.map[y][x];
+    int map_size = 12; // حجم الخريطة المراد عرضه (10x10)
+    int offsetY = SCREEN_HEIGHT - (map_size * TILE_SIZE) - 10; // وضع الخريطة في الجزء السفلي مع مسافة صغيرة
+    int offsetX = 10; // مسافة صغيرة من الجانب الأيسر
+
+    for (int y = 0; y < map_size; y++) {
+        for (int x = 0; x < map_size; x++) {
+            int mapY = (int)(main->player.y - map_size / 2 + y);
+            int mapX = (int)(main->player.x - map_size / 2 + x);
+
+            if (mapY < 0 || mapY >= main->game.height_map || mapX < 0 || mapX >= main->game.width_map || !main->file.map || !main->file.map[mapY]) {
+                continue;
+            }
+
+            char tile = main->file.map[mapY][mapX];
             uint32_t color = 0;
 
-            if (tile == '1') color = 0xFFFFFF00;
-            else if (tile == '0') color = 0x009000FF;
-            else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W') color = 0xFF0000FF;
+            if (tile == '1') color = 0xFFFFFF00; // لون الجدران
+            else if (tile == '0') color = 0x009000FF; // لون الأرضية
+            else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W') color = 0xFF0000FF; // لون اللاعب
             else continue;
 
+            // رسم البلاط
             mlx_draw_rectangle(main->game.image, 
-                x * TILE_SIZE, y * TILE_SIZE, 
+                offsetX + x * TILE_SIZE, 
+                offsetY + y * TILE_SIZE, 
                 TILE_SIZE, TILE_SIZE, color);
 
             // رسم الحدود
             uint32_t border = 0x000000FF;
-            mlx_draw_line_thick(main->game.image, x*TILE_SIZE, y*TILE_SIZE, (x+1)*TILE_SIZE, y*TILE_SIZE, border, 1);
-            mlx_draw_line_thick(main->game.image, x*TILE_SIZE, y*TILE_SIZE, x*TILE_SIZE, (y+1)*TILE_SIZE, border, 1);
+            mlx_draw_line_thick(main->game.image, 
+                offsetX + x * TILE_SIZE, 
+                offsetY + y * TILE_SIZE, 
+                offsetX + (x + 1) * TILE_SIZE, 
+                offsetY + y * TILE_SIZE, 
+                border, 1);
+            mlx_draw_line_thick(main->game.image, 
+                offsetX + x * TILE_SIZE, 
+                offsetY + y * TILE_SIZE, 
+                offsetX + x * TILE_SIZE, 
+                offsetY + (y + 1) * TILE_SIZE, 
+                border, 1);
         }
     }
 
     // رسم اللاعب
-    int px = main->player.x * TILE_SIZE;
-    int py = main->player.y * TILE_SIZE;
-    mlx_draw_rectangle(main->game.image, px-3, py-3, 6, 6, 0xFF0000FF);
+    int px = offsetX + (main->player.x - (int)main->player.x) * TILE_SIZE + map_size / 2 * TILE_SIZE;
+    int py = offsetY + (main->player.y - (int)main->player.y) * TILE_SIZE + map_size / 2 * TILE_SIZE;
+    mlx_draw_rectangle(main->game.image, px - 3, py - 3, 6, 6, 0xFF0000FF);
 
     // رسم اتجاه النظر الرئيسي
     mlx_draw_line_thick(main->game.image, 
         px, py,
-        px + main->player.dir_x * 20,
-        py + main->player.dir_y * 20,
-        0xFF0000FF, 3);
+        px + main->player.dir_x * 1,
+        py + main->player.dir_y * 1,
+        0xFF0000FF, 4);
 }
+// void draw_rays_2D(t_main *main) {
+//     for (int x = 0; x < SCREEN_WIDTH; x++) { 
+//         double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
+//         double rayDirX = main->player.dir_x + main->player.plane_x * cameraX;
+//         double rayDirY = main->player.dir_y + main->player.plane_y * cameraX;
 
+//         int mapX = (int)main->player.x;
+//         int mapY = (int)main->player.y;
+
+//         double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
+//         double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
+        
+//         double sideDistX, sideDistY;
+//         int stepX, stepY;
+//         int hit = 0;
+//         int side;
+
+//         if (rayDirX < 0) {
+//             stepX = -1;
+//             sideDistX = (main->player.x - mapX) * deltaDistX;
+//         } else {
+//             stepX = 1;
+//             sideDistX = (mapX + 1.0 - main->player.x) * deltaDistX;
+//         }
+
+//         if (rayDirY < 0) {
+//             stepY = -1;
+//             sideDistY = (main->player.y - mapY) * deltaDistY;
+//         } else {
+//             stepY = 1;
+//             sideDistY = (mapY + 1.0 - main->player.y) * deltaDistY;
+//         }
+
+//         while (hit == 0) {
+//             if (sideDistX < sideDistY) {
+//                 sideDistX += deltaDistX;
+//                 mapX += stepX;
+//                 side = 0;
+//             } else {
+//                 sideDistY += deltaDistY;
+//                 mapY += stepY;
+//                 side = 1;
+//             }
+//             if (main->file.map[mapY][mapX] == '1') hit = 1;
+//         }
+
+//         // حساب المسافة العمودية للجدار
+//         double perpWallDist;
+//         if (side == 0)
+//             perpWallDist = (mapX - main->player.x + (1 - stepX) / 2) / rayDirX;
+//         else
+//             perpWallDist = (mapY - main->player.y + (1 - stepY) / 2) / rayDirY;
+
+//         // حساب نقاط البداية والنهاية
+//         double rayStartX = main->player.x * TILE_SIZE ;
+//         double rayStartY = main->player.y * TILE_SIZE;
+//         double rayEndX = rayStartX + rayDirX * perpWallDist * TILE_SIZE;
+//         double rayEndY = rayStartY + rayDirY * perpWallDist * TILE_SIZE;
+
+//         // رسم الشعاع بسمك 2 بكسل
+//         mlx_draw_line_thick(main->game.image, 
+//             (int)rayStartX, (int)rayStartY,
+//             (int)rayEndX, (int)rayEndY,
+//             0xffff00ff, 2);
+//     }
+// }
+
+// void draw_map(t_main *main) {
+//     for (int y = 0; y < main->game.height_map; y++) {
+//         for (int x = 0; x < main->game.width_map; x++) {
+//             char tile = main->file.map[y][x];
+//             uint32_t color = 0;
+
+//             if (tile == '1') color = 0xFFFFFF00;
+//             else if (tile == '0') color = 0x009000FF;
+//             else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W') color = 0xFF0000FF;
+//             else continue;
+
+//             mlx_draw_rectangle(main->game.image, 
+//                 x * TILE_SIZE, y * TILE_SIZE, 
+//                 TILE_SIZE, TILE_SIZE, color);
+
+//             // رسم الحدود
+//             uint32_t border = 0x000000FF;
+//             mlx_draw_line_thick(main->game.image, x*TILE_SIZE, y*TILE_SIZE, (x+1)*TILE_SIZE, y*TILE_SIZE, border, 1);
+//             mlx_draw_line_thick(main->game.image, x*TILE_SIZE, y*TILE_SIZE, x*TILE_SIZE, (y+1)*TILE_SIZE, border, 1);
+//         }
+//     }
+
+//     // رسم اللاعب
+//     int px = main->player.x * TILE_SIZE;
+//     int py = main->player.y * TILE_SIZE;
+//     mlx_draw_rectangle(main->game.image, px-3, py-3, 6, 6, 0xFF0000FF);
+
+//     // رسم اتجاه النظر الرئيسي
+//     mlx_draw_line_thick(main->game.image, 
+//         px, py,
+//         px + main->player.dir_x * 20,
+//         py + main->player.dir_y * 20,
+//         0xFF0000FF, 3);
+// }
 void draw_2D_view(t_main *main) {
     draw_map(main);
     draw_rays_2D(main);
