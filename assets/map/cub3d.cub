@@ -1,12 +1,10 @@
-NO  assets/image/ice.png      
-SO ./path_to_the_south_texture
-EA ./path_to_the_east_texture
-WE ./path_to_the_west_texture
+                                                NO              assets/image/ice.png                                     
+                         SO                                    ./path_to_the_south_texture
+           EA                         ./path_to_the_east_texture
+                                WE                    ./path_to_the_west_texture
 
-F      6, 125, 28
-C        130,200                            ,229
-
-
+ F                                                                                6              , 125  ,       28
+				 C        130                                                           ,       200                            ,        229
 
         1111111111111111111111111
         1000000000110000000000001

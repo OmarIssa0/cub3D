@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:55:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 15:59:22 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 13:53:40 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,14 @@ void get_textures(t_main *main, char **lines, int *i)
 {
     while (lines[*i])
     {
-        if (ft_strncmp(lines[*i], "NO ", 3) == 0)
+        main->helper.skip_space = skip_space(lines[*i], 0);
+        if (ft_strncmp(lines[*i] + main->helper.skip_space, "NO ", 3) == 0)
             function_north(main, lines, i);
-        else if (ft_strncmp(lines[*i], "SO ", 3) == 0)
+        else if (ft_strncmp(lines[*i] + main->helper.skip_space, "SO ", 3) == 0)
             function_south(main, lines, i);
-        else if (ft_strncmp(lines[*i], "WE ", 3) == 0)
+        else if (ft_strncmp(lines[*i] + main->helper.skip_space, "WE ", 3) == 0)
             function_west(main, lines, i);
-        else if (ft_strncmp(lines[*i], "EA ", 3) == 0)
+        else if (ft_strncmp(lines[*i] + main->helper.skip_space, "EA ", 3) == 0)
             function_east(main, lines, i);
         (*i)++;
     }

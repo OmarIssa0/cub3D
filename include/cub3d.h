@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/07 11:15:17 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:14:45 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@
 #include <string.h>
 #include <errno.h>
 #include <limits.h>
-// #include <MLX42/MLX42.h>
 #include "MLX42/MLX42.h"
-// #include <MLX42/include/MLX42/MLX42.h>
-// #include "MLX/include/MLX42.h"
 #include <time.h>
 #include "libft.h"
 #include <stdbool.h>
@@ -51,12 +48,12 @@ typedef char * string;
 
 typedef struct s_player
 {
-    double x;       
-    double y;       
-    double dir_x;    
-    double dir_y;    
-    double plane_x;  
-    double plane_y; 
+    float x;       
+    float y;       
+    float dir_x;    
+    float dir_y;    
+    float plane_x;  
+    float plane_y; 
 } t_player;
 
 typedef struct s_raycasting
@@ -80,6 +77,7 @@ typedef struct s_helper
     char **color_floor;
     char **color_ceiling;
     string trim;
+    string trimmed_result;
     int j;
     int count_values_ceiling;
     int count_values_floor;
@@ -103,6 +101,8 @@ typedef struct s_game
     mlx_texture_t *texture_south;
     mlx_texture_t *texture_west;
     mlx_texture_t *texture_east;
+    uint32_t color_ceiling;
+    uint32_t color_floor;
 } t_game;
 
 typedef struct s_file
@@ -212,6 +212,19 @@ void draw_map(t_main *main);
 void draw_rays_2D(t_main *main);
 void mlx_draw_line_thick(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color, int thickness);
 void mlx_draw_rectangle(mlx_image_t *image, int x, int y, int width, int height, uint32_t color);
-
+// * 2) handle color
+uint32_t rgb_32bit(int red, int green, int blue, t_main *main);
+void transformation_32bit(t_main *main);
+// * 3) handle player
+void init_player(t_main *main);
+// * 4) display bit
+void draw_walls(t_main *main);
+// * 5) handle hook & mouse
+void handle_keys(void *param);
+void rotate_player(t_player *player, double angle);
+void move_player(t_main *main, double move_x, double move_y);
+void handle_mouse_rotation(t_main *main);
+// * 6) rays
+void cast_rays(t_main *main);
 
 #endif

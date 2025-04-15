@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:53:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 16:34:56 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:45:33 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,24 @@ static void read_for_file(t_main *main)
         line = get_next_line(main->fd);
     }
     close(main->fd);
+    main->helper.trimmed_result = ft_strtrim(main->result, " \n\t ");
+    if (main->helper.trimmed_result == NULL)
+        exit_and_print("Malloc failed in trim", main, 0);
+    free(main->result);
+    main->result = main->helper.trimmed_result;
 }
 
 static void cmp_for_line(t_main *main, char **split, int *i)
 {
+    main->helper.skip_space = skip_space(split[*i], 0);
     if (ft_strncmp(split[*i] + main->helper.skip_space, "NO ", 3) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "SO ", 3) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "WE ", 3) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "EA ", 3) == 0 
     || ft_strncmp(split[*i] + main->helper.skip_space, "F ", 2) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "C ", 2) == 0
-    || ft_strncmp(split[*i] + main->helper.skip_space, "1", 1) == 0)
+    || ft_strncmp(split[*i] + main->helper.skip_space, "1", 1) == 0
+    || split[*i][main->helper.skip_space] == '\0')
         (*i)++;
     else
     {

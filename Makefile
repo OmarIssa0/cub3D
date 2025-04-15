@@ -23,6 +23,12 @@ SRC = src/main.c				\
 	src/read_map/utils_color.c	\
 	src/read_map/2d_array.c		\
 	src/game/2d.c				\
+	src/game/rgb_for_uint32.c	\
+	src/game/handle_player.c	\
+	src/game/display_bit.c		\
+	src/game/game_hook.c		\
+	src/game/rays.c				\
+	src/game/mouse_hook.c		\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

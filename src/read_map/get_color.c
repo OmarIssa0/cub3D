@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:03:16 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/30 16:19:31 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:05:55 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void function_floor(t_main *main, char **lines, int *i)
     result = 0;
     counter = 0;
     main->helper.count_values_floor++;
-    main->helper.line_color_floor = lines[*i];
+    main->helper.line_color_floor = lines[*i] + main->helper.skip_space;
     while (lines[*i][counter])
     {
         if (lines[*i][counter] == ',')
@@ -39,7 +39,7 @@ void function_ceiling(t_main *main, char **lines, int *i)
     result = 0;
     counter = 0;
     main->helper.count_values_ceiling++;
-    main->helper.line_color_ceiling = lines[*i];
+    main->helper.line_color_ceiling =  lines[*i] + main->helper.skip_space;
     while (lines[*i][counter])
     {
         if (lines[*i][counter] == ',')
@@ -112,9 +112,10 @@ void get_colors(t_main *main, char **lines, int *i)
     *i = 0;
     while (lines[*i])
     {
-        if (ft_strncmp(lines[*i], "F ", 2) == 0)
+        main->helper.skip_space = skip_space(lines[*i], 0);
+        if (ft_strncmp(lines[*i] + main->helper.skip_space, "F ", 2) == 0)
             function_floor(main, lines, i);
-        else if (ft_strncmp(lines[*i], "C ", 2) == 0)
+        else if (ft_strncmp(lines[*i] + main->helper.skip_space, "C ", 2) == 0)
             function_ceiling(main, lines, i);
         (*i)++;
         if (main->helper.count_values_floor > 1
