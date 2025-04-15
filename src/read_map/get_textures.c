@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:55:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 13:53:40 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 21:30:37 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void function_north(t_main *main, char **lines, int *i)
         exit_and_print("North texture is empty \"North\"", main, 0);
     if (main->helper.count_values_north > 1)
         exit_and_print("Texture is duplicated \"North\"", main, 0);
+    
     main->file.north_texture = ft_strtrim(&lines[*i][3], " \t\n");
     if (main->file.north_texture == NULL)
         exit_and_print("Malloc failed", main, 0);

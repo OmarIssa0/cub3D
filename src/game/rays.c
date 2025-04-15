@@ -6,12 +6,11 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 17:13:59 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 22:15:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
 
 void cast_rays(t_main *main)
 {
@@ -75,6 +74,7 @@ void cast_rays(t_main *main)
                 hit = 1;
         }
 
+        main->raycasting.side[x] = side;
         // 5️⃣ حساب المسافة إلى الجدار
         float perpWallDist;
         if (side == 0)
@@ -96,5 +96,16 @@ void cast_rays(t_main *main)
 
         main->raycasting.drawStart[x] = drawStart;
         main->raycasting.drawEnd[x] = drawEnd;
+        float wallX;
+        if (side == 0)
+            wallX = main->player.y + perpWallDist * rayDirY;
+        else
+            wallX = main->player.x + perpWallDist * rayDirX;
+        wallX -= floor(wallX); // نأخذ الجزء الكسري فقط
+
+        // main->raycasting.wallX[x] = wallX;
+        main->raycasting.wall_x[x] = wallX;
+        main->raycasting.ray_dir_x[x] = rayDirX;
+        main->raycasting.ray_dir_y[x] = rayDirY;
     }
 }

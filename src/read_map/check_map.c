@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:24:52 by oissa             #+#    #+#             */
-/*   Updated: 2025/03/27 16:33:59 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 19:13:09 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void check_file_name(t_main *main)
 }
 
 
-int skip_space(char *str, int i)
+int skip_space(string str, int i)
 {
     while (ft_isspace(str[i]))
         i++;

@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 17:29:32 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/15 21:47:24 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ static void init_texture(t_main *main)
     main->game.image = mlx_new_image(main->game.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
     if (main->game.image == NULL)
         exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
-    main->game.texture_north = mlx_load_png(main->file.north_texture);
-    main->game.texture_east = mlx_load_png("assets/image/ice.png");
-    main->game.texture_south = mlx_load_png("assets/image/ice.png");
-    main->game.texture_west = mlx_load_png("assets/image/ice.png");
+
+    // main->game.texture_north = mlx_load_png(main->file.north_texture);
+    // main->game.texture_east = mlx_load_png(main->file.east_texture);
+    // main->game.texture_south = mlx_load_png(main->file.south_texture);
+    // main->game.texture_west = mlx_load_png(main->file.west_texture);
+    main->game.texture_north = mlx_load_png("assets/image/1.png");
+    main->game.texture_east = mlx_load_png("assets/image/2.png");
+    main->game.texture_south = mlx_load_png("assets/image/3.png");
+    main->game.texture_west = mlx_load_png("assets/image/4.png");
     /*
         ! check image --> NULL
     */

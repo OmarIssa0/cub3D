@@ -1,7 +1,7 @@
                                                 NO              assets/image/ice.png                                     
-                         SO                                    ./path_to_the_south_texture
-           EA                         ./path_to_the_east_texture
-                                WE                    ./path_to_the_west_texture
+                         SO                                    assets/image/ice.png
+           EA                         assets/image/ice.png
+                                WE                    assets/image/ice.png
 
  F                                                                                6              , 125  ,       28
 				 C        130                                                           ,       200                            ,        229
