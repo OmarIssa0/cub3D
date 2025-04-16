@@ -21,9 +21,9 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-# define SCREEN_WIDTH 1920
-// #define SCREEN_WIDTH 2560
-# define SCREEN_HEIGHT 720
+// # define SCREEN_WIDTH 1920
+#define SCREEN_WIDTH 2560
+# define SCREEN_HEIGHT 1080
 # define DEGUGGING 0
 // #define TILE_SIZE 45
 # define TILE_SIZE 25

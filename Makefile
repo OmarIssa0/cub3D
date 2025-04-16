@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include
+CFLAGS = -Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include -g 
 # LIBS = -I/MLX/include -L/MLX/libmlx42.a -lmlx42 -ldl -lglfw -lpthread -lm -lX11
 MLX_DIR = ./MLX42
 MLX_BUILD_DIR = $(MLX_DIR)/build

@@ -31,25 +31,26 @@ static void init_texture(t_main *main)
     if (main->game.image == NULL)
         exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
 
-    // main->game.texture_north = mlx_load_png(main->file.north_texture);
-    // main->game.texture_east = mlx_load_png(main->file.east_texture);
-    // main->game.texture_south = mlx_load_png(main->file.south_texture);
-    // main->game.texture_west = mlx_load_png(main->file.west_texture);
+    main->game.texture_west = mlx_load_png(main->file.west_texture);
+
+    main->game.texture_north = mlx_load_png(main->file.north_texture);
     main->game.texture_north = mlx_load_png("assets/image/1.png");
+    if (main->game.texture_north == NULL)
+        exit_and_print("trexture north :(", main, 0);
+    main->game.texture_east = mlx_load_png(main->file.east_texture);
     main->game.texture_east = mlx_load_png("assets/image/2.png");
+    if (main->game.texture_east == NULL)
+        exit_and_print("trexture east :(", main, 0);
+    main->game.texture_south = mlx_load_png(main->file.south_texture);
     main->game.texture_south = mlx_load_png("assets/image/3.png");
+    if (main->game.texture_south == NULL)
+        exit_and_print("trexture south :(", main, 0);
     main->game.texture_west = mlx_load_png("assets/image/4.png");
+    if (main->game.texture_west == NULL)
+        exit_and_print("trexture west :(", main, 0);
     /*
         ! check image --> NULL
     */
-    if (main->game.texture_north == NULL)
-        exit_and_print("trexture north :(", main, 0);
-    if (main->game.texture_east == NULL)
-        exit_and_print("trexture east :(", main, 0);
-    if (main->game.texture_south == NULL)
-        exit_and_print("trexture south :(", main, 0);
-    if (main->game.texture_west == NULL)
-        exit_and_print("trexture west :(", main, 0);
 }
 
 void init_game(t_main *main)

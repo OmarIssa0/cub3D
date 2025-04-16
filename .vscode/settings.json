@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "cub3d.h": "c"
+        "cub3d.h": "c",
+        "ft_printf.h": "c"
     },
     "cmake.ignoreCMakeListsMissing": true
 }

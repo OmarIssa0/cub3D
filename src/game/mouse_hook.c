@@ -49,7 +49,7 @@ void handle_mouse_rotation(t_main *main)
 
     if (delta_x != 0)
     {
-        float sensitivity = 0.00005f;
+        float sensitivity = 0.0005f;
         float angle = delta_x * sensitivity;
 
         rotate_player(&main->player, angle); // دالة تدور اتجاه اللاعب

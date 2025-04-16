@@ -1,9 +1,9 @@
-F 6, 125, 28
-NO assets/image/ice.png
+F 255, 255, 255
+NO assets/image/1.png
 C 130,200,229
-SO ./assets/image/ice.png
-WE ./assets/image/ice.png
-EA ./assets/image/ice.png
+SO ./assets/image/2.png
+WE ./assets/image/3.png
+EA ./assets/image/4.png
 
 
 
