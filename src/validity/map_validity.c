@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:18:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/05 12:29:23 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 12:41:04 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ void flood_fill_map(t_main *main, int i, int j)
 
     main->file.map[i][j] = '2';
 
-
     flood_fill_map(main, i - 1, j); // Up   - 1
     flood_fill_map(main, i + 1, j); // Down  + 1
     flood_fill_map(main, i, j - 1); // Left  - 1
     flood_fill_map(main, i, j + 1); // Right + 1
 }
-void   fix_map(t_main *main)
+void fix_map(t_main *main)
 {
     int i = 0;
     int j = 0;
@@ -54,52 +53,29 @@ void   fix_map(t_main *main)
 // Function to validate if the map is closed
 void check_map_surrounded_by_walls(t_main *main)
 {
-    // int i = 0;
-    // int j = 0;
-
-    // while (main->file.map[i])
-    // {
-    //     j = 0;
-    //     while (main->file.map[i][j])
-    //     {
-    //         if (main->file.map[i][j] == 'E' || main->file.map[i][j] == 'N' ||
-    //             main->file.map[i][j] == 'S' || main->file.map[i][j] == 'W' )
-    //         {
-    //             flood_fill_map(main, i, j);
-    //             return;
-    //         }
-    //         j++;
-    //     }
-    //     i++;
-    // }
     flood_fill_map(main, main->game.player_y, main->game.player_x);
     fix_map(main);
-    // int i = 0;
-    // while (main->file.map[i])
-    // {
-    //     ft_printf("%s%s%s", GREEN, main->file.map[i], RESET);
-    //     i++;
-    // }
-
-    
-    // flood_fill_map(main, main->game.player_y, main->game.player_x);
-    // exit_and_print("No starting point found in the map", main, 0);
 }
 
-void calculate_height_width(t_main *main) {
-    int i = 0;
-    int max = 0;
-    
-    while (main->file.map[i]) {
-        int current_len = ft_strlen(main->file.map[i]);
+void calculate_height_width(t_main *main)
+{
+    int i;
+    int max;
+    int current_len;
+
+    i = 0;
+    max = 0;
+    while (main->file.map[i])
+    {
+        current_len = ft_strlen(main->file.map[i]);
         if (current_len > max)
             max = current_len;
         i++;
     }
-    
     main->game.height_map = i;
     main->game.width_map = max;
 }
+
 void check_map(t_main *main)
 {
     // ? Check if the content
@@ -110,7 +86,6 @@ void check_map(t_main *main)
     calculate_height_width(main);
     // ? Check if the map is surrounded by walls
     check_map_surrounded_by_walls(main);
-   
 }
 
 void print_map_for_error(t_main *main, int i, int j, char *string)
@@ -154,15 +129,15 @@ void check_map_content(t_main *main)
         {
             if (main->file.map[i][j] == '\n' && j == 0)
                 print_map_for_error(main, i, j, "new line at the beginning of the line\n");
-            if (main->file.map[i][j] != ' ' && main->file.map[i][j] != '1'
-                && main->file.map[i][j] != '0' && main->file.map[i][j] != '\n'
-                && main->file.map[i][j] != 'N' && main->file.map[i][j] != 'S'
+            if (main->file.map[i][j] != ' ' && main->file.map[i][j] != '1' 
+                && main->file.map[i][j] != '0' && main->file.map[i][j] != '\n' 
+                && main->file.map[i][j] != 'N' && main->file.map[i][j] != 'S' 
                 && main->file.map[i][j] != 'W' && main->file.map[i][j] != 'E')
-                    print_map_for_error(main, i, j, "Invalid character in the map\n");
+                print_map_for_error(main, i, j, "Invalid character in the map\n");
             j++;
         }
         i++;
-    }   
+    }
 }
 
 void check_player(t_main *main)
@@ -177,7 +152,7 @@ void check_player(t_main *main)
         {
             if (player > 1)
             {
-                ft_printf("%sError:\nMore than one player in the map: [%c]\n%s", RED, main->file.map[i][j - 1] ,RESET);
+                ft_printf("%sError:\nMore than one player in the map: [%c]\n%s", RED, main->file.map[i][j - 1], RESET);
                 int x = i;
                 int y = j - 1;
                 int new_i = 0;
@@ -198,8 +173,7 @@ void check_player(t_main *main)
                 free_all(main);
                 exit(EXIT_FAILURE);
             }
-            if (main->file.map[i][j] == 'N' || main->file.map[i][j] == 'S'
-                || main->file.map[i][j] == 'W' || main->file.map[i][j] == 'E')
+            if (main->file.map[i][j] == 'N' || main->file.map[i][j] == 'S' || main->file.map[i][j] == 'W' || main->file.map[i][j] == 'E')
             {
                 main->game.player_x = j;
                 main->game.player_y = i;

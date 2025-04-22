@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:24:52 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 19:13:09 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 12:36:52 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,5 @@ void check_file_empty(t_main *main)
 
     tmp = skip_space(main->result, 0);
     if (main->result[tmp] == '\0')
-    {
-        free(main->result);
         exit_and_print("Map is empty", main, 0);
-    }
 }

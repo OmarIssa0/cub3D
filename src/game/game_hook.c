@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:07:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 17:20:50 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 15:11:18 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,36 @@ void map_cir(t_main *main)
     }
 }
 
+
+void display_fps(void)
+{
+    static int frame_count = 0;       // عدد الإطارات
+    static double last_time = 0.0;   // الوقت السابق
+    static double fps = 0.0;         // عدد الإطارات في الثانية
+
+    // الحصول على الوقت الحالي
+    struct timespec current_time;
+    clock_gettime(CLOCK_MONOTONIC, &current_time);
+    double now = current_time.tv_sec + (current_time.tv_nsec / 1e9);
+
+    // إذا كانت هذه أول مرة، قم بتعيين الوقت السابق
+    if (last_time == 0.0)
+        last_time = now;
+
+    frame_count++;
+
+    // إذا مرّت ثانية واحدة، قم بحساب FPS
+    if (now - last_time >= 1.0)
+    {
+        fps = frame_count / (now - last_time);
+        frame_count = 0;
+        last_time = now;
+
+        // طباعة عدد الإطارات في الثانية
+        printf("FPS: %.2f\n", fps);
+    }
+}
+
 void handle_keys(void *param)
 {
     t_main *main = (t_main *)param;
@@ -71,26 +101,24 @@ void handle_keys(void *param)
     if (mlx_is_key_down(main->game.mlx, MLX_KEY_S) || mlx_is_key_down(main->game.mlx, MLX_KEY_DOWN))
         move_player(main, -main->player.dir_x * move_step, -main->player.dir_y * move_step);
 
-    // ? Side 
+    // ? Side
     if (mlx_is_key_down(main->game.mlx, MLX_KEY_Q))
         move_player(main, main->player.dir_y * move_step, -main->player.dir_x * move_step);
     if (mlx_is_key_down(main->game.mlx, MLX_KEY_E))
         move_player(main, -main->player.dir_y * move_step, main->player.dir_x * move_step);
 
-    // ? Cam 
+    // ? Cam
     if (mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT) || mlx_is_key_down(main->game.mlx, MLX_KEY_A))
         rotate_player(&main->player, -rot_step);
     if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
         rotate_player(&main->player, rot_step);
-    
+
     // ? Display map
     cast_rays(main);
 
-    if (DEGUGGING == true)
-        draw_2D_view(main);
-    else
-        draw_walls(main);
+    draw_walls(main);
     // ? Display circler map
     // map_cir(main);
     draw_2D_view(main);
+    display_fps();
 }

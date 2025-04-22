@@ -29,6 +29,8 @@ SRC = src/main.c				\
 	src/game/game_hook.c		\
 	src/game/rays.c				\
 	src/game/mouse_hook.c		\
+	src/free/free_file.c		\
+	src/free/free_helper.c		\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

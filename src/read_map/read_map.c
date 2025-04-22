@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:53:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 15:45:33 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 14:43:36 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void read_for_file(t_main *main)
 {
-    char *line;
-    char *tmp;
+    string line;
+    string tmp;
 
     main->result = ft_strdup("");
     if (main->result == NULL)
@@ -55,6 +55,7 @@ static void cmp_for_line(t_main *main, char **split, int *i)
     || ft_strncmp(split[*i] + main->helper.skip_space, "F ", 2) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "C ", 2) == 0
     || ft_strncmp(split[*i] + main->helper.skip_space, "1", 1) == 0
+    || ft_strncmp(split[*i] + main->helper.skip_space, "0", 1) == 0
     || split[*i][main->helper.skip_space] == '\0')
         (*i)++;
     else
@@ -96,10 +97,7 @@ void   read_map(t_main *main)
     // ? open the file
     main->fd = open(main->file_name, O_RDONLY);
     if (main->fd == -1)
-    {
         exit_and_print(strerror(errno), main, 0);
-        exit(EXIT_FAILURE);
-    }
     // ? read the file
     read_for_file(main);
     // ? Check if the file is empty

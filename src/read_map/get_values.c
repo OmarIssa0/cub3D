@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:11 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 17:04:42 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 12:38:45 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void get_values(t_main *main)
     // ? save color int to uint32_t -> 32bit
     transformation_32bit(main);
     // ? print the values
-    // print_result(main);
+    // ! print_result(main);
 }

@@ -6,11 +6,29 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 15:46:06 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/19 12:57:09 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*	
+*				  N
+!                 ^
+!				  |
+!				  |
+!			      |
+!				  |
+!			      |
+* W	<-------------o-------------> E
+!				  |
+!				  |
+!				  |
+!				  |
+!				  |
+!                 v
+*				  S
+*/
 
 int main (int ac, char **av)
 {
@@ -22,8 +40,10 @@ int main (int ac, char **av)
     // ? ininitialize the main struct
     ft_bzero(&main, sizeof(t_main));
     main.file_name = ft_strdup(av[1]);
+    if (main.file_name == NULL)
+        exit_and_print("Malloc Failed :(", &main, 0);
     /*
-        ? Read the map 
+        ? Read the file
         * and get the values
     */
     read_map(&main);
