@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:02:28 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:29:52 by oissa            ###   ########.fr       */
+/*   Updated: 2025/04/29 23:18:44 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void draw_walls(t_main *main)
 
                     // حساب نسبة المسافة من الكاميرا إلى الأرضية
                     float currentDist = (float)SCREEN_HEIGHT / (2.0f * y - SCREEN_HEIGHT);
-
+                    
                     // حساب موقع الأرضية في الخريطة
                     float floorX = main->player.x + currentDist * main->raycasting.ray_dir_x[x];
                     float floorY = main->player.y + currentDist * main->raycasting.ray_dir_y[x];

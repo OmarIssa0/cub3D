@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:11 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:38:45 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/01 15:12:15 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void get_map(t_main *main, char **lines, int *i)
 {
     *i = 0;
+    
     while (lines[*i])
     {
         int skip = skip_space(lines[*i], 0);
@@ -24,7 +25,8 @@ void get_map(t_main *main, char **lines, int *i)
             && ft_strncmp(lines[*i] + skip, "WE ", 3) != 0
             && ft_strncmp(lines[*i] + skip, "EA ", 3) != 0
             && ft_strncmp(lines[*i] + skip, "F ", 2) != 0
-            && ft_strncmp(lines[*i] + skip, "C ", 2) != 0)
+            && ft_strncmp(lines[*i] + skip, "C ", 2) != 0
+            && lines[*i][skip] != '\0')
             break ;
         (*i)++;
     }
