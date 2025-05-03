@@ -6,106 +6,129 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 22:15:01 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/03 19:34:37 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+void calculate_camx_rays(t_main *main, int x)
+{
+    main->math.camera_x = 2 * x / (float)SCREEN_WIDTH - 1;
+    main->math.ray_dir_x = main->player.dir_x + main->player.plane_x * main->math.camera_x;
+    main->math.ray_dir_y = main->player.dir_y + main->player.plane_y * main->math.camera_x;
+}
+
+void calulate_delta_dist_and_side(t_main *main)
+{
+    if (main->math.ray_dir_x == 0)
+        main->math.delta_dist_x = 1e30;
+    else
+        main->math.delta_dist_x = fabs(1 / main->math.ray_dir_x);
+    if (main->math.ray_dir_y == 0)
+        main->math.delta_dist_y = 1e30;
+    else
+        main->math.delta_dist_y = fabs(1 / main->math.ray_dir_y);
+    if (main->math.ray_dir_x < 0)
+    {
+        main->math.step_x = -1;
+        main->math.side_dist_x = (main->player.x - main->math.map_x) * main->math.delta_dist_x;
+    }
+    else
+    {
+        main->math.step_x = 1;
+        main->math.side_dist_x = (main->math.map_x + 1.0 - main->player.x) * main->math.delta_dist_x;
+    }
+    if (main->math.ray_dir_y < 0)
+    {
+        main->math.step_y = -1;
+        main->math.side_dist_y = (main->player.y - main->math.map_y) * main->math.delta_dist_y;
+    }
+    else
+    {
+        main->math.step_y = 1;
+        main->math.side_dist_y = (main->math.map_y + 1.0 - main->player.y) * main->math.delta_dist_y;
+    }
+}
+
+void DDA_algorithm(t_main *main, int x)
+{
+    main->math.hit = 0;
+
+    while (main->math.hit == 0)
+    {
+        if (main->math.side_dist_x < main->math.side_dist_y)
+        {
+            main->math.side_dist_x += main->math.delta_dist_x;
+            main->math.map_x += main->math.step_x;
+            main->math.side = 0; // الجدار في الاتجاه الأفقي
+        }
+        else
+        {
+            main->math.side_dist_y += main->math.delta_dist_y;
+            main->math.map_y += main->math.step_y;
+            main->math.side = 1; // الجدار في الاتجاه العمودي
+        }
+
+        if (main->file.map[main->math.map_y][main->math.map_x] == '1') // التحقق من الاصطدام بالجدار
+            main->math.hit = 1;
+    }
+    main->raycasting.side[x] = main->math.side;
+}
+
+void calculate_wall(t_main *main)
+{
+    if (main->math.side == 0)
+        main->math.perp_wall_dist = (main->math.map_x - main->player.x + (1 - main->math.step_x) / 2) / main->math.ray_dir_x;
+    else
+        main->math.perp_wall_dist = (main->math.map_y - main->player.y + (1 - main->math.step_y) / 2) / main->math.ray_dir_y;
+}
+
+void calculate_height_and_down_for_wall(t_main *main, int x)
+{
+    main->math.drawStart = -main->math.lineHeight / 2 + SCREEN_HEIGHT / 2;
+    if (main->math.drawStart < 0)
+        main->math.drawStart = 0;
+    main->math.drawEnd = main->math.lineHeight / 2 + SCREEN_HEIGHT / 2;
+    if (main->math.drawEnd >= SCREEN_HEIGHT)
+        main->math.drawEnd = SCREEN_HEIGHT - 1;
+
+    main->raycasting.drawStart[x] = main->math.drawStart;
+    main->raycasting.drawEnd[x] = main->math.drawEnd;
+
+    if (main->math.side == 0)
+        main->math.wall_x = main->player.y + main->math.perp_wall_dist * main->math.ray_dir_y;
+    else
+        main->math.wall_x = main->player.x + main->math.perp_wall_dist * main->math.ray_dir_x;
+    main->math.wall_x -= floor(main->math.wall_x); // نأخذ الجزء الكسري فقط
+
+    main->raycasting.wall_x[x] = main->math.wall_x;
+    main->raycasting.ray_dir_x[x] = main->math.ray_dir_x;
+    main->raycasting.ray_dir_y[x] = main->math.ray_dir_y;
+}
+
 void cast_rays(t_main *main)
 {
-    for (int x = 0; x < SCREEN_WIDTH; x++) // لكل عمود في الشاشة
+    int x;
+
+    x = -1;
+    while (++x < SCREEN_WIDTH)
     {
-        // 1️⃣ حساب اتجاه الشعاع لكل عمود
-        float cameraX = 2 * x / (float)SCREEN_WIDTH - 1;
-        float rayDirX = main->player.dir_x + main->player.plane_x * cameraX;
-        float rayDirY = main->player.dir_y + main->player.plane_y * cameraX;
-
-        // 2️⃣ تحديد موقع اللاعب في الخريطة
-        int mapX = (int)main->player.x; // كان main->game.player_x
-        int mapY = (int)main->player.y; // كان main->game.player_y
-
-        // 3️⃣ حساب خطوات الأشعة والمسافات
-        float deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-        float deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-        float sideDistX, sideDistY;
-        int stepX, stepY;
-
-        // تحديد اتجاه الأشعة
-        if (rayDirX < 0)
-        {
-            stepX = -1;
-            sideDistX = (main->player.x - mapX) * deltaDistX;
-        }
-        else
-        {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - main->player.x) * deltaDistX;
-        }
-        if (rayDirY < 0)
-        {
-            stepY = -1;
-            sideDistY = (main->player.y - mapY) * deltaDistY;
-        }
-        else
-        {
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - main->player.y) * deltaDistY;
-        }
-
-        // 4️⃣ تنفيذ خوارزمية DDA
-        int hit = 0, side;
-        while (hit == 0)
-        {
-            if (sideDistX < sideDistY)
-            {
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                side = 0; // الجدار في الاتجاه الأفقي
-            }
-            else
-            {
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                side = 1; // الجدار في الاتجاه العمودي
-            }
-
-            if (main->file.map[mapY][mapX] == '1') // التحقق من الاصطدام بالجدار
-                hit = 1;
-        }
-
-        main->raycasting.side[x] = side;
-        // 5️⃣ حساب المسافة إلى الجدار
-        float perpWallDist;
-        if (side == 0)
-            perpWallDist = (mapX - main->player.x + (1 - stepX) / 2) / rayDirX;
-        else
-            perpWallDist = (mapY - main->player.y + (1 - stepY) / 2) / rayDirY;
-
-        // 6️⃣ حساب ارتفاع الجدار بناءً على المسافة
-        int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-        main->raycasting.lineHeight[x] = lineHeight;
-
-        // 7️⃣ حساب أعلى وأسفل الجدار على الشاشة لكل عمود
-        int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
-        if (drawStart < 0)
-            drawStart = 0;
-        int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
-        if (drawEnd >= SCREEN_HEIGHT)
-            drawEnd = SCREEN_HEIGHT - 1;
-
-        main->raycasting.drawStart[x] = drawStart;
-        main->raycasting.drawEnd[x] = drawEnd;
-        float wallX;
-        if (side == 0)
-            wallX = main->player.y + perpWallDist * rayDirY;
-        else
-            wallX = main->player.x + perpWallDist * rayDirX;
-        wallX -= floor(wallX); // نأخذ الجزء الكسري فقط
-
-        // main->raycasting.wallX[x] = wallX;
-        main->raycasting.wall_x[x] = wallX;
-        main->raycasting.ray_dir_x[x] = rayDirX;
-        main->raycasting.ray_dir_y[x] = rayDirY;
+        // ! 1️⃣ حساب اتجاه الشعاع لكل عمود
+        calculate_camx_rays(main, x);
+        // ! 2️⃣ تحديد موقع اللاعب في الخريطة
+        main->math.map_x = (int)main->player.x; 
+        main->math.map_y = (int)main->player.y; 
+        // ! 3️⃣ حساب خطوات الأشعة والمسافات
+        calulate_delta_dist_and_side(main);
+        // ! 4️⃣ تنفيذ خوارزمية DDA
+        DDA_algorithm(main, x);
+        // ! 5️⃣ حساب المسافة إلى الجدار
+        calculate_wall(main);
+        // ! 6️⃣ حساب ارتفاع الجدار بناءً على المسافة
+        main->math.lineHeight = (int)(SCREEN_HEIGHT / main->math.perp_wall_dist);
+        main->raycasting.lineHeight[x] = main->math.lineHeight;
+        // ! 7️⃣ حساب أعلى وأسفل الجدار على الشاشة لكل عمود
+        calculate_height_and_down_for_wall(main, x);
     }
 }

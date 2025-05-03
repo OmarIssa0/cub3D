@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 15:17:37 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/03 19:43:02 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,28 @@
 #include <unistd.h>
 
 typedef char *string;
+
+typedef struct s_math
+{
+	float camera_x;
+	float ray_dir_x;
+	float ray_dir_y;
+	int map_x;
+	int map_y;
+	float delta_dist_x;
+	float delta_dist_y;
+	float side_dist_x;
+	float side_dist_y;
+	int step_x;
+	int step_y;
+	int hit;
+	int side;
+	float perp_wall_dist;
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	float wall_x;
+} t_math;
 
 typedef struct s_player
 {
@@ -140,6 +162,7 @@ typedef struct s_main
 	t_helper helper;
 	t_player player;
 	t_raycasting raycasting;
+	t_math math;
 } t_main;
 
 /*
@@ -237,5 +260,16 @@ void move_player(t_main *main, double move_x, double move_y);
 void handle_mouse_rotation(t_main *main);
 // * 6) rays
 void cast_rays(t_main *main);
+
+/*
+! ***********************************************************************
+? =========                  math function
+! ***********************************************************************
+*/
+void calculate_camx_rays(t_main *main, int x);
+void calulate_delta_dist_and_side(t_main *main);
+void DDA_algorithm(t_main *main, int x);
+void calculate_wall(t_main *main);
+void calculate_height_and_down_for_wall(t_main *main, int x);
 
 #endif

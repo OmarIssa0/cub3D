@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:57:09 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/03 15:06:26 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ int main (int ac, char **av)
     // ? loop the game
     mlx_loop(main.game.mlx);
     free_all(&main);
+    return (EXIT_SUCCESS);
 }
