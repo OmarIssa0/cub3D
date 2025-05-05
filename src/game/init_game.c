@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:42:06 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/06 00:29:51 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ static void init_texture(t_main *main)
     main->game.texture_sky= mlx_load_png("assets/image/sky.png");
     if (main->game.texture_floor == NULL)
         exit_and_print("trexture sky :(", main, 0);
+    main->game.texture_weapon[0] = mlx_load_png("assets/image/1-removebg-preview.png");
+    main->game.texture_weapon[1] = mlx_load_png("assets/image/2-removebg-preview.png");
+    main->game.texture_weapon[2] = mlx_load_png("assets/image/3-removebg-preview.png");
+    main->game.texture_weapon[3] = mlx_load_png("assets/image/4-removebg-preview.png");
+    
+    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1]  == NULL 
+        || main->game.texture_weapon[2]  == NULL || main->game.texture_weapon[3]  == NULL)
+        exit_and_print("texture weapon :(", main, 0);
 }
 
 void init_game(t_main *main)
