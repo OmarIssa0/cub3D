@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:57:14 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 14:58:42 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/06 15:38:08 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ void	free_and_nullify(void **ptr)
 {
 	if (*ptr != NULL)
 	{
-		free(*ptr);
+		mlx_delete_texture(*ptr);
 		*ptr = NULL;
 	}
 }
 
 void	free_struct_game(t_main *main)
 {
+	int i;
+
+	i = 0;
 	if (main->game.image != NULL)
 	{
 		mlx_delete_image(main->game.mlx, main->game.image);
@@ -34,6 +37,11 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_east);
 	free_and_nullify((void **)&main->game.texture_floor);
 	free_and_nullify((void **)&main->game.texture_sky);
+	while (i < 14)
+	{
+		free_and_nullify((void **)&main->game.texture_weapon[i]);
+		i++;
+	}
 	if (main->game.mlx != NULL)
 	{
 		mlx_terminate(main->game.mlx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 00:11:20 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:55:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ typedef struct s_game
 	mlx_texture_t	*texture_east;
 	mlx_texture_t	*texture_floor;
 	mlx_texture_t	*texture_sky;
-	mlx_texture_t	*texture_weapon[4];
+	mlx_texture_t	*texture_weapon[14];
 	int				weapon_animation;
 	uint32_t		color_ceiling;
 	uint32_t		color_floor;

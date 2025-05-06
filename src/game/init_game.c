@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 00:29:51 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:48:19 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,35 @@ static void init_texture(t_main *main)
     main->game.texture_west = mlx_load_png(main->file.west_texture);
     if (main->game.texture_west == NULL)
         exit_and_print("trexture west :(", main, 0);
-    // ! init texture bouns 
-    main->game.texture_floor = mlx_load_png("assets/image/floor.png");
+    // ! init texture bouns
+    main->game.texture_floor = mlx_load_png("assets/image/new/floor.png");
     if (main->game.texture_floor == NULL)
         exit_and_print("trexture floor :(", main, 0);
-    main->game.texture_sky= mlx_load_png("assets/image/sky.png");
+    main->game.texture_sky = mlx_load_png("assets/image/sky.png");
     if (main->game.texture_floor == NULL)
         exit_and_print("trexture sky :(", main, 0);
-    main->game.texture_weapon[0] = mlx_load_png("assets/image/1-removebg-preview.png");
-    main->game.texture_weapon[1] = mlx_load_png("assets/image/2-removebg-preview.png");
-    main->game.texture_weapon[2] = mlx_load_png("assets/image/3-removebg-preview.png");
-    main->game.texture_weapon[3] = mlx_load_png("assets/image/4-removebg-preview.png");
-    
-    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1]  == NULL 
-        || main->game.texture_weapon[2]  == NULL || main->game.texture_weapon[3]  == NULL)
+    main->game.texture_weapon[0] = mlx_load_png("assets/image/1.png");
+    main->game.texture_weapon[1] = mlx_load_png("assets/image/2.png");
+    main->game.texture_weapon[2] = mlx_load_png("assets/image/3.png");
+    main->game.texture_weapon[3] = mlx_load_png("assets/image/4.png");
+    main->game.texture_weapon[4] = mlx_load_png("assets/image/5.png");
+    main->game.texture_weapon[5] = mlx_load_png("assets/image/6.png");
+    main->game.texture_weapon[6] = mlx_load_png("assets/image/7.png");
+    main->game.texture_weapon[7] = mlx_load_png("assets/image/8.png");
+    main->game.texture_weapon[8] = mlx_load_png("assets/image/9.png");
+    main->game.texture_weapon[9] = mlx_load_png("assets/image/10.png");
+    main->game.texture_weapon[10] = mlx_load_png("assets/image/11.png");
+    main->game.texture_weapon[11] = mlx_load_png("assets/image/12.png");
+    main->game.texture_weapon[12] = mlx_load_png("assets/image/13.png");
+    main->game.texture_weapon[13] = mlx_load_png("assets/image/14.png");
+
+    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1] == NULL || main->game.texture_weapon[2] == NULL 
+        || main->game.texture_weapon[3] == NULL || main->game.texture_weapon[4] == NULL || main->game.texture_weapon[5] == NULL 
+        || main->game.texture_weapon[6] == NULL || main->game.texture_weapon[7] == NULL || main->game.texture_weapon[8] == NULL 
+        || main->game.texture_weapon[9] == NULL || main->game.texture_weapon[10] == NULL || main->game.texture_weapon[11] == NULL 
+        || main->game.texture_weapon[12] == NULL || main->game.texture_weapon[13] == NULL
+
+    )
         exit_and_print("texture weapon :(", main, 0);
 }
 
