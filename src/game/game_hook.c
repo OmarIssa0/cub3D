@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:07:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 17:57:31 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:52:25 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,27 @@ void map_cir(t_main *main)
 		}
 	}
 }
+void calculate_time(t_time *time, int number_array)
+{
+	clock_gettime(CLOCK_MONOTONIC, &time->current_time[number_array]);
+	time->now[number_array] = time->current_time[number_array].tv_sec + (time->current_time[number_array].tv_nsec / 1e9);
+	if (time->last_time[number_array] == 0.0)
+		time->last_time[number_array] = time->now[number_array];
+}
 
 void display_fps(t_main *main)
 {
 	static int frame_count = 0;
-	static double last_time = 0.0;
 	static double fps = 0.0;
 	static mlx_image_t *image = NULL;
-	struct timespec current_time;
-	double now;
 	string str;
 
-	clock_gettime(CLOCK_MONOTONIC, &current_time);
-	now = current_time.tv_sec + (current_time.tv_nsec / 1e9);
-	if (last_time == 0.0)
-		last_time = now;
 	frame_count++;
-	if (now - last_time >= 1.0)
+	if (main->time.now[0] - main->time.last_time[0] >= 1.0)
 	{
-		fps = frame_count / (now - last_time);
+		fps = frame_count / (main->time.now[0] - main->time.last_time[0]);
 		frame_count = 0;
-		last_time = now;
+		main->time.last_time[0] = main->time.now[0];
 		str = ft_itoa((int)fps);
 		char *temp = str;
 		str = ft_strjoin("FPS: ", str);
@@ -137,7 +137,7 @@ void draw_weapon(t_main *main)
 	uint32_t color;
 
 	// Center the weapon
-	if (main->game.weapon_animation < 0 || main->game.weapon_animation >= 15 || !main->game.texture_weapon[main->game.weapon_animation])
+	if (main->game.weapon_animation < 0 || main->game.weapon_animation >= 28 || !main->game.texture_weapon[main->game.weapon_animation])
 		return; // Ensure valid animation index and texture
 	posX = SCREEN_WIDTH / 2 - main->game.texture_weapon[main->game.weapon_animation]->width / 2 + 100;
 	posY = SCREEN_HEIGHT - main->game.texture_weapon[main->game.weapon_animation]->height;
@@ -174,7 +174,7 @@ void handle_keys(void *param)
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_ESCAPE))
 	{
 		free_all(main);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	// ? Front & Back
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_W) || mlx_is_key_down(main->game.mlx, MLX_KEY_UP))
@@ -188,16 +188,16 @@ void handle_keys(void *param)
 		move_player(main, -main->player.dir_y * move_step, main->player.dir_x * move_step);
 	// ? Cam
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT) || mlx_is_key_down(main->game.mlx, MLX_KEY_A))
-		rotate_player(&main->player, -rot_step);
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
 		rotate_player(&main->player, rot_step);
+	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
+		rotate_player(&main->player, -rot_step);
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT))
-
 	{
 		main->game.weapon_animation = 1;
 	}
 	// ? Display map
 	cast_rays(main);
+	calculate_time(&main->time, TIME_COLOR);
 	draw_walls(main);
 	// ? Display circler map
 	// map_cir(main);
@@ -205,19 +205,14 @@ void handle_keys(void *param)
 	draw_weapon(main);
 	if (main->game.weapon_animation)
 	{
-		static double last_time = 0.0;
-		double current_time;
-		double elapsed_time;
-
-		current_time = mlx_get_time();
-		elapsed_time = current_time - last_time;
-
-		if (elapsed_time >= 0.05)
+		calculate_time(&main->time, TIME_ANIMATION);
+		if (main->time.now[TIME_ANIMATION] - main->time.last_time[TIME_ANIMATION] >= 0.05)
 		{
-			main->game.weapon_animation = (main->game.weapon_animation + 1) % 14;
-			last_time = current_time;
+			main->game.weapon_animation = (main->game.weapon_animation + 1) % 28;
+			main->time.last_time[TIME_ANIMATION] = main->time.now[TIME_ANIMATION];
 		}
 	}
 	draw_2D_view(main);
+	calculate_time(&main->time, TIME_FPS);
 	display_fps(main);
 }

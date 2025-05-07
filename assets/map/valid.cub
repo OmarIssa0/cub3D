@@ -1,9 +1,9 @@
 F 255, 255, 255
-NO assets/image/Wall.png
+NO assets/image/wall_horror3.png
 C 0,0,0
-SO ./assets/image/Wall.png
-WE ./assets/image/Wall.png
-EA ./assets/image/Wall.png
+SO ./assets/image/wall_horror3.png
+WE ./assets/image/wall_horror3.png
+EA ./assets/image/wall_horror3.png
 
 
 

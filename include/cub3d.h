@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 17:55:01 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 19:13:26 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 600
 // #define SCREEN_WIDTH 2560
-// #define SCREEN_WIDTH 1000
 // #define SCREEN_HEIGHT 1080
+// #define SCREEN_WIDTH 1000
 // #define TILE_SIZE 45
-# define TILE_SIZE 12
+# define TILE_SIZE 15
 # define PUT_FLOOR true
+#define PUT_CEILING true
 
 # define MOV_SPEED 1.0
 # define ROT_SPEED 1.0
@@ -49,7 +50,24 @@
 # include <time.h>
 # include <unistd.h>
 
+typedef enum e_num
+{
+	WALL = '1',
+	FLOOR = '0',
+	SPACE = ' ',
+	TIME_FPS = 0,
+	TIME_COLOR = 1,
+	TIME_ANIMATION = 2,
+}		t_num;
+
 typedef char		*string;
+
+typedef struct s_time
+{
+	struct timespec	current_time[3];
+	double			now[3];
+	double			last_time[3];
+} 				t_time;
 
 typedef struct s_math
 {
@@ -121,6 +139,7 @@ typedef struct s_game
 	int				height_map;
 	int				width_map;
 	char			player_direction;
+	double			time;
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 	mlx_texture_t	*texture_north;
@@ -129,8 +148,10 @@ typedef struct s_game
 	mlx_texture_t	*texture_east;
 	mlx_texture_t	*texture_floor;
 	mlx_texture_t	*texture_sky;
-	mlx_texture_t	*texture_weapon[14];
+	// mlx_texture_t	*texture_weapon[13];
+	mlx_texture_t	*texture_weapon[37];
 	int				weapon_animation;
+	uint32_t		night_and_day[5];
 	uint32_t		color_ceiling;
 	uint32_t		color_floor;
 }					t_game;
@@ -168,6 +189,7 @@ typedef struct s_main
 	t_player		player;
 	t_raycasting	raycasting;
 	t_math			math;
+	t_time			time;
 }					t_main;
 
 /*

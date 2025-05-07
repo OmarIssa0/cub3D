@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:57:14 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 15:38:08 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 15:20:07 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_east);
 	free_and_nullify((void **)&main->game.texture_floor);
 	free_and_nullify((void **)&main->game.texture_sky);
-	while (i < 14)
+	while (i < 13)
 	{
 		free_and_nullify((void **)&main->game.texture_weapon[i]);
 		i++;

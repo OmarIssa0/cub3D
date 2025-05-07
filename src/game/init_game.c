@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:49:26 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 17:48:19 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 16:56:06 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,67 @@ static void init_texture(t_main *main)
     main->game.texture_sky = mlx_load_png("assets/image/sky.png");
     if (main->game.texture_floor == NULL)
         exit_and_print("trexture sky :(", main, 0);
-    main->game.texture_weapon[0] = mlx_load_png("assets/image/1.png");
-    main->game.texture_weapon[1] = mlx_load_png("assets/image/2.png");
-    main->game.texture_weapon[2] = mlx_load_png("assets/image/3.png");
-    main->game.texture_weapon[3] = mlx_load_png("assets/image/4.png");
-    main->game.texture_weapon[4] = mlx_load_png("assets/image/5.png");
-    main->game.texture_weapon[5] = mlx_load_png("assets/image/6.png");
-    main->game.texture_weapon[6] = mlx_load_png("assets/image/7.png");
-    main->game.texture_weapon[7] = mlx_load_png("assets/image/8.png");
-    main->game.texture_weapon[8] = mlx_load_png("assets/image/9.png");
-    main->game.texture_weapon[9] = mlx_load_png("assets/image/10.png");
-    main->game.texture_weapon[10] = mlx_load_png("assets/image/11.png");
-    main->game.texture_weapon[11] = mlx_load_png("assets/image/12.png");
-    main->game.texture_weapon[12] = mlx_load_png("assets/image/13.png");
-    main->game.texture_weapon[13] = mlx_load_png("assets/image/14.png");
-
-    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1] == NULL || main->game.texture_weapon[2] == NULL 
-        || main->game.texture_weapon[3] == NULL || main->game.texture_weapon[4] == NULL || main->game.texture_weapon[5] == NULL 
-        || main->game.texture_weapon[6] == NULL || main->game.texture_weapon[7] == NULL || main->game.texture_weapon[8] == NULL 
-        || main->game.texture_weapon[9] == NULL || main->game.texture_weapon[10] == NULL || main->game.texture_weapon[11] == NULL 
-        || main->game.texture_weapon[12] == NULL || main->game.texture_weapon[13] == NULL
-
-    )
+    main->game.texture_weapon[0] = mlx_load_png("assets/image/Super Shotgun/1_upscaled.png");
+    main->game.texture_weapon[1] = mlx_load_png("assets/image/Super Shotgun/2_upscaled.png");
+    main->game.texture_weapon[2] = mlx_load_png("assets/image/Super Shotgun/3_upscaled.png");
+    main->game.texture_weapon[3] = mlx_load_png("assets/image/Super Shotgun/4_upscaled.png");
+    main->game.texture_weapon[4] = mlx_load_png("assets/image/Super Shotgun/5_upscaled.png");
+    main->game.texture_weapon[5] = mlx_load_png("assets/image/Super Shotgun/6_upscaled.png");
+    main->game.texture_weapon[6] = mlx_load_png("assets/image/Super Shotgun/7_upscaled.png");
+    main->game.texture_weapon[7] = mlx_load_png("assets/image/Super Shotgun/8_upscaled.png");
+    main->game.texture_weapon[8] = mlx_load_png("assets/image/Super Shotgun/9_upscaled.png");
+    main->game.texture_weapon[9] = mlx_load_png("assets/image/Super Shotgun/10_upscaled.png");
+    main->game.texture_weapon[10] = mlx_load_png("assets/image/Super Shotgun/11_upscaled.png");
+    main->game.texture_weapon[11] = mlx_load_png("assets/image/Super Shotgun/12_upscaled.png");
+    main->game.texture_weapon[12] = mlx_load_png("assets/image/Super Shotgun/13_upscaled.png");
+    main->game.texture_weapon[13] = mlx_load_png("assets/image/Super Shotgun/14_upscaled.png");
+    main->game.texture_weapon[14] = mlx_load_png("assets/image/Super Shotgun/15_upscaled.png");
+    main->game.texture_weapon[15] = mlx_load_png("assets/image/Super Shotgun/16_upscaled.png");
+    main->game.texture_weapon[16] = mlx_load_png("assets/image/Super Shotgun/17_upscaled.png");
+    main->game.texture_weapon[17] = mlx_load_png("assets/image/Super Shotgun/18_upscaled.png");
+    main->game.texture_weapon[18] = mlx_load_png("assets/image/Super Shotgun/19_upscaled.png");
+    main->game.texture_weapon[19] = mlx_load_png("assets/image/Super Shotgun/20_upscaled.png");
+    main->game.texture_weapon[20] = mlx_load_png("assets/image/Super Shotgun/21_upscaled.png");
+    main->game.texture_weapon[21] = mlx_load_png("assets/image/Super Shotgun/22_upscaled.png");
+    main->game.texture_weapon[22] = mlx_load_png("assets/image/Super Shotgun/23_upscaled.png");
+    main->game.texture_weapon[23] = mlx_load_png("assets/image/Super Shotgun/24_upscaled.png");
+    main->game.texture_weapon[24] = mlx_load_png("assets/image/Super Shotgun/25_upscaled.png");
+    main->game.texture_weapon[25] = mlx_load_png("assets/image/Super Shotgun/26_upscaled.png");
+    main->game.texture_weapon[26] = mlx_load_png("assets/image/Super Shotgun/27_upscaled.png");
+    main->game.texture_weapon[27] = mlx_load_png("assets/image/Super Shotgun/28_upscaled.png");
+    // main->game.texture_weapon[28] = mlx_load_png("assets/image/Super Shotgun/29.png");
+    // main->game.texture_weapon[28] = mlx_load_png("assets/image/Super Shotgun/30.png");
+    // main->game.texture_weapon[30] = mlx_load_png("assets/image/Super Shotgun/31.png");
+    // main->game.texture_weapon[31] = mlx_load_png("assets/image/Super Shotgun/32.png");
+    // main->game.texture_weapon[32] = mlx_load_png("assets/image/Super Shotgun/33.png");
+    // main->game.texture_weapon[33] = mlx_load_png("assets/image/Super Shotgun/34.png");
+    // main->game.texture_weapon[34] = mlx_load_png("assets/image/Super Shotgun/35.png");
+    // main->game.texture_weapon[35] = mlx_load_png("assets/image/Super Shotgun/36.png");
+    // main->game.texture_weapon[36] = mlx_load_png("assets/image/Super Shotgun/37.png");
+    // main->game.texture_weapon[13] = mlx_load_png("assets/image/Pistol/14.png");
+    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1] == NULL
+        || main->game.texture_weapon[2] == NULL || main->game.texture_weapon[3] == NULL
+        || main->game.texture_weapon[4] == NULL || main->game.texture_weapon[5] == NULL
+        || main->game.texture_weapon[6] == NULL || main->game.texture_weapon[7] == NULL
+        || main->game.texture_weapon[8] == NULL || main->game.texture_weapon[9] == NULL
+        || main->game.texture_weapon[10] == NULL || main->game.texture_weapon[11] == NULL
+        || main->game.texture_weapon[12] == NULL || main->game.texture_weapon[13] == NULL)
         exit_and_print("texture weapon :(", main, 0);
+}
+
+void exit_clean(void *param)
+{
+    t_main *main;
+
+    main = (t_main *)param;
+    free_all(main);
+    exit(EXIT_SUCCESS);
 }
 
 void init_game(t_main *main)
 {
+    main->game.time = mlx_get_time();
+    printf("time : %f\n", main->game.time);
     init_mlx(main);
     init_player(main);
     cast_rays(main);
@@ -83,6 +117,7 @@ void init_game(t_main *main)
     mlx_image_to_window(main->game.mlx, main->game.image, 0, 0);
     draw_2D_view(main);
     mlx_loop_hook(main->game.mlx, &handle_keys, main);
+    mlx_close_hook(main->game.mlx, &exit_clean, main);
     mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_DISABLED);
     mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCHAR_MAX / 2);
 }

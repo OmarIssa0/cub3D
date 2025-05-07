@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:02:28 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 16:04:44 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:42:47 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,22 @@ void draw_walls(t_main *main)
         y = 0;
         while (y < SCREEN_HEIGHT)
         {
-            if (y < main->raycasting.drawStart[x])
+            static int i = 0;
+            if (main->time.now[TIME_COLOR] - main->time.last_time[TIME_COLOR] >= 2.0)
+            {
+                main->game.night_and_day[0] = 0xFFFAF0FF; // Sunrise (Light Golden)
+                main->game.night_and_day[1] = 0x87CEEBFF; // Morning (Sky Blue)
+                main->game.night_and_day[2] = 0xFFD70088; // Sunset (Golden with transparency)
+                main->game.night_and_day[3] = 0xFF450088; // Evening (Orange Red with transparency)
+                main->game.night_and_day[4] = 0x2F4F4FFF; // Night (Dark Slate Gray)
+                main->time.last_time[TIME_COLOR] = main->time.now[TIME_COLOR];
+                i++;
+                if (i == 5)
+                    i = 0;
+            }
+            if (PUT_CEILING == true && y < main->raycasting.drawStart[x])
+                mlx_put_pixel(main->game.image, x, y, main->game.night_and_day[i]);
+            else if (PUT_CEILING == false && y > main->raycasting.drawEnd[x])
                 mlx_put_pixel(main->game.image, x, y, main->game.color_ceiling);
             else if (y >= main->raycasting.drawStart[x] && y <= main->raycasting.drawEnd[x])
             {
@@ -75,7 +90,7 @@ void draw_walls(t_main *main)
 
                     // حساب نسبة المسافة من الكاميرا إلى الأرضية
                     float currentDist = (float)SCREEN_HEIGHT / (2.0f * y - SCREEN_HEIGHT);
-                    
+
                     // حساب موقع الأرضية في الخريطة
                     float floorX = main->player.x + currentDist * main->raycasting.ray_dir_x[x];
                     float floorY = main->player.y + currentDist * main->raycasting.ray_dir_y[x];
@@ -102,7 +117,6 @@ void draw_walls(t_main *main)
                 }
                 else
                     mlx_put_pixel(main->game.image, x, y, main->game.color_floor);
-
             }
 
             y++;
