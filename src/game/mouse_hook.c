@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_hook.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:11:03 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 17:22:01 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/08 00:02:10 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void rotate_player(t_player *player, double angle)
     player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
     player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
+int find_specific_door(t_main *main,double x, double y)
+{
+    int i = 0;
+    while (i < main->file.nb_door)
+    {
+        if (main->file.pos_doors[i].x == (int)x && main->file.pos_doors[i].y == (int)y && main->file.pos_doors[i].is_open == 1)
+            return (1);
+        i++;
+    }
+    return (0);
+}
 
 void move_player(t_main *main, double move_x, double move_y)
 {
@@ -31,11 +42,12 @@ void move_player(t_main *main, double move_x, double move_y)
     if (new_x < 0 || new_x >= main->game.width_map ||
         new_y < 0 || new_y >= main->game.height_map) 
         return;
-    // التحقق من الاصطدام مع الجدران
-    if (main->file.map[(int)new_y][(int)main->player.x] != '1')
-    main->player.y = new_y;
-    if (main->file.map[(int)main->player.y][(int)new_x] != '1')
-    main->player.x = new_x;
+    if (main->file.map[(int)new_y][(int)main->player.x] != '1' &&
+        !(main->file.map[(int)new_y][(int)main->player.x] == 'D' && !find_specific_door(main, main->player.x, new_y)))
+        main->player.y = new_y;
+    if (main->file.map[(int)main->player.y][(int)new_x] != '1' &&
+        !(main->file.map[(int)main->player.y][(int)new_x] == 'D' && !find_specific_door(main, new_x, main->player.y)))
+        main->player.x = new_x;
 }
 void handle_mouse_rotation(t_main *main)
 {

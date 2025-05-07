@@ -76,24 +76,17 @@ static void init_texture(t_main *main)
     main->game.texture_weapon[25] = mlx_load_png("assets/image/Super Shotgun/26_upscaled.png");
     main->game.texture_weapon[26] = mlx_load_png("assets/image/Super Shotgun/27_upscaled.png");
     main->game.texture_weapon[27] = mlx_load_png("assets/image/Super Shotgun/28_upscaled.png");
-    // main->game.texture_weapon[28] = mlx_load_png("assets/image/Super Shotgun/29.png");
-    // main->game.texture_weapon[28] = mlx_load_png("assets/image/Super Shotgun/30.png");
-    // main->game.texture_weapon[30] = mlx_load_png("assets/image/Super Shotgun/31.png");
-    // main->game.texture_weapon[31] = mlx_load_png("assets/image/Super Shotgun/32.png");
-    // main->game.texture_weapon[32] = mlx_load_png("assets/image/Super Shotgun/33.png");
-    // main->game.texture_weapon[33] = mlx_load_png("assets/image/Super Shotgun/34.png");
-    // main->game.texture_weapon[34] = mlx_load_png("assets/image/Super Shotgun/35.png");
-    // main->game.texture_weapon[35] = mlx_load_png("assets/image/Super Shotgun/36.png");
-    // main->game.texture_weapon[36] = mlx_load_png("assets/image/Super Shotgun/37.png");
-    // main->game.texture_weapon[13] = mlx_load_png("assets/image/Pistol/14.png");
-    if (main->game.texture_weapon[0] == NULL || main->game.texture_weapon[1] == NULL
-        || main->game.texture_weapon[2] == NULL || main->game.texture_weapon[3] == NULL
-        || main->game.texture_weapon[4] == NULL || main->game.texture_weapon[5] == NULL
-        || main->game.texture_weapon[6] == NULL || main->game.texture_weapon[7] == NULL
-        || main->game.texture_weapon[8] == NULL || main->game.texture_weapon[9] == NULL
-        || main->game.texture_weapon[10] == NULL || main->game.texture_weapon[11] == NULL
-        || main->game.texture_weapon[12] == NULL || main->game.texture_weapon[13] == NULL)
-        exit_and_print("texture weapon :(", main, 0);
+    main->game.texture_door = mlx_load_png("assets/image/sky.png");
+    if (main->game.texture_door == NULL)
+        exit_and_print("trexture door :(", main, 0);
+    int i = 0;
+    
+    while (i < 28)
+    {
+        if (main->game.texture_weapon[i] == NULL)
+            exit_and_print("texture weapon :(", main, 0);
+        i++;
+    }
 }
 
 void exit_clean(void *param)
@@ -107,8 +100,6 @@ void exit_clean(void *param)
 
 void init_game(t_main *main)
 {
-    main->game.time = mlx_get_time();
-    printf("time : %f\n", main->game.time);
     init_mlx(main);
     init_player(main);
     cast_rays(main);

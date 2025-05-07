@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validity.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:18:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:41:04 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 21:57:06 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ void flood_fill_map(t_main *main, int i, int j)
 
     if (main->file.map[i][j] == '1' || main->file.map[i][j] == '2')
         return;
-
+    if(main->file.map[i][j] == 'D')
+    {
+        main->file.pos_doors[main->file.nb_door].x = j;
+        main->file.pos_doors[main->file.nb_door].y = i;
+        main->file.nb_door++;
+    }
     main->file.map[i][j] = '2';
 
     flood_fill_map(main, i - 1, j); // Up   - 1
@@ -42,10 +47,18 @@ void fix_map(t_main *main)
         while (main->file.map[i][j])
         {
             if (main->file.map[i][j] == '2')
-                main->file.map[i][j] = '0';
+                main->file.map[i][j] = '0';    
             j++;
         }
         i++;
+    }
+    int number_door = main->file.nb_door;
+    printf("number_door = %d\n", number_door);
+    while(number_door > 0)
+    {
+        main->file.map[main->file.pos_doors[number_door - 1].y]
+            [main->file.pos_doors[number_door - 1].x] = 'D';
+        number_door--;
     }
     main->file.map[main->game.player_y][main->game.player_x] = main->game.player_direction;
 }
@@ -53,6 +66,11 @@ void fix_map(t_main *main)
 // Function to validate if the map is closed
 void check_map_surrounded_by_walls(t_main *main)
 {
+    printf("iam here and number of doors = %d\n", main->file.nb_door);
+    main->file.pos_doors = ft_calloc(sizeof(t_point), main->file.nb_door + 1);
+    if (main->file.pos_doors == NULL)
+        exit_and_print("Malloc Failed :(", main, 0);
+    main->file.nb_door = 0;
     flood_fill_map(main, main->game.player_y, main->game.player_x);
     fix_map(main);
 }
@@ -78,6 +96,7 @@ void calculate_height_width(t_main *main)
 
 void check_map(t_main *main)
 {
+    main->file.nb_door = 0;
     // ? Check if the content
     check_map_content(main);
     // ? Check if only one player is in the map
@@ -127,12 +146,15 @@ void check_map_content(t_main *main)
         j = 0;
         while (main->file.map[i][j])
         {
+            if(main->file.map[i][j] == 'D')
+                main->file.nb_door++;
             if (main->file.map[i][j] == '\n' && j == 0)
                 print_map_for_error(main, i, j, "new line at the beginning of the line\n");
             if (main->file.map[i][j] != ' ' && main->file.map[i][j] != '1' 
                 && main->file.map[i][j] != '0' && main->file.map[i][j] != '\n' 
                 && main->file.map[i][j] != 'N' && main->file.map[i][j] != 'S' 
-                && main->file.map[i][j] != 'W' && main->file.map[i][j] != 'E')
+                && main->file.map[i][j] != 'W' && main->file.map[i][j] != 'E'
+                && main->file.map[i][j] != 'D')
                 print_map_for_error(main, i, j, "Invalid character in the map\n");
             j++;
         }
@@ -185,5 +207,6 @@ void check_player(t_main *main)
         i++;
     }
     if (player == 0)
-        exit_and_print("No player found in the map", main, 0);
+        exit_and_print("No player found in the map", main, 0);   
+    
 }

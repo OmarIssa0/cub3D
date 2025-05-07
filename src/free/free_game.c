@@ -37,7 +37,7 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_east);
 	free_and_nullify((void **)&main->game.texture_floor);
 	free_and_nullify((void **)&main->game.texture_sky);
-	while (i < 13)
+	while (i < 28)
 	{
 		free_and_nullify((void **)&main->game.texture_weapon[i]);
 		i++;

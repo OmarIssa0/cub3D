@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/06 14:25:18 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 21:57:15 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ int main (int ac, char **av)
     main.file_name = ft_strdup(av[1]);
     if (main.file_name == NULL)
         exit_and_print("Malloc Failed :(", &main, 0);
-    /*
-        ? Read the file
-        * and get the values
-    */
     read_map(&main);
     // ? Check if the content
     check_map(&main);
