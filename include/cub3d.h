@@ -111,6 +111,7 @@ typedef struct s_raycasting
 	float			wall_x[SCREEN_WIDTH];
 	float			ray_dir_x[SCREEN_WIDTH];
 	float			ray_dir_y[SCREEN_WIDTH];
+	int				is_door[SCREEN_WIDTH];
 }					t_raycasting;
 
 typedef struct s_helper
@@ -148,13 +149,21 @@ typedef struct s_game
 	mlx_texture_t	*texture_east;
 	mlx_texture_t	*texture_floor;
 	mlx_texture_t	*texture_sky;
+	mlx_texture_t	*texture_door;
 	// mlx_texture_t	*texture_weapon[13];
-	mlx_texture_t	*texture_weapon[37];
+	mlx_texture_t	*texture_weapon[28];
 	int				weapon_animation;
 	uint32_t		night_and_day[5];
 	uint32_t		color_ceiling;
 	uint32_t		color_floor;
 }					t_game;
+
+typedef struct s_point
+{
+	int				x;
+	int				y;
+	bool            is_open;
+}					t_point;
 
 typedef struct s_file
 {
@@ -165,6 +174,8 @@ typedef struct s_file
 	int				floor_color[3];
 	int				ceiling_color[3];
 	char			**map;
+	int				nb_door;	
+	t_point         *pos_doors;		
 }					t_file;
 
 typedef struct s_splitter

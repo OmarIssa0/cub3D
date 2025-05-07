@@ -11,7 +11,17 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+int determine_door(t_main *main, int x)
+{
+    int i = 0;
+    while (i < main->file.nb_door)
+    {
+        if (main->file.pos_doors[i].x == (int)main->raycasting.wall_x[x] && main->file.pos_doors[i].y == (int)main->player.y)
+            return (i);
+        i++;
+    }
+    return (-1);
+}
 void draw_walls(t_main *main)
 {
     int x = 0;
@@ -26,7 +36,9 @@ void draw_walls(t_main *main)
         if (side == 0) // جدار أفقي
         {
             if (main->raycasting.ray_dir_x[x] > 0)
+            {
                 texture = main->game.texture_west; // غرب
+            }
             else
                 texture = main->game.texture_east; // شرق
         }
@@ -66,12 +78,19 @@ void draw_walls(t_main *main)
                 mlx_put_pixel(main->game.image, x, y, main->game.color_ceiling);
             else if (y >= main->raycasting.drawStart[x] && y <= main->raycasting.drawEnd[x])
             {
+                if (main->raycasting.is_door[x])
+                {
+                    if(main->raycasting.is_door[x] == 2)
+                        texture = main->game.texture_door;
+                    else if (main->raycasting.is_door[x] == 1)
+                        texture = main->game.texture_weapon[0];
+                    else
+                        texture = main->game.texture_sky;
+                    
+                }
                 int d = y * 256 - SCREEN_HEIGHT * 128 + main->raycasting.lineHeight[x] * 128;
                 texY = (int)((float)((d * texture->height) / main->raycasting.lineHeight[x]) / 256.0f);
-
                 size_t offset = (texY * texture->width + texX) * 4;
-                // unsigned int *pixels = (unsigned int *)texture->pixels;
-                // uint32_t color = pixels[texY * texture->width + texX];
                 uint8_t r = texture->pixels[offset];
                 uint8_t g = texture->pixels[offset + 1];
                 uint8_t b = texture->pixels[offset + 2];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/03 19:34:37 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/08 00:30:45 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,33 @@ void DDA_algorithm(t_main *main, int x)
             main->math.side = 1; // الجدار في الاتجاه العمودي
         }
 
-        if (main->file.map[main->math.map_y][main->math.map_x] == '1') // التحقق من الاصطدام بالجدار
+        if (main->file.map[main->math.map_y][main->math.map_x] == '1'
+            || main->file.map[main->math.map_y][main->math.map_x] == 'D') // التحقق من الاصطدام بالجدار
             main->math.hit = 1;
     }
+    if (main->file.map[main->math.map_y][main->math.map_x] == 'D')
+    {
+        int i = 0;
+    int found = 0;
+    while (i < main->file.nb_door)
+    {
+        if (main->file.pos_doors[i].x == main->math.map_x &&
+            main->file.pos_doors[i].y == main->math.map_y)
+        {
+            found = 1;
+            if (main->file.pos_doors[i].is_open == 1)
+                main->raycasting.is_door[x] = 1; 
+            else
+                main->raycasting.is_door[x] = 2; 
+            break;
+        }
+        i++;
+    }
+    if (!found)
+        main->raycasting.is_door[x] = 2;
+}
+    else
+        main->raycasting.is_door[x] = 0;
     main->raycasting.side[x] = main->math.side;
 }
 

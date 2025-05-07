@@ -87,6 +87,7 @@ void display_fps(t_main *main)
 			mlx_delete_image(main->game.mlx, image);
 		image = mlx_put_string(main->game.mlx, str, 10, 10);
 		free(str);
+		
 	}
 }
 
@@ -161,12 +162,48 @@ void draw_weapon(t_main *main)
 	}
 }
 
+void is_player_near_door(t_main *main)
+{
+	int i;
+	int j;
+	int z;
+	int cornerX;
+	int cornerY;
+	i = (int)main->player.x;
+	j = (int)main->player.y;
+	cornerX = i -1;
+	cornerY = j -1;
+	z = 0;
+	while (cornerX <= i + 1)
+	{
+		cornerY = j - 1;
+		while (cornerY <= j + 1)
+		{
+			if (main->file.map[cornerY][cornerX] == 'D')
+			{
+				z = 0;
+				while (z < main->file.nb_door)
+				{
+					if (main->file.pos_doors[z].x == cornerX && main->file.pos_doors[z].y == cornerY)
+					{
+						main->file.pos_doors[z].is_open = !main->file.pos_doors[z].is_open;
+						break;
+					}
+					z++;
+				}
+			}
+			cornerY++;
+		}
+		cornerX++;
+	}
+}
+
 void handle_keys(void *param)
 {
 	t_main *main;
 	double move_step;
 	double rot_step;
-
+	static int key_pressed = 0;
 	main = (t_main *)param;
 	move_step = MOV_SPEED * 0.05;
 	rot_step = ROT_SPEED * 0.05;
@@ -192,8 +229,22 @@ void handle_keys(void *param)
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
 		rotate_player(&main->player, -rot_step);
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
 		main->game.weapon_animation = 1;
+	
+
+	if (mlx_is_key_down(main->game.mlx, MLX_KEY_R))
+	{
+		if (!key_pressed)
+		{
+			printf("Reloading...\n");
+			is_player_near_door(main);
+			
+			key_pressed = 1;
+		}
+	}
+	else
+	{
+		key_pressed = 0;
 	}
 	// ? Display map
 	cast_rays(main);

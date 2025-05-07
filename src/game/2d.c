@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2d.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/15 19:22:27 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/07 19:51:18 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,10 @@ void draw_rays_2D(t_main *main)
                 mapY += stepY;
                 side = 1;
             }
-            if (main->file.map[mapY][mapX] == '1')
+            if (main->file.map[mapY][mapX] == '1' || main->file.map[mapY][mapX] == 'D')
                 hit = 1;
         }
 
-        // حساب المسافة العمودية للجدار
         float perpWallDist;
         if (side == 0)
             perpWallDist = (mapX - main->player.x + (1 - stepX) / 2) / rayDirX;
@@ -172,7 +171,8 @@ void draw_map(t_main *main)
             int mapY = (int)(main->player.y - map_size / 2 + y);
             int mapX = (int)(main->player.x - map_size / 2 + x);
 
-            if (mapY < 0 || mapY >= main->game.height_map || mapX < 0 || mapX >= main->game.width_map || !main->file.map || !main->file.map[mapY])
+            if (mapY < 0 || mapY >= main->game.height_map || mapX < 0 || mapX >= main->game.width_map
+                || !main->file.map || !main->file.map[mapY])
             {
                 continue;
             }
@@ -186,6 +186,8 @@ void draw_map(t_main *main)
                 color = 0x009000FF; // لون الأرضية
             else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W')
                 color = 0xFF0000FF; // لون اللاعب
+            else if(tile == 'D')
+                color = 0xFF00FFFF; // لون الأبواب
             else
                 continue;
 
