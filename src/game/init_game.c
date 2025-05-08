@@ -24,11 +24,6 @@ static void init_mlx(t_main *main)
 
 static void init_texture(t_main *main)
 {
-    // ! image screen in game "core image"
-    main->game.image = mlx_new_image(main->game.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-    if (main->game.image == NULL)
-        exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
-    // ! texture (NO, EA, SO, WE)
     main->game.texture_north = mlx_load_png(main->file.north_texture);
     if (main->game.texture_north == NULL)
         exit_and_print("trexture north :(", main, 0);
@@ -48,6 +43,9 @@ static void init_texture(t_main *main)
     main->game.texture_sky = mlx_load_png("assets/image/sky.png");
     if (main->game.texture_floor == NULL)
         exit_and_print("trexture sky :(", main, 0);
+    main->game.texture_light_wall = mlx_load_png("assets/image/wall_horror2.png");
+    if (main->game.texture_light_wall == NULL)
+        exit_and_print("trexture light wall :(", main, 0);   
     main->game.texture_weapon[0] = mlx_load_png("assets/image/Super Shotgun/1_upscaled.png");
     main->game.texture_weapon[1] = mlx_load_png("assets/image/Super Shotgun/2_upscaled.png");
     main->game.texture_weapon[2] = mlx_load_png("assets/image/Super Shotgun/3_upscaled.png");
@@ -76,9 +74,12 @@ static void init_texture(t_main *main)
     main->game.texture_weapon[25] = mlx_load_png("assets/image/Super Shotgun/26_upscaled.png");
     main->game.texture_weapon[26] = mlx_load_png("assets/image/Super Shotgun/27_upscaled.png");
     main->game.texture_weapon[27] = mlx_load_png("assets/image/Super Shotgun/28_upscaled.png");
-    main->game.texture_door = mlx_load_png("assets/image/sky.png");
-    if (main->game.texture_door == NULL)
-        exit_and_print("trexture door :(", main, 0);
+    main->game.texture_door_close = mlx_load_png("assets/image/door_close.png");
+    main->game.texture_door_open = mlx_load_png("assets/image/door_open.png");
+    if (main->game.texture_door_open == NULL)
+        exit_and_print("trexture door open :(", main, 0);
+    if (main->game.texture_door_close == NULL)
+        exit_and_print("trexture door close :(", main, 0);
     int i = 0;
     
     while (i < 28)
@@ -100,10 +101,13 @@ void exit_clean(void *param)
 
 void init_game(t_main *main)
 {
+    init_texture(main);
     init_mlx(main);
+    main->game.image = mlx_new_image(main->game.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (main->game.image == NULL)
+        exit_and_print((char *)mlx_strerror(mlx_errno), main, 0);
     init_player(main);
     cast_rays(main);
-    init_texture(main);
     draw_walls(main);
     mlx_image_to_window(main->game.mlx, main->game.image, 0, 0);
     draw_2D_view(main);

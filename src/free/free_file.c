@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 12:50:55 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/19 12:51:23 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/09 01:10:13 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,10 @@ void	free_struct_file(t_main *main)
 	{
 		free(main->file.east_texture);
 		main->file.east_texture = NULL;
+	}
+	if (main->file.pos_doors != NULL)
+	{
+		free(main->file.pos_doors);
+		main->file.pos_doors = NULL;
 	}
 }
