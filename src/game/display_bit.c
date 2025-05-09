@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   display_bit.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+      
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/04/15 17:02:28 by oissa             #+#    #+#             */
 /*   Updated: 2025/05/07 18:42:47 by oissa            ###   ########.fr       */
@@ -15,18 +15,7 @@
 
 #include <cub3d.h>
 
-int	determine_door(t_main *main, int x)
-{
-	int i = 0;
-	while (i < main->file.nb_door)
-	{
-		if (main->file.pos_doors[i].x == (int)main->raycasting.wall_x[x]
-			&& main->file.pos_doors[i].y == (int)main->player.y)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
+
 void	draw_walls(t_main *main)
 {
 	int x = 0;
@@ -68,11 +57,11 @@ void	draw_walls(t_main *main)
 			if (PUT_CEILING == true && main->time.now[TIME_COLOR]
 				- main->time.last_time[TIME_COLOR] >= 3.0)
 			{
-				main->game.night_and_day[0] = 0xF3DE74FF;
-				main->game.night_and_day[1] = 0x4A74DEFF;
-				main->game.night_and_day[2] = 0x87CEEB88;
-				main->game.night_and_day[3] = 0x3A3030FF;
-				main->game.night_and_day[4] = 0x000000FF;
+                main->game.night_and_day[0] = 0x000000FF;
+                main->game.night_and_day[1] = 0x3A3030FF;
+                main->game.night_and_day[2] = 0x87CEEB88;
+                main->game.night_and_day[3] = 0x4A74DEFF;
+				main->game.night_and_day[4] = 0xF3DE74FF;
 				main->time.last_time[TIME_COLOR] = main->time.now[TIME_COLOR];
 				i++;
 				if (i == 5)
@@ -94,10 +83,15 @@ void	draw_walls(t_main *main)
 					else if (main->raycasting.is_door[x] == 1)
 						texture = main->game.texture_door_open;
 				}
-				else if (PUT_CEILING == true && i <= 2)
+				else if (PUT_CEILING == true && i < 2)
 				{
 					texture = main->game.texture_light_wall;
-				}
+				} else if (PUT_CEILING == true && i == 2)
+                {
+                    texture = main->game.texture_mid_wall;
+                }
+                else if (PUT_CEILING == true && i <= 4)
+                    texture = main->game.texture_north;
 				int d = y * 256 - SCREEN_HEIGHT * 128
 					+ main->raycasting.lineHeight[x] * 128;
 				texY = (int)((float)((d * texture->height)
