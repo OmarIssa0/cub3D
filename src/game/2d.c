@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/07 19:51:18 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:53:19 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,18 @@ void draw_map(t_main *main)
             else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W')
                 color = 0xFF0000FF; // لون اللاعب
             else if(tile == 'D')
-                color = 0xFF00FFFF; // لون الأبواب
+            {
+                if (main->file.pos_doors)
+                {
+                    int door_index = 0;
+                    while (main->file.pos_doors[door_index].x != mapX || main->file.pos_doors[door_index].y != mapY)
+                        door_index++;
+                    if (main->file.pos_doors[door_index].is_open == 1)
+                        color = 0x0000FFFF; // لون الأبواب المفتوحة
+                    else
+                        color = 0xFF0000FF; // لون الأبواب المغلقة
+                }
+            }
             else
                 continue;
 
