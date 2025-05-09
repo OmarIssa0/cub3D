@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   game_hook.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/05/09 00:57:26 by oissa             #+#    #+#             */
 /*   Updated: 2025/05/09 00:57:26 by oissa            ###   ########.fr       */
 /*                                                                            */
@@ -12,66 +15,6 @@
 
 #include <cub3d.h>
 
-void	map_cir(t_main *main)
-{
-	int radius;
-	int mapX;
-	int mapY;
-	int centerX;
-	int centerY;
-	int padding;
-
-	radius = SCREEN_WIDTH / 25;
-	centerX = SCREEN_WIDTH - radius - SCREEN_WIDTH / 15;
-	// Positioned on the right side
-	centerY = SCREEN_HEIGHT - radius - SCREEN_WIDTH / 15;
-	// Positioned 10 pixels above the bottom
-	padding = 100;
-	// Padding around the map
-	for (int y = -radius; y <= radius; y++)
-	{
-		for (int x = -radius; x <= radius; x++)
-		{
-			if (x * x + y * y <= radius * radius)
-			{
-				mapX = (int)(main->player.x + (double)x * main->game.width_map
-						/ (2 * radius));
-				mapY = (int)(main->player.y + (double)y * main->game.height_map
-						/ (2 * radius));
-				if (mapX >= -padding && mapX < main->game.width_map + padding
-					&& mapY >= -padding && mapY < main->game.height_map
-					+ padding)
-				{
-					int squareSize = 2; // Size of the square for each map cell
-					for (int sy = 0; sy < squareSize; sy++)
-					{
-						for (int sx = 0; sx < squareSize; sx++)
-						{
-							if (mapX < 0 || mapX >= main->game.width_map - 1
-								|| mapY < 0 || mapY >= main->game.height_map)
-								mlx_put_pixel(main->game.image, centerX + x
-									* squareSize + sx, centerY + y * squareSize
-									+ sy, 0x00000000); // Padding color
-							else if (main->file.map[mapY][mapX] == '1')
-								mlx_put_pixel(main->game.image, centerX + x
-									* squareSize + sx, centerY + y * squareSize
-									+ sy, 0xFF0000FF); // Wall color
-							else if ((int)main->player.x == mapX
-								&& (int)main->player.y == mapY)
-								mlx_put_pixel(main->game.image, centerX + x
-									* squareSize + sx, centerY + y * squareSize
-									+ sy, 0x00FF00FF); // Player color
-							else
-								mlx_put_pixel(main->game.image, centerX + x
-									* squareSize + sx, centerY + y * squareSize
-									+ sy, 0xFFFFFFFF); // Floor color
-						}
-					}
-				}
-			}
-		}
-	}
-}
 
 void	calculate_time(t_time *time, int number_array)
 {
@@ -237,6 +180,7 @@ void	handle_keys(void *param)
 	double move_step;
 	double rot_step;
 	static int key_pressed = 0;
+	static int key_pressed_too = 0;
 	main = (t_main *)param;
 	move_step = MOV_SPEED * 0.05;
 	rot_step = ROT_SPEED * 0.05;
@@ -269,8 +213,8 @@ void	handle_keys(void *param)
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT)
 		|| mlx_is_key_down(main->game.mlx, MLX_KEY_D))
 		rotate_player(&main->player, -rot_step);
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_SPACE)
-		|| mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT))
+	if (main->player.holding && (mlx_is_key_down(main->game.mlx, MLX_KEY_SPACE)
+			|| mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT)))
 		main->game.weapon_animation = 1;
 
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_F))
@@ -285,17 +229,24 @@ void	handle_keys(void *param)
 	{
 		key_pressed = 0;
 	}
-	if(mlx_is_key_down(main->game.mlx, MLX_KEY_R))
-	    main->player.holding = !main->player.holding;
+	if (mlx_is_key_down(main->game.mlx, MLX_KEY_R))
+	{
+		if (!key_pressed_too)
+		{
+			main->player.holding = !main->player.holding;
+			key_pressed_too = 1;
+		}
+	}
+	else
+	{
+		key_pressed_too = 0;
+	}
 	// ? Display map
 	cast_rays(main);
 	calculate_time(&main->time, TIME_COLOR);
 	draw_walls(main);
-	// ? Display circler map
-	// map_cir(main);
-	if(main->player.holding)
+	if (main->player.holding)
 	{
-
 		draw_aim(main);
 		draw_weapon(main);
 		if (main->game.weapon_animation)

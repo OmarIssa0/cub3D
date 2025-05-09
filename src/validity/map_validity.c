@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:18:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/07 21:57:06 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:21:32 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void fix_map(t_main *main)
         i++;
     }
     int number_door = main->file.nb_door;
-    printf("number_door = %d\n", number_door);
     while(number_door > 0)
     {
         main->file.map[main->file.pos_doors[number_door - 1].y]
@@ -66,7 +65,6 @@ void fix_map(t_main *main)
 // Function to validate if the map is closed
 void check_map_surrounded_by_walls(t_main *main)
 {
-    printf("iam here and number of doors = %d\n", main->file.nb_door);
     main->file.pos_doors = ft_calloc(sizeof(t_point), main->file.nb_door + 1);
     if (main->file.pos_doors == NULL)
         exit_and_print("Malloc Failed :(", main, 0);

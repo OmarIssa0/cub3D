@@ -3,7 +3,12 @@
         "cub3d.h": "c",
         "ft_printf.h": "c",
         "string.h": "c",
-        "mlx42.h": "c"
+        "mlx42.h": "c",
+        "chrono": "c",
+        "random": "c",
+        "limits": "c",
+        "algorithm": "c",
+        "ratio": "c"
     },
     "cmake.ignoreCMakeListsMissing": true
 }

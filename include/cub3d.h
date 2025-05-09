@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+      
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
 /*   Updated: 2025/05/07 19:13:26 by oissa            ###   ########.fr       */
@@ -30,7 +30,7 @@
 // #define SCREEN_HEIGHT 1080
 // #define SCREEN_WIDTH 1000
 // #define TILE_SIZE 45
-# define TILE_SIZE 15
+# define TILE_SIZE 10
 # define PUT_FLOOR true
 # define PUT_CEILING true
 
@@ -152,8 +152,8 @@ typedef struct s_game
 	mlx_texture_t *texture_west;
 	mlx_texture_t *texture_east;
 	mlx_texture_t *texture_light_wall;
+	mlx_texture_t *texture_mid_wall;
 	mlx_texture_t *texture_floor;
-	mlx_texture_t *texture_sky;
 	mlx_texture_t *texture_door_open;
 	mlx_texture_t *texture_door_close;
 	// mlx_texture_t	*texture_weapon[13];

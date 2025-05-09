@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:11:03 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/09 01:33:41 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:15:36 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,57 +40,36 @@ int	find_specific_door(t_main *main, double x, double y)
 	}
 	return (0);
 }
-double	calculate_distance_player_wall(t_main *main, double x, double y)
-{
-	double	distance;
-	int		map_x;
-	int		map_y;
 
-	distance = 0.0;
-	double dx, dy;
-	map_x = (int)x;
-	map_y = (int)y;
-	while (map_x >= 0 && map_x < main->game.width_map && map_y >= 0
-		&& map_y < main->game.height_map)
-	{
-		if (main->file.map[map_y][map_x] == '1')
-		{
-			dx = map_x + 0.5 - x;
-			dy = map_y + 0.5 - y;
-			distance = sqrt(dx * dx + dy * dy);
-			break ;
-		}
-		if (x > main->player.x)
-			map_x++;
-		else if (x < main->player.x)
-			map_x--;
-		if (y > main->player.y)
-			map_y++;
-		else if (y < main->player.y)
-			map_y--;
-	}
-	return (distance);
-}
 void	move_player(t_main *main, double move_x, double move_y)
 {
 	double	new_x;
 	double	new_y;
+	double	col_x_min;
+	double	col_x_max;
+	double	col_y_min;
+	double	col_y_max;
 
 	new_x = main->player.x + move_x;
 	new_y = main->player.y + move_y;
-	if (calculate_distance_player_wall(main, new_x, main->player.y) < 0.8)
-		return ;
-	if (new_x < 0 || new_x >= main->game.width_map || new_y < 0
-		|| new_y >= main->game.height_map)
-		return ;
-	if (main->file.map[(int)new_y][(int)main->player.x] != '1'
-		&& !(main->file.map[(int)new_y][(int)main->player.x] == 'D'
-			&& !find_specific_door(main, main->player.x, new_y)))
-		main->player.y = new_y;
-	if (main->file.map[(int)main->player.y][(int)new_x] != '1'
-		&& !(main->file.map[(int)main->player.y][(int)new_x] == 'D'
-			&& !find_specific_door(main, new_x, main->player.y)))
+	col_x_min = new_x - 0.05;
+	col_x_max = new_x + 0.05;
+	col_y_min = new_y - 0.05;
+	col_y_max = new_y + 0.05;
+	if (main->file.map[(int)main->player.y][(int)col_x_min] != '1'
+		&& main->file.map[(int)main->player.y][(int)col_x_max] != '1'
+		&& !(main->file.map[(int)main->player.y][(int)col_x_min] == 'D'
+			&& !find_specific_door(main, col_x_min, main->player.y))
+		&& !(main->file.map[(int)main->player.y][(int)col_x_max] == 'D'
+			&& !find_specific_door(main, col_x_max, main->player.y)))
 		main->player.x = new_x;
+	if (main->file.map[(int)col_y_min][(int)main->player.x] != '1'
+		&& main->file.map[(int)col_y_max][(int)main->player.x] != '1'
+		&& !(main->file.map[(int)col_y_min][(int)main->player.x] == 'D'
+			&& !find_specific_door(main, main->player.x, col_y_min))
+		&& !(main->file.map[(int)col_y_max][(int)main->player.x] == 'D'
+			&& !find_specific_door(main, main->player.x, col_y_max)))
+		main->player.y = new_y;
 }
 void	handle_mouse_rotation(t_main *main)
 {
@@ -107,9 +86,8 @@ void	handle_mouse_rotation(t_main *main)
 	{
 		sensitivity = 0.0005f;
 		angle = delta_x * sensitivity;
-		rotate_player(&main->player, angle); // دالة تدور اتجاه اللاعب
+		rotate_player(&main->player, angle);
 	}
-	// نعيد ضبط المؤشر للمنتصف كل مرة (لأنه ما يخرجش)
 	mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	last_x = SCREEN_WIDTH / 2;
 }

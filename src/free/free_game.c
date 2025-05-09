@@ -36,9 +36,10 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_west);
 	free_and_nullify((void **)&main->game.texture_east);
 	free_and_nullify((void **)&main->game.texture_floor);
-	free_and_nullify((void **)&main->game.texture_sky);
 	free_and_nullify((void **)&main->game.texture_door_close);
 	free_and_nullify((void **)&main->game.texture_door_open);
+	free_and_nullify((void **)&main->game.texture_light_wall);
+	free_and_nullify((void **)&main->game.texture_mid_wall);
 	while (i < 28)
 	{
 		free_and_nullify((void **)&main->game.texture_weapon[i]);
