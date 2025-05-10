@@ -41,13 +41,7 @@ void	display_fps(t_main *main)
 		str = ft_itoa((int)fps);
 		char *temp = str;
 		str = ft_strjoin("FPS: ", str);
-		str = ft_strjoin(str, "\nTime: ");
-		char *time_str = ft_strjoin(ft_itoa((int)(((main->time.now[TIME_COLOR]
-								- main->time.last_time[TIME_COLOR]) * 24)
-						/ 150)), " : 00");
-		str = ft_strjoin(str, time_str);
 		free(temp);
-		free(time_str);
 		if (image)
 			mlx_delete_image(main->game.mlx, image);
 		image = mlx_put_string(main->game.mlx, str, 10, 10);
@@ -217,7 +211,7 @@ void	handle_keys(void *param)
 			|| mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT)))
 		main->game.weapon_animation = 1;
 
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_F))
+	if (PUT_CEILING == true && mlx_is_key_down(main->game.mlx, MLX_KEY_F))
 	{
 		if (!key_pressed)
 		{
@@ -229,7 +223,7 @@ void	handle_keys(void *param)
 	{
 		key_pressed = 0;
 	}
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_R))
+	if (PUT_CEILING == true && mlx_is_key_down(main->game.mlx, MLX_KEY_R))
 	{
 		if (!key_pressed_too)
 		{
@@ -261,7 +255,8 @@ void	handle_keys(void *param)
 			}
 		}
 	}
-	draw_2D_view(main);
+	if (PUT_CEILING == true)
+		draw_2D_view(main);
 	calculate_time(&main->time, TIME_FPS);
 	display_fps(main);
 }

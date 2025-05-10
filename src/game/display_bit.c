@@ -55,28 +55,52 @@ void	draw_walls(t_main *main)
 		{
 			static int i = 0;
 			if (PUT_CEILING == true && main->time.now[TIME_COLOR]
-				- main->time.last_time[TIME_COLOR] >= 3.0)
+				- main->time.last_time[TIME_COLOR] >= 1.0)
 			{
-                main->game.night_and_day[0] = 0x000000FF;
-                main->game.night_and_day[1] = 0x3A3030FF;
-                main->game.night_and_day[2] = 0x87CEEB88;
-                main->game.night_and_day[3] = 0x4A74DEFF;
-				main->game.night_and_day[4] = 0xF3DE74FF;
+               
+				main->game.night_and_day[0] = 0x0A0A1AFF;
+				main->game.night_and_day[1] = 0x1A1A3AFF;
+				main->game.night_and_day[2] = 0x2A2A5AFF;
+				main->game.night_and_day[3] = 0x3A3A7AFF;
+				main->game.night_and_day[4] = 0x4A4A9AFF;
+				main->game.night_and_day[5] = 0x5A5ABAFF;
+				main->game.night_and_day[6] = 0x6A6ADAFF;
+				main->game.night_and_day[7] = 0x7ABAF0FF;
+				main->game.night_and_day[8] = 0x8ADAF4FF;
+				main->game.night_and_day[9] = 0x9AEAF8FF;
+				main->game.night_and_day[10] = 0xAADAF4FF;
+				main->game.night_and_day[11] = 0xBACAF0FF;
+				main->game.night_and_day[12] = 0xEBD084FF; 
+				main->game.night_and_day[13] = 0xF3DE74FF;
+				main->game.night_and_day[14] = 0xF4E394FF;
+				main->game.night_and_day[15] = 0xF5E8B4FF;
+				main->game.night_and_day[16] = 0xE8D488FF;
+				main->game.night_and_day[17] = 0xC4B470FF;
+				main->game.night_and_day[18] = 0xA09458FF;
+				main->game.night_and_day[19] = 0x7C7440FF;
+				main->game.night_and_day[20] = 0x585428FF;
+				main->game.night_and_day[21] = 0x343410FF;
+				main->game.night_and_day[22] = 0x1A1A08FF;
+				main->game.night_and_day[23] = 0x000000FF; 
+				main->game.night_and_day[24] = 0x000000FF; 
 				main->time.last_time[TIME_COLOR] = main->time.now[TIME_COLOR];
 				i++;
-				if (i == 5)
+				if (i == 25)
 					i = 0;
 			}
-			if (PUT_CEILING == true && y < main->raycasting.drawStart[x])
-				mlx_put_pixel(main->game.image, x, y,
-					main->game.night_and_day[i]);
-			else if (PUT_CEILING == false && y > main->raycasting.drawEnd[x])
-				mlx_put_pixel(main->game.image, x, y,
-					main->game.color_ceiling);
+			if ( y < main->raycasting.drawStart[x])
+			{
+				if (PUT_CEILING == true)
+					mlx_put_pixel(main->game.image, x, y,
+						main->game.night_and_day[i]);
+				else
+					mlx_put_pixel(main->game.image, x, y,
+						main->game.color_ceiling);
+			}
 			else if (y >= main->raycasting.drawStart[x]
 				&& y <= main->raycasting.drawEnd[x])
 			{
-				if (main->raycasting.is_door[x])
+				if (PUT_CEILING == true && main->raycasting.is_door[x])
 				{
 					if (main->raycasting.is_door[x] == 2)
 						texture = main->game.texture_door_close;

@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/09 18:38:16 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:25:35 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	calculate_camx_rays(t_main *main, int x)
 void	calulate_delta_dist_and_side(t_main *main)
 {
 	if (main->math.ray_dir_x == 0)
-		main->math.delta_dist_x = 1e30;
+		main->math.delta_dist_x = MAX_FLOAT;
 	else
 		main->math.delta_dist_x = fabs(1 / main->math.ray_dir_x);
 	if (main->math.ray_dir_y == 0)
-		main->math.delta_dist_y = 1e30;
+		main->math.delta_dist_y = MAX_FLOAT;
 	else
 		main->math.delta_dist_y = fabs(1 / main->math.ray_dir_y);
 	if (main->math.ray_dir_x < 0)

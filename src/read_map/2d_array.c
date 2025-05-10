@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2d_array.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 16:23:27 by oissa             #+#    #+#             */
-/*   Updated: 2025/04/17 18:45:46 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/10 14:42:01 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ void ft_split_file(t_main *main)
     main->split.len = ft_strlen(main->result);
     main->split.lines = ft_calloc(main->split.len, sizeof(char *));
     if (main->split.lines == NULL)
-        exit_and_print("Malloc failed", main, 0);
+        exit_and_print("Malloc failed", main, DONT_CLOSE_FD);
     loop_and_substr(main);
     if (main->split.k < main->split.j)
     {
         main->split.lines[main->split.i] = ft_substr(main->result, main->split.k, main->split.j - main->split.k);
         if (main->split.lines[main->split.i] == NULL)
-            exit_and_print("Malloc failed", main, 0);
+            exit_and_print("Malloc failed", main, DONT_CLOSE_FD);
         main->split.i++;
     }
     main->split.lines[main->split.i] = NULL;
     if (main->split.lines == NULL)
-        exit_and_print("Malloc failed", main, 0);
+        exit_and_print("Malloc failed", main, DONT_CLOSE_FD);
     main->split.i = 0;
 }
