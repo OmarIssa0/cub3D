@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/09 20:21:59 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:42:07 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,10 @@ void	draw_map(t_main *main)
 			else if (tile == '0')
 				color = 0x009000FF; // لون الأرضية
 			else if (tile == 'N' || tile == 'S' || tile == 'E' || tile == 'W')
-                color = 0xFFFF00FF; 
+				color = 0xFFFF00FF;
 			else if (tile == 'D')
 			{
-				if (main->file.pos_doors)
+				if (PUT_CEILING == true &&  main->file.pos_doors)
 				{
 					door_index = 0;
 					while (main->file.pos_doors[door_index].x != mapX
@@ -232,10 +232,16 @@ void	draw_map(t_main *main)
 						color = 0x0000FFFF; // لون الأبواب المفتوحة
 					else
 						color = 0xFF0000FF; // لون الأبواب المغلقة
-				}
+				} 
+				else
+					color = 0xFFFFFF00;
 			}
 			else
+			{
+				mlx_draw_rectangle(main->game.image, offsetX + x * TILE_SIZE,
+					offsetY + y * TILE_SIZE, TILE_SIZE, TILE_SIZE, 0x000000FF);
 				continue ;
+			}
 			// رسم البلاط
 			mlx_draw_rectangle(main->game.image, offsetX + x * TILE_SIZE,
 				offsetY + y * TILE_SIZE, TILE_SIZE, TILE_SIZE, color);
@@ -261,6 +267,6 @@ void	draw_map(t_main *main)
 
 void	draw_2D_view(t_main *main)
 {
-	draw_map(main);
-    draw_rays_2D(main);
+		draw_map(main);
+		draw_rays_2D(main);
 }

@@ -61,6 +61,8 @@ typedef enum e_num
 	TIME_FPS = 0,
 	TIME_COLOR = 1,
 	TIME_ANIMATION = 2,
+	CLOSE_FD = 1,
+	DONT_CLOSE_FD = 0,
 } t_num;
 
 typedef char *string;
@@ -135,6 +137,10 @@ typedef struct s_helper
 	int count_values_west;
 	int count_values_east;
 	int skip_space;
+	int	surface[2];
+	int x;
+	int y;
+	int player;
 } t_helper;
 
 typedef struct s_game
@@ -159,7 +165,7 @@ typedef struct s_game
 	// mlx_texture_t	*texture_weapon[13];
 	mlx_texture_t *texture_weapon[28];
 	int weapon_animation;
-	uint32_t night_and_day[5];
+	uint32_t night_and_day[25];
 	uint32_t color_ceiling;
 	uint32_t color_floor;
 } t_game;
@@ -249,19 +255,14 @@ void	free_main(t_main *main);
 void	get_textures(t_main *main, char **lines, int *i);
 void	get_colors(t_main *main, char **lines, int *i);
 void	get_values(t_main *main);
-// * 1) get value textures
-void	function_north(t_main *main, char **lines, int *i);
-void	function_south(t_main *main, char **lines, int *i);
-void	function_west(t_main *main, char **lines, int *i);
-void	function_east(t_main *main, char **lines, int *i);
-// * 2) get value colors
+// * 1) get value colors
 void	function_floor(t_main *main, char **lines, int *i);
 void	function_ceiling(t_main *main, char **lines, int *i);
 void	split_and_check(t_main *main);
 void	check_floor_is_valid(t_main *main);
 void	check_ceiling_is_valid(t_main *main);
 void	check_max_min(t_main *main);
-// * 3) utils
+// * 2) utils
 void	ft_split_file(t_main *main);
 void	loop_and_substr(t_main *main);
 

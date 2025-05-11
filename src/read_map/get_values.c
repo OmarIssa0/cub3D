@@ -6,7 +6,7 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:11 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/07 21:08:47 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:32:27 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,37 +34,12 @@ void get_map(t_main *main, char **lines, int *i)
     main->file.map = lines + *i;
 }
 
-void print_result(t_main *main)
-{
-    int i;
-
-    i = 0;
-    while (main->file.map[i])
-    {
-        ft_printf("%s", main->file.map[i]);
-        i++;
-    }
-    ft_printf("\n");
-    ft_printf("North texture: %s\n", main->file.north_texture);
-    ft_printf("South texture: %s\n", main->file.south_texture);
-    ft_printf("West texture: %s\n", main->file.west_texture);
-    ft_printf("East texture: %s\n", main->file.east_texture);
-    ft_printf("Floor color: %d %d %d\n", main->file.floor_color[0], main->file.floor_color[1], main->file.floor_color[2]);
-    ft_printf("Ceiling color: %d %d %d\n", main->file.ceiling_color[0], main->file.ceiling_color[1], main->file.ceiling_color[2]);
-}
 
 void get_values(t_main *main)
 {
-    // ? split the file
     ft_split_file(main);
-    // ? get the values of the textures
     get_textures(main, main->split.lines, &main->split.i);
-    // ? get the values of the colors
     get_colors(main, main->split.lines, &main->split.i);
-    // ? get the values of the map
     get_map(main, main->split.lines, &main->split.i);
-    // ? save color int to uint32_t -> 32bit
     transformation_32bit(main);
-    // ? print the values
-    // ! print_result(main);
 }

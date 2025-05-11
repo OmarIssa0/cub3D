@@ -6,40 +6,40 @@
 /*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:32:12 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/09 00:45:37 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:22:55 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+static void	init_player_value(t_player *player, float dir_x, float dir_y,
+		float plane_x)
+{
+	player->dir_x = dir_x;
+	player->dir_y = dir_y;
+	player->plane_x = plane_x;
+}
+
 void	init_player(t_main *main)
 {
 	if (main->game.player_direction == 'N')
 	{
-		main->player.dir_x = 0;
-		main->player.dir_y = -1;
-		main->player.plane_x = 0.66;
+		init_player_value(&main->player, 0, -1, 0.66);
 		main->player.plane_y = 0;
 	}
 	else if (main->game.player_direction == 'S')
 	{
-		main->player.dir_x = 0;
-		main->player.dir_y = 1;
-		main->player.plane_x = -0.66;
+		init_player_value(&main->player, 0, 1, -0.66);
 		main->player.plane_y = 0;
 	}
 	else if (main->game.player_direction == 'E')
 	{
-		main->player.dir_x = 1;
-		main->player.dir_y = 0;
-		main->player.plane_x = 0;
+		init_player_value(&main->player, 1, 0, 0);
 		main->player.plane_y = -0.66;
 	}
 	else if (main->game.player_direction == 'W')
 	{
-		main->player.dir_x = -1;
-		main->player.dir_y = 0;
-		main->player.plane_x = 0;
+		init_player_value(&main->player, -1, 0, 0);
 		main->player.plane_y = 0.66;
 	}
 	main->player.x = main->game.player_x + 0.5;

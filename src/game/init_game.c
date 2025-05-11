@@ -101,11 +101,12 @@ static void	init_texture(t_main *main)
 		if (main->game.texture_west == NULL)
 			exit_and_print("texture west :(", main, 0);
 	}
-	// ! init texture bouns
-	if (PUT_CEILING == true)
+	else
+	{
 		init_wall(main);
-	init_weapon(main);
-	init_door(main);
+		init_weapon(main);
+		init_door(main);
+	}
 }
 
 void	exit_clean(void *param)
@@ -129,7 +130,6 @@ void	init_game(t_main *main)
 	cast_rays(main);
 	draw_walls(main);
 	mlx_image_to_window(main->game.mlx, main->game.image, 0, 0);
-	draw_2D_view(main);
 	mlx_loop_hook(main->game.mlx, &handle_keys, main);
 	mlx_close_hook(main->game.mlx, &exit_clean, main);
 	mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_DISABLED);
