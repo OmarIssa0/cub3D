@@ -24,7 +24,7 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-# define SCREEN_WIDTH 800
+# define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 600
 // #define SCREEN_WIDTH 2560
 // #define SCREEN_HEIGHT 1080
@@ -140,6 +140,10 @@ typedef struct s_helper
 	int	surface[2];
 	int x;
 	int y;
+	int new_i;
+	int new_j;
+	int new_x;
+	int new_y;
 	int player;
 } t_helper;
 
@@ -162,7 +166,6 @@ typedef struct s_game
 	mlx_texture_t *texture_floor;
 	mlx_texture_t *texture_door_open;
 	mlx_texture_t *texture_door_close;
-	// mlx_texture_t	*texture_weapon[13];
 	mlx_texture_t *texture_weapon[28];
 	int weapon_animation;
 	uint32_t night_and_day[25];
@@ -256,11 +259,7 @@ void	get_textures(t_main *main, char **lines, int *i);
 void	get_colors(t_main *main, char **lines, int *i);
 void	get_values(t_main *main);
 // * 1) get value colors
-void	function_floor(t_main *main, char **lines, int *i);
-void	function_ceiling(t_main *main, char **lines, int *i);
 void	split_and_check(t_main *main);
-void	check_floor_is_valid(t_main *main);
-void	check_ceiling_is_valid(t_main *main);
 void	check_max_min(t_main *main);
 // * 2) utils
 void	ft_split_file(t_main *main);
@@ -274,6 +273,9 @@ void	loop_and_substr(t_main *main);
 void	check_map_content(t_main *main);
 void	check_map(t_main *main);
 void	check_player(t_main *main);
+void	flood_fill_map(t_main *main, int i, int j);
+void	fix_map(t_main *main);
+void	check_player_surrounded_by_walls(t_main *main);
 
 /*
 ! ***********************************************************************

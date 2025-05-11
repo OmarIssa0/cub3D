@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:53:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/10 14:40:04 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/11 21:43:34 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	trim_EOF(t_main *main)
+static void	trim_eof(t_main *main)
 {
 	close(main->fd);
 	main->helper.trimmed_result = ft_strtrim(main->result, " \n\t ");
@@ -88,7 +88,7 @@ void	read_map(t_main *main)
 	if (main->fd == -1)
 		exit_and_print(strerror(errno), main, DONT_CLOSE_FD);
 	read_for_file(main);
-	trim_EOF(main);
+	trim_eof(main);
 	check_file_empty(main);
 	split = ft_split(main->result, '\n');
 	if (split == NULL)

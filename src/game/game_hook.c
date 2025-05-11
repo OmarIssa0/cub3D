@@ -15,7 +15,6 @@
 
 #include <cub3d.h>
 
-
 void	calculate_time(t_time *time, int number_array)
 {
 	clock_gettime(CLOCK_MONOTONIC, &time->current_time[number_array]);
