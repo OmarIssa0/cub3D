@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_textures.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:55:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/10 16:28:00 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:20:44 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static void	exctract_path_direction(t_main *main, char **lines, int *i,
-		string *direction)
+		char **direction)
 {
 	if (ft_strlen(&lines[*i][3]) == 0)
 		exit_and_print(lines[main->helper.skip_space], main, DONT_CLOSE_FD);

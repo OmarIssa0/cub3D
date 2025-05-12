@@ -18,8 +18,8 @@ void	split_and_check(t_main *main)
 		|| main->helper.line_color_ceiling == NULL)
 		exit_and_print("Color is missing", main, 0);
 	main->helper.color_floor = ft_split(&main->helper.line_color_floor[2], ',');
-	main->helper.color_ceiling = ft_split(&main->helper.line_color_ceiling[2],
-			',');
+	main->helper.color_ceiling
+		= ft_split(&main->helper.line_color_ceiling[2], ',');
 	if (main->helper.color_floor == NULL || main->helper.color_ceiling == NULL)
 		exit_and_print("Malloc failed", main, 0);
 	if (main->helper.color_floor[0] == NULL

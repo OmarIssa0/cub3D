@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:53:21 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/11 21:43:34 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/12 20:15:07 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	trim_eof(t_main *main)
 
 static void	read_for_file(t_main *main)
 {
-	string	line;
-	string	tmp;
+	char	*line;
+	char	*tmp;
 
 	main->result = ft_strdup("");
 	if (main->result == NULL)

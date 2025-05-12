@@ -32,6 +32,7 @@ SRC = src/main.c				\
 	src/free/free_helper.c		\
 	src/validity/flood_fill.c	\
 	src/validity/check_content.c\
+	src/game/init_texture.c		\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

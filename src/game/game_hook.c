@@ -29,7 +29,7 @@ void	display_fps(t_main *main)
 	static int frame_count = 0;
 	static double fps = 0.0;
 	static mlx_image_t *image = NULL;
-	string str;
+	char * str;
 
 	frame_count++;
 	if (main->time.now[0] - main->time.last_time[0] >= 1.0)

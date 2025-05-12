@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   display_bit.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/04/15 17:02:28 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/07 18:42:47 by oissa            ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 21:09:47 by oissa             #+#    #+#             */
+/*   Updated: 2025/05/12 21:09:47 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +85,7 @@ void	draw_walls(t_main *main)
 				if (i == 25)
 					i = 0;
 			}
-			if ( y < main->raycasting.drawStart[x])
+			if ( y < main->raycasting.draw_start[x])
 			{
 				if (PUT_CEILING == true)
 					mlx_put_pixel(main->game.image, x, y,
@@ -97,8 +94,8 @@ void	draw_walls(t_main *main)
 					mlx_put_pixel(main->game.image, x, y,
 						main->game.color_ceiling);
 			}
-			else if (y >= main->raycasting.drawStart[x]
-				&& y <= main->raycasting.drawEnd[x])
+			else if (y >= main->raycasting.draw_start[x]
+				&& y <= main->raycasting.draw_end[x])
 			{
 				if (PUT_CEILING == true && main->raycasting.is_door[x])
 				{
@@ -117,9 +114,9 @@ void	draw_walls(t_main *main)
                 else if (PUT_CEILING == true && i <= 4)
                     texture = main->game.texture_north;
 				int d = y * 256 - SCREEN_HEIGHT * 128
-					+ main->raycasting.lineHeight[x] * 128;
+					+ main->raycasting.line_height[x] * 128;
 				texY = (int)((float)((d * texture->height)
-							/ main->raycasting.lineHeight[x]) / 256.0f);
+							/ main->raycasting.line_height[x]) / 256.0f);
 				size_t offset = (texY * texture->width + texX) * 4;
 				uint8_t r = texture->pixels[offset];
 				uint8_t g = texture->pixels[offset + 1];

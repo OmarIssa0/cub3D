@@ -8,7 +8,8 @@
         "random": "c",
         "limits": "c",
         "algorithm": "c",
-        "ratio": "c"
+        "ratio": "c",
+        "string": "c"
     },
     "cmake.ignoreCMakeListsMissing": true
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/10 18:25:35 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:07:49 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,14 @@ void	calculate_wall(t_main *main)
 
 void	calculate_height_and_down_for_wall(t_main *main, int x)
 {
-	main->math.drawStart = -main->math.lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (main->math.drawStart < 0)
-		main->math.drawStart = 0;
-	main->math.drawEnd = main->math.lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (main->math.drawEnd >= SCREEN_HEIGHT)
-		main->math.drawEnd = SCREEN_HEIGHT - 1;
-	main->raycasting.drawStart[x] = main->math.drawStart;
-	main->raycasting.drawEnd[x] = main->math.drawEnd;
+	main->math.draw_start = -main->math.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (main->math.draw_start < 0)
+		main->math.draw_start = 0;
+	main->math.draw_end = main->math.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (main->math.draw_end >= SCREEN_HEIGHT)
+		main->math.draw_end = SCREEN_HEIGHT - 1;
+	main->raycasting.draw_start[x] = main->math.draw_start;
+	main->raycasting.draw_end[x] = main->math.draw_end;
 	if (main->math.side == 0)
 		main->math.wall_x = main->player.y + main->math.perp_wall_dist
 			* main->math.ray_dir_y;
@@ -159,9 +159,9 @@ void	cast_rays(t_main *main)
 		// ! 5️⃣ حساب المسافة إلى الجدار
 		calculate_wall(main);
 		// ! 6️⃣ حساب ارتفاع الجدار بناءً على المسافة
-		main->math.lineHeight = (int)(SCREEN_HEIGHT
+		main->math.line_height = (int)(SCREEN_HEIGHT
 				/ main->math.perp_wall_dist);
-		main->raycasting.lineHeight[x] = main->math.lineHeight;
+		main->raycasting.line_height[x] = main->math.line_height;
 		// ! 7️⃣ حساب أعلى وأسفل الجدار على الشاشة لكل عمود
 		calculate_height_and_down_for_wall(main, x);
 	}
