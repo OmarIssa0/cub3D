@@ -42,8 +42,7 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_mid_wall);
 	while (i < 28)
 	{
-		if (main->game.texture_weapon != NULL)
-			free_and_nullify((void **)&main->game.texture_weapon[i]);
+		free_and_nullify((void **)&main->game.texture_weapon[i]);
 		i++;
 	}
 	if (main->game.mlx != NULL)

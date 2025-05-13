@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/03/20 23:35:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/07 19:13:26 by oissa            ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
+/*   Updated: 2025/05/13 16:21:18 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +22,8 @@
 # define YELLOW "\033[0;33m"
 
 // #define SCREEN_WIDTH 2560
-// #define SCREEN_HEIGHT 1080
-# define SCREEN_WIDTH 1200
+// #define SCREEN_HEIGHT 1000
+# define SCREEN_WIDTH 700
 # define SCREEN_HEIGHT 600
 # define TILE_SIZE 10
 # define PUT_FLOOR true

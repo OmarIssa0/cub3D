@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 MLX_DIR = ./MLX42
 MLX_BUILD_DIR = $(MLX_DIR)/build
 MLX_LIB = $(MLX_BUILD_DIR)/libmlx42.a
-LIBS = -I./MLX42/include -L$(MLX_BUILD_DIR) -lmlx42 -ldl -lglfw -lpthread -lm -lX11  -lSDL2 -lSDL2_mixer
+LIBS = -I./MLX42/include -L$(MLX_BUILD_DIR) -lmlx42 -ldl -lglfw -lpthread -lm -lX11 
 LIBFT_DIR = ./Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 

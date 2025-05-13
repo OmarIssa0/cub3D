@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/12 21:31:16 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/13 06:50:44 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,12 +205,12 @@ void	draw_map(t_main *main)
 			mapY = (int)(main->player.y - map_size / 2 + y);
 			mapX = (int)(main->player.x - map_size / 2 + x);
 			if (mapY < 0 || mapY >= main->game.height_map || mapX < 0
-				|| mapX >= main->game.width_map - 1 || !main->file.map
-				|| !main->file.map[mapY])
+				|| !main->file.map || !main->file.map[mapY]
+				|| mapX >= (int)ft_strlen(main->file.map[mapY]))
 			{
 				mlx_draw_rectangle(main->game.image, offsetX + x * TILE_SIZE,
 					offsetY + y * TILE_SIZE, TILE_SIZE, TILE_SIZE, 0x000000FF);
-				continue ;
+				continue;
 			}
 			tile = main->file.map[mapY][mapX];
 			color = 0;

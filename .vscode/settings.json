@@ -9,7 +9,8 @@
         "limits": "c",
         "algorithm": "c",
         "ratio": "c",
-        "string": "c"
+        "string": "c",
+        "sdl_mixer.h": "c"
     },
     "cmake.ignoreCMakeListsMissing": true
 }
