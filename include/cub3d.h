@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/13 16:21:18 by oissa            ###   ########.fr       */
+/*   Updated: 2025/05/15 20:10:18 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-// #define SCREEN_WIDTH 2560
-// #define SCREEN_HEIGHT 1000
-# define SCREEN_WIDTH 700
-# define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 2560
+#define SCREEN_HEIGHT 1800
+// # define SCREEN_WIDTH 700
+// # define SCREEN_HEIGHT 600
 # define TILE_SIZE 10
 # define PUT_FLOOR true
 # define PUT_CEILING true
@@ -33,6 +33,8 @@
 # define ROT_SPEED 1.0
 # define MAX_FLOAT 3.402823466e+38F
 
+# include <signal.h>
+# include <pthread.h>
 # include "MLX42/MLX42.h"
 # include "libft.h"
 # include <errno.h>
@@ -46,6 +48,7 @@
 # include <string.h>
 # include <time.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 typedef enum e_num
 {
@@ -59,11 +62,23 @@ typedef enum e_num
 	DONT_CLOSE_FD = 0,
 }					t_num;
 
+typedef struct s_hook
+{
+	double			move_step;
+	double			rot_step;
+	int				key_pressed;
+	int				key_pressed_hoding;
+	int				key_pressed_space_equal;
+	int				key_pressed_space_minus;
+}		t_hook;
+
+
 typedef struct s_time
 {
 	struct timespec	current_time[3];
 	double			now[3];
 	double			last_time[3];
+	double			speed;
 }					t_time;
 
 typedef struct s_math
@@ -140,6 +155,7 @@ typedef struct s_helper
 	int				new_x;
 	int				new_y;
 	int				player;
+	pthread_mutex_t	mutex;
 }					t_helper;
 
 typedef struct s_game
@@ -211,6 +227,7 @@ typedef struct s_main
 	t_raycasting	raycasting;
 	t_math			math;
 	t_time			time;
+	t_hook			hook;
 }					t_main;
 
 /*
@@ -299,6 +316,7 @@ void				handle_keys(void *param);
 void				rotate_player(t_player *player, double angle);
 void				move_player(t_main *main, double move_x, double move_y);
 void				handle_mouse_rotation(t_main *main);
+void 				play_sound(t_main *main);
 // * 6) rays
 void				cast_rays(t_main *main);
 // * 7) init texture

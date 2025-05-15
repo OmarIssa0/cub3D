@@ -53,7 +53,7 @@ void	draw_walls(t_main *main)
             y = 0;
         static int i = 0;
 		if (PUT_CEILING == true && main->time.now[TIME_COLOR]
-			- main->time.last_time[TIME_COLOR] >= 1.0)
+			- main->time.last_time[TIME_COLOR] >= main->time.speed)
 		{
                
 				uint32_t colors[] = {
