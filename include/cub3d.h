@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/15 20:10:18 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/09 22:26:05 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-#define SCREEN_WIDTH 2560
-#define SCREEN_HEIGHT 1800
+#define SCREEN_WIDTH 2000
+#define SCREEN_HEIGHT 1000
 // # define SCREEN_WIDTH 700
 // # define SCREEN_HEIGHT 600
 # define TILE_SIZE 10
@@ -214,6 +214,84 @@ typedef struct s_splitter
 	int				remander_index;
 }					t_splitter;
 
+typedef struct t_line
+{
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
+	uint32_t	color;
+	int			thickness;
+}				t_line;
+
+typedef struct s_2d
+{
+	int			map_size;
+	int			offsetY;
+	int			offsetX;
+	int			mapY;
+	int			mapX;
+	char		tile;
+	uint32_t	color;
+	int			door_index;
+	uint32_t	border;
+	int			px;
+	int			py;
+}				t_2d;
+
+typedef struct s_rays_2d
+{
+	float	cameraX;
+	float	rayDirX;
+	float	rayDirY;
+	int		mapX;
+	int		mapY;
+	float	deltaDistX;
+	float	deltaDistY;
+	int		hit;
+	int		side;
+	float	perpWallDist;
+	float	rayStartX;
+	float	rayStartY;
+	float	rayEndX;
+	float	rayEndY;
+	float	minX;
+	float	minY;
+	float	maxX;
+	float	maxY;
+	int		map_size;
+	int		offsetY;
+	int		offsetX;
+	float	stepY;
+	float	stepX;
+	float	sideDistX;
+	float	sideDistY;
+}			t_rays_2d;
+
+typedef struct s_rectangle
+{
+    int x;
+    int y;
+    int width;
+    int height;
+    uint32_t color;
+} 			t_rectangle;
+
+typedef struct s_mouse
+{
+	int			delta_x;
+	float		sensitivity;
+	float		angle;
+	int			current_x;
+	int			current_y;
+	double	new_x;
+	double	new_y;
+	double	col_x_min;
+	double	col_x_max;
+	double	col_y_min;
+	double	col_y_max;
+}			t_mouse;
+
 typedef struct s_main
 {
 	int				fd;
@@ -228,6 +306,11 @@ typedef struct s_main
 	t_math			math;
 	t_time			time;
 	t_hook			hook;
+	t_2d			map_2d;
+	t_rectangle		rect;
+	t_line			line;
+	t_rays_2d		rays_2d;
+	t_mouse			mouse;
 }					t_main;
 
 /*
@@ -300,10 +383,17 @@ void				init_game(t_main *main);
 void				draw_2D_view(t_main *main);
 void				draw_map(t_main *main);
 void				draw_rays_2D(t_main *main);
-void				mlx_draw_line_thick(mlx_image_t *img, int x0, int y0,
-						int x1, int y1, uint32_t color, int thickness);
-void				mlx_draw_rectangle(mlx_image_t *image, int x, int y,
-						int width, int height, uint32_t color);
+void				mlx_draw_line_thick(mlx_image_t *img, t_line line);
+void				mlx_draw_rectangle(mlx_image_t *image, t_rectangle *rect);
+int					calculate_mapx_mapy(t_main *main, int *x, int y);
+void				color_door(t_main *main);
+int					onther_draw_map(t_main *main, int *x, int y);
+int					give_color(t_main *main, int *x, int y);
+void				draw_thik(t_main *main);
+void				draw_line_and_rectangle(t_main *main, int x, int y);
+void				draw_horizontal_line(t_main *main, int x, int y, t_line *line);
+void				draw_vertical_line(t_main *main, int x, int y, t_line *line);
+void				draw_player_rectangle(t_main *main);
 // * 2) handle color
 uint32_t			rgb_32bit(int red, int green, int blue, t_main *main);
 void				transformation_32bit(t_main *main);

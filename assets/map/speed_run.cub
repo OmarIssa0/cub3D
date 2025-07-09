@@ -1,6 +1,5 @@
 C 130,200,229
 
-
 SO ./assets/image/SO.png
 
 EA ./assets/image/EA.png
@@ -8,8 +7,6 @@ EA ./assets/image/EA.png
 WE ./assets/image/WE.png
 
 NO assets/image/NO.png
-
-
 
 F 255, 255, 255
 

@@ -33,6 +33,10 @@ SRC = src/main.c				\
 	src/validity/flood_fill.c	\
 	src/validity/check_content.c\
 	src/game/init_texture.c		\
+	src/game/draw_map.c			\
+	src/game/draw_map_too.c		\
+	src/game/draw_map_three.c	\
+	src/game/draw_rays_2d.c		\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

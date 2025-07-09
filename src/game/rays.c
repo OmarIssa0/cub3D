@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:13:05 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/12 21:07:49 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/09 22:29:35 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,22 +147,15 @@ void	cast_rays(t_main *main)
 	x = -1;
 	while (++x < SCREEN_WIDTH)
 	{
-		// ! 1️⃣ حساب اتجاه الشعاع لكل عمود
 		calculate_camx_rays(main, x);
-		// ! 2️⃣ تحديد موقع اللاعب في الخريطة
 		main->math.map_x = (int)main->player.x;
 		main->math.map_y = (int)main->player.y;
-		// ! 3️⃣ حساب خطوات الأشعة والمسافات
 		calulate_delta_dist_and_side(main);
-		// ! 4️⃣ تنفيذ خوارزمية DDA
 		DDA_algorithm(main, x);
-		// ! 5️⃣ حساب المسافة إلى الجدار
 		calculate_wall(main);
-		// ! 6️⃣ حساب ارتفاع الجدار بناءً على المسافة
 		main->math.line_height = (int)(SCREEN_HEIGHT
 				/ main->math.perp_wall_dist);
 		main->raycasting.line_height[x] = main->math.line_height;
-		// ! 7️⃣ حساب أعلى وأسفل الجدار على الشاشة لكل عمود
 		calculate_height_and_down_for_wall(main, x);
 	}
 }

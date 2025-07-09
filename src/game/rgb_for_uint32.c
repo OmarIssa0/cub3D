@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rgb_for_uint32.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:21:25 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/10 16:54:14 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:19:43 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	transformation_32bit(t_main *main)
 
 uint32_t	rgb_32bit(int red, int green, int blue, t_main *main)
 {
-	uint32_t color;
+	uint32_t	color;
 
 	if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0
 		|| blue > 255)

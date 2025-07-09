@@ -185,9 +185,9 @@ void handle_keys(void *param)
 		move_player(main, -main->player.dir_y * main->hook.move_step, main->player.dir_x * main->hook.move_step);
 	// ? Cam
 	if (mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT) || mlx_is_key_down(main->game.mlx, MLX_KEY_A))
-		rotate_player(&main->player, main->hook.rot_step);
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
 		rotate_player(&main->player, -main->hook.rot_step);
+	if (mlx_is_key_down(main->game.mlx, MLX_KEY_RIGHT) || mlx_is_key_down(main->game.mlx, MLX_KEY_D))
+		rotate_player(&main->player, main->hook.rot_step);
 	// if (main->game.weapon_animation == 0 && main->player.holding && (mlx_is_key_down(main->game.mlx, MLX_KEY_SPACE) || mlx_is_mouse_down(main->game.mlx, MLX_MOUSE_BUTTON_LEFT)))
 	// {
 	// 	if (!key_pressed_space)
@@ -256,7 +256,7 @@ void handle_keys(void *param)
 	else
 		main->hook.key_pressed_space_minus = 0;
 
-	if (mlx_is_key_down(main->game.mlx, MLX_KEY_MINUS) && mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT_CONTROL))
+	if (PUT_CEILING == true &&  mlx_is_key_down(main->game.mlx, MLX_KEY_MINUS) && mlx_is_key_down(main->game.mlx, MLX_KEY_LEFT_CONTROL))
 	{
 		if (!main->hook.key_pressed_space_minus)
 		{

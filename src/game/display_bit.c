@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-
 void	draw_walls(t_main *main)
 {
 	int x = 0;
@@ -22,29 +21,27 @@ void	draw_walls(t_main *main)
 		float wallX = main->raycasting.wall_x[x];
 		int side = main->raycasting.side[x];
 
-		// اختيار التكستشر الصحيح حسب الاتجاه
 		mlx_texture_t *texture = NULL;
-		if (side == 0) // جدار أفقي
+		if (side == 0)
 		{
 			if (main->raycasting.ray_dir_x[x] > 0)
 			{
-				texture = main->game.texture_west; // غرب
+				texture = main->game.texture_west;
 			}
 			else
-				texture = main->game.texture_east; // شرق
+				texture = main->game.texture_east;
 		}
-		else // جدار عمودي
+		else
 		{
 			if (main->raycasting.ray_dir_y[x] > 0)
-				texture = main->game.texture_north; // شمال
+				texture = main->game.texture_north;
 			else
-				texture = main->game.texture_south; // جنوب
+				texture = main->game.texture_south;
 		}
         if (!texture || !texture->pixels)
 			exit_and_print("Texture not loaded", main, DONT_CLOSE_FD);
 		texX = (int)(wallX * texture->width);
 
-		// عكس اتجاه الصورة حسب الاتجاه
 		if ((side == 0 && main->raycasting.ray_dir_x[x] > 0) || (side == 1
 				&& main->raycasting.ray_dir_y[x] < 0))
 			texX = texture->width - texX - 1;
@@ -103,15 +100,11 @@ void	draw_walls(t_main *main)
                 texY = (int)((float)(d * texture->height) / main->raycasting.line_height[x] / 256.0f);
                 if (texY < 0) texY = 0;
                 if (texY >= (int)texture->height) texY = texture->height - 1;
-				// texY = (int)((float)((d * texture->height)
-				// 			/ main->raycasting.line_height[x]) / 256.0f);
 				size_t offset = (texY * texture->width + texX) * 4;
 				uint8_t r = texture->pixels[offset];
 				uint8_t g = texture->pixels[offset + 1];
 				uint8_t b = texture->pixels[offset + 2];
-				// فصل RGBA
 
-				// إصلاح الألوان بدون شفافية
 				uint32_t fixed_color = (r << 24) | (g << 16) | (b << 8) | 0xFF;
 
 				mlx_put_pixel(main->game.image, x, y, fixed_color);
@@ -122,21 +115,17 @@ void	draw_walls(t_main *main)
 				{
 					texture = main->game.texture_floor;
 
-					// حساب نسبة المسافة من الكاميرا إلى الأرضية
 					float currentDist = (float)SCREEN_HEIGHT / (2.0f * y
 							- SCREEN_HEIGHT);
 
-					// حساب موقع الأرضية في الخريطة
 					float floorX = main->player.x + currentDist
 						* main->raycasting.ray_dir_x[x];
 					float floorY = main->player.y + currentDist
 						* main->raycasting.ray_dir_y[x];
 
-					// تحويل لإحداثيات التكستشر
 					texX = (int)(floorX * texture->width) % texture->width;
 					texY = (int)(floorY * texture->height) % texture->height;
 
-					// التحقق من أن pixels ليست NULL
 					if (texture->pixels != NULL)
 					{
 						size_t offset = (texY * texture->width + texX) * 4;

@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_hook.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:11:03 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/09 20:15:36 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:28:43 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	rotate_player(t_player *player, double angle)
+void	rotate_player(t_player *p, double angle)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = player->dir_x;
-	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
-	player->dir_y = old_dir_x * sin(angle) + player->dir_y * cos(angle);
-	old_plane_x = player->plane_x;
-	player->plane_x = player->plane_x * cos(angle) - player->plane_y
+	old_dir_x = p->dir_x;
+	p->dir_x = p->dir_x * cos(angle) - p->dir_y * sin(angle);
+	p->dir_y = old_dir_x * sin(angle) + p->dir_y * cos(angle);
+	old_plane_x = p->plane_x;
+	p->plane_x = p->plane_x * cos(angle) - p->plane_y
 		* sin(angle);
-	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
+	p->plane_y = old_plane_x * sin(angle) + p->plane_y * cos(angle);
 }
+
 int	find_specific_door(t_main *main, double x, double y)
 {
 	int	i;
@@ -41,53 +42,44 @@ int	find_specific_door(t_main *main, double x, double y)
 	return (0);
 }
 
-void	move_player(t_main *main, double move_x, double move_y)
+void	move_player(t_main *m, double move_x, double move_y)
 {
-	double	new_x;
-	double	new_y;
-	double	col_x_min;
-	double	col_x_max;
-	double	col_y_min;
-	double	col_y_max;
-
-	new_x = main->player.x + move_x;
-	new_y = main->player.y + move_y;
-	col_x_min = new_x - 0.05;
-	col_x_max = new_x + 0.05;
-	col_y_min = new_y - 0.05;
-	col_y_max = new_y + 0.05;
-	if (main->file.map[(int)main->player.y][(int)col_x_min] != '1'
-		&& main->file.map[(int)main->player.y][(int)col_x_max] != '1'
-		&& !(main->file.map[(int)main->player.y][(int)col_x_min] == 'D'
-			&& !find_specific_door(main, col_x_min, main->player.y))
-		&& !(main->file.map[(int)main->player.y][(int)col_x_max] == 'D'
-			&& !find_specific_door(main, col_x_max, main->player.y)))
-		main->player.x = new_x;
-	if (main->file.map[(int)col_y_min][(int)main->player.x] != '1'
-		&& main->file.map[(int)col_y_max][(int)main->player.x] != '1'
-		&& !(main->file.map[(int)col_y_min][(int)main->player.x] == 'D'
-			&& !find_specific_door(main, main->player.x, col_y_min))
-		&& !(main->file.map[(int)col_y_max][(int)main->player.x] == 'D'
-			&& !find_specific_door(main, main->player.x, col_y_max)))
-		main->player.y = new_y;
+	m->mouse.new_x = m->player.x + move_x;
+	m->mouse.new_y = m->player.y + move_y;
+	m->mouse.col_x_min = m->mouse.new_x - 0.05;
+	m->mouse.col_x_max = m->mouse.new_x + 0.05;
+	m->mouse.col_y_min = m->mouse.new_y - 0.05;
+	m->mouse.col_y_max = m->mouse.new_y + 0.05;
+	if (m->file.map[(int)m->player.y][(int)m->mouse.col_x_min] != '1'
+		&& m->file.map[(int)m->player.y][(int)m->mouse.col_x_max] != '1'
+		&& !(m->file.map[(int)m->player.y][(int)m->mouse.col_x_min] == 'D'
+			&& !find_specific_door(m, m->mouse.col_x_min, m->player.y))
+		&& !(m->file.map[(int)m->player.y][(int)m->mouse.col_x_max] == 'D'
+			&& !find_specific_door(m, m->mouse.col_x_max, m->player.y)))
+		m->player.x = m->mouse.new_x;
+	if (m->file.map[(int)m->mouse.col_y_min][(int)m->player.x] != '1'
+		&& m->file.map[(int)m->mouse.col_y_max][(int)m->player.x] != '1'
+		&& !(m->file.map[(int)m->mouse.col_y_min][(int)m->player.x] == 'D'
+			&& !find_specific_door(m, m->player.x, m->mouse.col_y_min))
+		&& !(m->file.map[(int)m->mouse.col_y_max][(int)m->player.x] == 'D'
+			&& !find_specific_door(m, m->player.x, m->mouse.col_y_max)))
+		m->player.y = m->mouse.new_y;
 }
-void	handle_mouse_rotation(t_main *main)
-{
-	static int	last_x = SCREEN_WIDTH / 2;
-	int			delta_x;
-	float		sensitivity;
-	float		angle;
 
-	int current_x, current_y;
-	mlx_get_mouse_pos(main->game.mlx, &current_x, &current_y);
-	delta_x = current_x - last_x;
-	last_x = current_x;
-	if (delta_x != 0)
+void	handle_mouse_rotation(t_main *m)
+{
+	static int	last_x;
+
+	last_x = SCREEN_WIDTH / 2;
+	mlx_get_mouse_pos(m->game.mlx, &m->mouse.current_x, &m->mouse.current_y);
+	m->mouse.delta_x = m->mouse.current_x - last_x;
+	last_x = m->mouse.current_x;
+	if (m->mouse.delta_x != 0)
 	{
-		sensitivity = 0.0005f;
-		angle = delta_x * sensitivity;
-		rotate_player(&main->player, angle);
+		m->mouse.sensitivity = 0.0005f;
+		m->mouse.angle = m->mouse.delta_x * m->mouse.sensitivity;
+		rotate_player(&m->player, m->mouse.angle);
 	}
-	mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	mlx_set_mouse_pos(m->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	last_x = SCREEN_WIDTH / 2;
 }
