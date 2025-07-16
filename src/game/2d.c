@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:48:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/09 22:14:37 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/14 20:59:11 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,59 +30,74 @@ void	mlx_draw_rectangle(mlx_image_t *image, t_rectangle *rect)
 	}
 }
 
+static void	set_data(t_line_thick *thick_line, t_line *line)
+{
+	ft_bzero(thick_line, sizeof(t_line_thick));
+	thick_line->dx = abs(line->x1 - line->x0);
+	thick_line->dy = -abs(line->y1 - line->y0);
+	if (line->x0 < line->x1)
+		thick_line->sx = 1;
+	else
+		thick_line->sx = -1;
+	if (line->y0 < line->y1)
+		thick_line->sy = 1;
+	else
+		thick_line->sy = -1;
+	thick_line->err = thick_line->dx + thick_line->dy;
+	thick_line->half_thick = line->thickness / 2;
+	thick_line->px = line->x0;
+	thick_line->py = line->y0;
+}
+
+static int	check_line_statment(t_line *line, t_line_thick *thick_line)
+{
+	if (line->x0 == line->x1 && line->y0 == line->y1)
+		return (EXIT_SUCCESS);
+	thick_line->e2 = 2 * thick_line->err;
+	if (thick_line->e2 >= thick_line->dy)
+	{
+		thick_line->err += thick_line->dy;
+		line->x0 += thick_line->sx;
+	}
+	if (thick_line->e2 <= thick_line->dx)
+	{
+		thick_line->err += thick_line->dx;
+		line->y0 += thick_line->sy;
+	}
+	return (EXIT_FAILURE);
+}
+
 void	mlx_draw_line_thick(mlx_image_t *img, t_line line)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	half_thick;
-	int	px;
-	int	py;
-	int	e2;
+	t_line_thick	t;
+	int				i;
+	int				j;
 
-	dx = abs(line.x1 - line.x0);
-	dy = -abs(line.y1 - line.y0);
-	sx = line.x0 < line.x1 ? 1 : -1;
-	sy = line.y0 < line.y1 ? 1 : -1;
-	err = dx + dy;
-	half_thick = line.thickness / 2;
+	set_data(&t, &line);
 	while (1)
 	{
-		int i = -half_thick;
-		while (i <= half_thick)
+		i = -t.half_thick;
+		while (i <= t.half_thick)
 		{
-			int j = -half_thick;
-			while (j <= half_thick)
+			j = -t.half_thick;
+			while (j <= t.half_thick)
 			{
-				px = line.x0 + i;
-				py = line.y0 + j;
-				if (px >= 0 && px < SCREEN_WIDTH && py >= 0
-					&& py < SCREEN_HEIGHT)
-					mlx_put_pixel(img, px, py, line.color);
+				t.px = line.x0 + i;
+				t.py = line.y0 + j;
+				if (t.px >= 0 && t.px < SCREEN_WIDTH && t.py >= 0
+					&& t.py < SCREEN_HEIGHT)
+					mlx_put_pixel(img, t.px, t.py, line.color);
 				j++;
 			}
 			i++;
 		}
-		if (line.x0 == line.x1 && line.y0 == line.y1)
+		if (check_line_statment(&line, &t) == EXIT_SUCCESS)
 			break ;
-		e2 = 2 * err;
-		if (e2 >= dy)
-		{
-			err += dy;
-			line.x0 += sx;
-		}
-		if (e2 <= dx)
-		{
-			err += dx;
-			line.y0 += sy;
-		}
 	}
 }
 
-void	draw_2D_view(t_main *main)
+void	draw_2d_view(t_main *main)
 {
 	draw_map(main);
-	draw_rays_2D(main);
+	draw_rays_2d(main);
 }

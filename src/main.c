@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/15 16:18:41 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/14 21:02:29 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 *				  S
 */
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_main main;
+	t_main	main;
 
 	if (ac != 2 && ft_dprintf(2, "Error\nUsage: ./cub3D <map.cub>\n"))
 		return (1);

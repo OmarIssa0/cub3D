@@ -37,6 +37,12 @@ SRC = src/main.c				\
 	src/game/draw_map_too.c		\
 	src/game/draw_map_three.c	\
 	src/game/draw_rays_2d.c		\
+	src/game/rays_tow.c			\
+	src/game/handle_keys.c		\
+	src/game/handle_key_tow.c	\
+	src/game/fps.c				\
+	src/game/draw_weapon.c		\
+	src/game/draw_rays_2d_tow.c	\
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

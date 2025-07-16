@@ -23,9 +23,9 @@ void	free_and_nullify(void **ptr)
 
 void	free_struct_game(t_main *main)
 {
-	int i;
+	int	i;
 
-	i = 0;
+	i = -1;
 	if (main->game.image != NULL)
 	{
 		mlx_delete_image(main->game.mlx, main->game.image);
@@ -40,11 +40,8 @@ void	free_struct_game(t_main *main)
 	free_and_nullify((void **)&main->game.texture_door_open);
 	free_and_nullify((void **)&main->game.texture_light_wall);
 	free_and_nullify((void **)&main->game.texture_mid_wall);
-	while (i < 28)
-	{
+	while (++i < 28)
 		free_and_nullify((void **)&main->game.texture_weapon[i]);
-		i++;
-	}
 	if (main->game.mlx != NULL)
 	{
 		mlx_terminate(main->game.mlx);
