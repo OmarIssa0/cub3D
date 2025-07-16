@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/16 20:50:10 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/16 21:20:03 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,10 +226,10 @@ typedef struct t_line
 typedef struct s_2d
 {
 	int				map_size;
-	int				offsetY;
-	int				offsetX;
-	int				mapY;
-	int				mapX;
+	int				offset_y;
+	int				offset_x;
+	int				map_y;
+	int				map_x;
 	char			tile;
 	uint32_t		color;
 	int				door_index;
@@ -240,31 +240,31 @@ typedef struct s_2d
 
 typedef struct s_rays_2d
 {
-	float			cameraX;
-	float			rayDirX;
-	float			rayDirY;
-	int				mapX;
-	int				mapY;
-	float			deltaDistX;
-	float			deltaDistY;
+	float			camera_x;
+	float			ray_dir_x;
+	float			ray_dir_y;
+	int				map_x;
+	int				map_y;
+	float			delta_dist_x;
+	float			delta_dist_y;
 	int				hit;
 	int				side;
-	float			perpWallDist;
-	float			rayStartX;
-	float			rayStartY;
-	float			rayEndX;
-	float			rayEndY;
-	float			minX;
-	float			minY;
-	float			maxX;
-	float			maxY;
+	float			perp_wall_dist;
+	float			ray_start_x;
+	float			ray_start_y;
+	float			ray_end_x;
+	float			ray_end_y;
+	float			min_x;
+	float			min_y;
+	float			max_x;
+	float			max_y;
 	int				map_size;
-	int				offsetY;
-	int				offsetX;
-	float			stepY;
-	float			stepX;
-	float			sideDistX;
-	float			sideDistY;
+	int				offset_y;
+	int				offset_x;
+	float			step_y;
+	float			step_x;
+	float			side_dist_x;
+	float			side_dist_y;
 }					t_rays_2d;
 
 typedef struct s_rectangle
@@ -293,8 +293,8 @@ typedef struct s_mouse
 
 typedef struct s_draw_weapon
 {
-	int				posX;
-	int				posY;
+	int				pos_x;
+	int				pos_y;
 	uint32_t		x;
 	uint32_t		y;
 	size_t			offset;
@@ -307,8 +307,8 @@ typedef struct s_draw_weapon
 
 typedef struct s_draw_aim
 {
-	int				centerX;
-	int				centerY;
+	int				center_x;
+	int				center_y;
 	int				i;
 	int				size;
 	int				thickness;
@@ -320,9 +320,9 @@ typedef struct s_draw_bit
 {
 	int				x;
 	int				y;
-	int				texX;
-	int				texY;
-	float			wallX;
+	int				tex_x;
+	int				tex_y;
+	float			wall_x;
 	mlx_texture_t	*texture;
 	int				side;
 }					t_draw_bit;
@@ -436,7 +436,7 @@ void				draw_map(t_main *main);
 void				draw_rays_2d(t_main *main);
 void				mlx_draw_line_thick(mlx_image_t *img, t_line line);
 void				mlx_draw_rectangle(mlx_image_t *image, t_rectangle *rect);
-int					calculate_mapx_mapy(t_main *main, int *x, int y);
+int					calculate_map_x_map_y(t_main *main, int *x, int y);
 void				color_door(t_main *main);
 int					onther_draw_map(t_main *main, int *x, int y);
 int					give_color(t_main *main, int *x, int y);
@@ -450,7 +450,7 @@ void				draw_player_rectangle(t_main *main);
 void				calculate_camx(t_main *main, int x);
 void				cauculate_step_and_side_dist(t_main *main);
 void				calculate_hit(t_main *main);
-void				calculate_rayendx_rayendy(t_main *main);
+void				calculate_ray_end_x_ray_end_y(t_main *main);
 void				side(t_main *main);
 // * 2) handle color
 uint32_t			rgb_32bit(int red, int green, int blue, t_main *main);
@@ -459,6 +459,14 @@ void				transformation_32bit(t_main *main);
 void				init_player(t_main *main);
 // * 4) display bit
 void				draw_walls(t_main *main);
+void				initialize_wall_texture(t_main *main);
+void				calculate_tex_x(t_main *main);
+void				update_day_night_cycle(t_main *main, int *i);
+void				draw_ceiling(t_main *main, int i);
+void				select_wall_texture(t_main *main, int i);
+void				draw_wall_pixel(t_main *main);
+void				draw_floor_pixel(t_main *main);
+void				draw_column_pixels(t_main *main, int i);
 // * 5) handle hook & mouse
 void				handle_keys(void *param);
 void				rotate_player(t_player *player, double angle);

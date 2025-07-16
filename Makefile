@@ -25,6 +25,9 @@ SRC = src/main.c				\
 	src/game/rgb_for_uint32.c	\
 	src/game/handle_player.c	\
 	src/game/display_bit.c		\
+	src/game/display_bit_helper.c \
+	src/game/display_bit_helper2.c \
+	src/game/display_bit_helper3.c \
 	src/game/game_hook.c		\
 	src/game/rays.c				\
 	src/game/mouse_hook.c		\

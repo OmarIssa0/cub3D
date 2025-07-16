@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 21:38:25 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/16 20:51:35 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/16 21:06:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	draw_line_and_rectangle(t_main *main, int x, int y)
 
 	ft_bzero(&rect, sizeof(t_rectangle));
 	ft_bzero(&line, sizeof(t_line));
-	rect.x = main->map_2d.offsetX + x * TILE_SIZE;
-	rect.y = main->map_2d.offsetY + y * TILE_SIZE;
+	rect.x = main->map_2d.offset_x + x * TILE_SIZE;
+	rect.y = main->map_2d.offset_y + y * TILE_SIZE;
 	rect.width = TILE_SIZE;
 	rect.height = TILE_SIZE;
 	rect.color = main->map_2d.color;
@@ -47,9 +47,9 @@ void	draw_thik(t_main *main)
 void	init_map_params(t_main *main)
 {
 	main->map_2d.map_size = 12;
-	main->map_2d.offsetY = SCREEN_HEIGHT - (main->map_2d.map_size * TILE_SIZE)
+	main->map_2d.offset_y = SCREEN_HEIGHT - (main->map_2d.map_size * TILE_SIZE)
 		- 10;
-	main->map_2d.offsetX = 10;
+	main->map_2d.offset_x = 10;
 }
 
 void	draw_map_row(t_main *main, int y)
@@ -59,7 +59,7 @@ void	draw_map_row(t_main *main, int y)
 	x = 0;
 	while (x < main->map_2d.map_size)
 	{
-		if (calculate_mapx_mapy(main, &x, y) == EXIT_SUCCESS)
+		if (calculate_map_x_map_y(main, &x, y) == EXIT_SUCCESS)
 			continue ;
 		if (give_color(main, &x, y) == 2)
 			continue ;

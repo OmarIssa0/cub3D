@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 21:59:53 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/16 20:51:49 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/16 21:08:51 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,49 @@
 
 void	calculate_camx(t_main *main, int x)
 {
-	main->rays_2d.cameraX = 2 * x / (float)SCREEN_WIDTH - 1;
-	main->rays_2d.rayDirX = main->player.dir_x + main->player.plane_x
-		* main->rays_2d.cameraX;
-	main->rays_2d.rayDirY = main->player.dir_y + main->player.plane_y
-		* main->rays_2d.cameraX;
-	main->rays_2d.mapX = (int)main->player.x;
-	main->rays_2d.mapY = (int)main->player.y;
-	if (main->rays_2d.rayDirX == 0)
-		main->rays_2d.deltaDistX = 1e30;
+	main->rays_2d.camera_x = 2 * x / (float)SCREEN_WIDTH - 1;
+	main->rays_2d.ray_dir_x = main->player.dir_x + main->player.plane_x
+		* main->rays_2d.camera_x;
+	main->rays_2d.ray_dir_y = main->player.dir_y + main->player.plane_y
+		* main->rays_2d.camera_x;
+	main->rays_2d.map_x = (int)main->player.x;
+	main->rays_2d.map_y = (int)main->player.y;
+	if (main->rays_2d.ray_dir_x == 0)
+		main->rays_2d.delta_dist_x = 1e30;
 	else
-		main->rays_2d.deltaDistX = fabs(1 / main->rays_2d.rayDirX);
-	if (main->rays_2d.rayDirY == 0)
-		main->rays_2d.deltaDistY = 1e30;
+		main->rays_2d.delta_dist_x = fabs(1 / main->rays_2d.ray_dir_x);
+	if (main->rays_2d.ray_dir_y == 0)
+		main->rays_2d.delta_dist_y = 1e30;
 	else
-		main->rays_2d.deltaDistY = fabs(1 / main->rays_2d.rayDirY);
+		main->rays_2d.delta_dist_y = fabs(1 / main->rays_2d.ray_dir_y);
 	main->rays_2d.hit = 0;
 }
 
 void	cauculate_step_and_side_dist(t_main *main)
 {
-	if (main->rays_2d.rayDirX < 0)
+	if (main->rays_2d.ray_dir_x < 0)
 	{
-		main->rays_2d.stepX = -1;
-		main->rays_2d.sideDistX = (main->player.x - main->rays_2d.mapX)
-			* main->rays_2d.deltaDistX;
+		main->rays_2d.step_x = -1;
+		main->rays_2d.side_dist_x = (main->player.x - main->rays_2d.map_x)
+			* main->rays_2d.delta_dist_x;
 	}
 	else
 	{
-		main->rays_2d.stepX = 1;
-		main->rays_2d.sideDistX = (main->rays_2d.mapX + 1.0 - main->player.x)
-			* main->rays_2d.deltaDistX;
+		main->rays_2d.step_x = 1;
+		main->rays_2d.side_dist_x = (main->rays_2d.map_x + 1.0 - main->player.x)
+			* main->rays_2d.delta_dist_x;
 	}
-	if (main->rays_2d.rayDirY < 0)
+	if (main->rays_2d.ray_dir_y < 0)
 	{
-		main->rays_2d.stepY = -1;
-		main->rays_2d.sideDistY = (main->player.y - main->rays_2d.mapY)
-			* main->rays_2d.deltaDistY;
+		main->rays_2d.step_y = -1;
+		main->rays_2d.side_dist_y = (main->player.y - main->rays_2d.map_y)
+			* main->rays_2d.delta_dist_y;
 	}
 	else
 	{
-		main->rays_2d.stepY = 1;
-		main->rays_2d.sideDistY = (main->rays_2d.mapY + 1.0 - main->player.y)
-			* main->rays_2d.deltaDistY;
+		main->rays_2d.step_y = 1;
+		main->rays_2d.side_dist_y = (main->rays_2d.map_y + 1.0 - main->player.y)
+			* main->rays_2d.delta_dist_y;
 	}
 }
 
@@ -64,58 +64,58 @@ void	calculate_hit(t_main *main)
 {
 	while (main->rays_2d.hit == 0)
 	{
-		if (main->rays_2d.sideDistX < main->rays_2d.sideDistY)
+		if (main->rays_2d.side_dist_x < main->rays_2d.side_dist_y)
 		{
-			main->rays_2d.sideDistX += main->rays_2d.deltaDistX;
-			main->rays_2d.mapX += main->rays_2d.stepX;
+			main->rays_2d.side_dist_x += main->rays_2d.delta_dist_x;
+			main->rays_2d.map_x += main->rays_2d.step_x;
 			main->rays_2d.side = 0;
 		}
 		else
 		{
-			main->rays_2d.sideDistY += main->rays_2d.deltaDistY;
-			main->rays_2d.mapY += main->rays_2d.stepY;
+			main->rays_2d.side_dist_y += main->rays_2d.delta_dist_y;
+			main->rays_2d.map_y += main->rays_2d.step_y;
 			main->rays_2d.side = 1;
 		}
-		if (main->file.map[main->rays_2d.mapY][main->rays_2d.mapX] == '1'
-			|| main->file.map[main->rays_2d.mapY][main->rays_2d.mapX] == 'D')
+		if (main->file.map[main->rays_2d.map_y][main->rays_2d.map_x] == '1'
+			|| main->file.map[main->rays_2d.map_y][main->rays_2d.map_x] == 'D')
 			main->rays_2d.hit = 1;
 	}
 }
 
-void	calculate_rayendx_rayendy(t_main *main)
+void	calculate_ray_end_x_ray_end_y(t_main *m)
 {
-	main->rays_2d.rayEndX = main->rays_2d.rayStartX + main->rays_2d.rayDirX
-		* main->rays_2d.perpWallDist * TILE_SIZE;
-	main->rays_2d.rayEndY = main->rays_2d.rayStartY + main->rays_2d.rayDirY
-		* main->rays_2d.perpWallDist * TILE_SIZE;
-	main->rays_2d.minX = main->rays_2d.offsetX;
-	main->rays_2d.minY = main->rays_2d.offsetY;
-	main->rays_2d.maxX = main->rays_2d.offsetX + main->rays_2d.map_size
+	m->rays_2d.ray_end_x = m->rays_2d.ray_start_x + m->rays_2d.ray_dir_x
+		* m->rays_2d.perp_wall_dist * TILE_SIZE;
+	m->rays_2d.ray_end_y = m->rays_2d.ray_start_y + m->rays_2d.ray_dir_y
+		* m->rays_2d.perp_wall_dist * TILE_SIZE;
+	m->rays_2d.min_x = m->rays_2d.offset_x;
+	m->rays_2d.min_y = m->rays_2d.offset_y;
+	m->rays_2d.max_x = m->rays_2d.offset_x + m->rays_2d.map_size
 		* TILE_SIZE;
-	main->rays_2d.maxY = main->rays_2d.offsetY + main->rays_2d.map_size
+	m->rays_2d.max_y = m->rays_2d.offset_y + m->rays_2d.map_size
 		* TILE_SIZE;
-	if (main->rays_2d.rayEndX < main->rays_2d.minX)
-		main->rays_2d.rayEndX = main->rays_2d.minX;
-	if (main->rays_2d.rayEndX > main->rays_2d.maxX)
-		main->rays_2d.rayEndX = main->rays_2d.maxX;
-	if (main->rays_2d.rayEndY < main->rays_2d.minY)
-		main->rays_2d.rayEndY = main->rays_2d.minY;
-	if (main->rays_2d.rayEndY > main->rays_2d.maxY)
-		main->rays_2d.rayEndY = main->rays_2d.maxY;
+	if (m->rays_2d.ray_end_x < m->rays_2d.min_x)
+		m->rays_2d.ray_end_x = m->rays_2d.min_x;
+	if (m->rays_2d.ray_end_x > m->rays_2d.max_x)
+		m->rays_2d.ray_end_x = m->rays_2d.max_x;
+	if (m->rays_2d.ray_end_y < m->rays_2d.min_y)
+		m->rays_2d.ray_end_y = m->rays_2d.min_y;
+	if (m->rays_2d.ray_end_y > m->rays_2d.max_y)
+		m->rays_2d.ray_end_y = m->rays_2d.max_y;
 }
 
-void	side(t_main *main)
+void	side(t_main *m)
 {
-	if (main->rays_2d.side == 0)
-		main->rays_2d.perpWallDist = (main->rays_2d.mapX - main->player.x + (1
-					- main->rays_2d.stepX) / 2) / main->rays_2d.rayDirX;
+	if (m->rays_2d.side == 0)
+		m->rays_2d.perp_wall_dist = (m->rays_2d.map_x - m->player.x + (1
+					- m->rays_2d.step_x) / 2) / m->rays_2d.ray_dir_x;
 	else
-		main->rays_2d.perpWallDist = (main->rays_2d.mapY - main->player.y + (1
-					- main->rays_2d.stepY) / 2) / main->rays_2d.rayDirY;
-	main->rays_2d.rayStartX = main->rays_2d.offsetX + (main->player.x
-			- (int)main->player.x) * TILE_SIZE + main->rays_2d.map_size / 2
+		m->rays_2d.perp_wall_dist = (m->rays_2d.map_y - m->player.y + (1
+					- m->rays_2d.step_y) / 2) / m->rays_2d.ray_dir_y;
+	m->rays_2d.ray_start_x = m->rays_2d.offset_x + (m->player.x
+			- (int)m->player.x) * TILE_SIZE + m->rays_2d.map_size / 2
 		* TILE_SIZE;
-	main->rays_2d.rayStartY = main->rays_2d.offsetY + (main->player.y
-			- (int)main->player.y) * TILE_SIZE + main->rays_2d.map_size / 2
+	m->rays_2d.ray_start_y = m->rays_2d.offset_y + (m->player.y
+			- (int)m->player.y) * TILE_SIZE + m->rays_2d.map_size / 2
 		* TILE_SIZE;
 }

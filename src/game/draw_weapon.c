@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:46:48 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/12 17:15:16 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/16 21:06:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	loop_give_color(t_main *m)
 			| m->draw_weapon.a;
 		if (m->draw_weapon.a != 0)
 			mlx_put_pixel(m->game.image,
-				m->draw_weapon.posX + m->draw_weapon.x,
-				m->draw_weapon.posY + m->draw_weapon.y,
+				m->draw_weapon.pos_x + m->draw_weapon.x,
+				m->draw_weapon.pos_y + m->draw_weapon.y,
 				m->draw_weapon.color);
 		m->draw_weapon.y++;
 	}
@@ -46,10 +46,10 @@ void	draw_weapon(t_main *main)
 		|| main->game.weapon_animation >= 28
 		|| !main->game.texture_weapon[main->game.weapon_animation])
 		return ;
-	main->draw_weapon.posX = SCREEN_WIDTH / 2
+	main->draw_weapon.pos_x = SCREEN_WIDTH / 2
 		- main->game.texture_weapon[main->game.weapon_animation]->width / 2
 		+ 100;
-	main->draw_weapon.posY = SCREEN_HEIGHT
+	main->draw_weapon.pos_y = SCREEN_HEIGHT
 		- main->game.texture_weapon[main->game.weapon_animation]->height;
 	main->draw_weapon.x = 0;
 	while (main->draw_weapon.x

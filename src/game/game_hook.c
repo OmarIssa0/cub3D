@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 08:12:36 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/12 18:00:43 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/16 21:06:01 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	calculate_time(t_time *time, int number_array)
 
 void	draw_aim(t_main *m)
 {
-	m->draw_aim.centerX = SCREEN_WIDTH / 2;
-	m->draw_aim.centerY = SCREEN_HEIGHT / 2;
+	m->draw_aim.center_x = SCREEN_WIDTH / 2;
+	m->draw_aim.center_y = SCREEN_HEIGHT / 2;
 	m->draw_aim.size = 5;
 	m->draw_aim.thickness = 10;
 	m->draw_aim.color = 0xFF0000FF;
@@ -37,14 +37,14 @@ void	draw_aim(t_main *m)
 			if (m->draw_aim.i == SCREEN_WIDTH / 2
 				|| m->draw_aim.y == SCREEN_HEIGHT / 2)
 				continue ;
-			mlx_put_pixel(m->game.image, m->draw_aim.centerX
-				+ m->draw_aim.i, m->draw_aim.centerY, m->draw_aim.color);
-			mlx_put_pixel(m->game.image, m->draw_aim.centerX
-				- m->draw_aim.i, m->draw_aim.centerY, m->draw_aim.color);
-			mlx_put_pixel(m->game.image, m->draw_aim.centerX,
-				m->draw_aim.centerY + m->draw_aim.i, m->draw_aim.color);
-			mlx_put_pixel(m->game.image, m->draw_aim.centerX,
-				m->draw_aim.centerY - m->draw_aim.i, m->draw_aim.color);
+			mlx_put_pixel(m->game.image, m->draw_aim.center_x
+				+ m->draw_aim.i, m->draw_aim.center_y, m->draw_aim.color);
+			mlx_put_pixel(m->game.image, m->draw_aim.center_x
+				- m->draw_aim.i, m->draw_aim.center_y, m->draw_aim.color);
+			mlx_put_pixel(m->game.image, m->draw_aim.center_x,
+				m->draw_aim.center_y + m->draw_aim.i, m->draw_aim.color);
+			mlx_put_pixel(m->game.image, m->draw_aim.center_x,
+				m->draw_aim.center_y - m->draw_aim.i, m->draw_aim.color);
 			m->draw_aim.y++;
 		}
 	}
