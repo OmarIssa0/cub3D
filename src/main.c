@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:39:38 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/18 16:49:48 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/19 03:02:57 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ int	main(int ac, char **av)
 
 	if (ac != 2 && ft_dprintf(2, "Error\nUsage: ./cub3D <map.cub>\n"))
 		return (1);
+	if (SCREEN_HEIGHT < 30 || SCREEN_WIDTH < 30)
+	{
+		ft_printf("USE bigger SCREEN_WIDTH , SCREEN_HEIGHT in Cub3d.h");
+		return (1);
+	}
 	ft_bzero(&main, sizeof(t_main));
 	main.file_name = ft_strdup(av[1]);
 	if (main.file_name == NULL)
