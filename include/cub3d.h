@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/16 21:20:03 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/18 21:51:15 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-# define SCREEN_WIDTH 2000
-# define SCREEN_HEIGHT 1000
+# define SCREEN_WIDTH 751
+# define SCREEN_HEIGHT 751
 // # define SCREEN_WIDTH 700
 // # define SCREEN_HEIGHT 600
 # define TILE_SIZE 10
@@ -154,7 +154,7 @@ typedef struct s_helper
 	int				new_x;
 	int				new_y;
 	int				player;
-	pthread_mutex_t	mutex;
+	bool 			is_open;
 }					t_helper;
 
 typedef struct s_game

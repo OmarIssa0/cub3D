@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 08:12:44 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/12 16:14:45 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/18 21:51:23 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,28 @@ void	play_sound(t_main *main)
 	pid_t	pid;
 	int		devnull;
 
-	pid = fork();
-	if (pid == 0)
+	if (access("/usr/bin/ffplay", X_OK) == -1)
+		main->helper.is_open = true;
+	if (!main->helper.is_open)
 	{
-		devnull = open("/dev/null", O_WRONLY);
-		dup2(devnull, STDOUT_FILENO);
-		dup2(devnull, STDERR_FILENO);
-		close(devnull);
-		execlp("ffplay", "ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet",
-			"assets/sound/shot.mp3", (char *) NULL);
-		exit_and_print("execlp failed", main, DONT_CLOSE_FD);
+		pid = fork();
+		if (pid == 0)
+		{
+			devnull = open("/dev/null", O_WRONLY);
+			if (devnull == -1)
+				exit_and_print("open /dev/null failed", main, DONT_CLOSE_FD);
+			dup2(devnull, STDOUT_FILENO);
+			dup2(devnull, STDERR_FILENO);
+			close(devnull);
+			execlp("ffplay", "ffplay", "-nodisp", "-autoexit", "-loglevel",
+				"quiet", "assets/sound/shot.mp3", (char *) NULL);
+			exit_and_print("execlp failed", main, DONT_CLOSE_FD);
+		}
+		else if (pid > 0)
+			;
+		else
+			exit_and_print("fork failed", main, DONT_CLOSE_FD);
 	}
-	else if (pid > 0)
-		;
-	else
-		exit_and_print("fork failed", main, DONT_CLOSE_FD);
 }
 
 void	keys_hook(struct mlx_key_data keydata, void *param)
@@ -60,7 +67,10 @@ void	keys_hook(struct mlx_key_data keydata, void *param)
 
 	key_pressed = 0;
 	main = (t_main *)param;
-	if (key_pressed == 0 && main->player.holding
+	if (SCREEN_HEIGHT > 750 && SCREEN_WIDTH > 750
+		&& key_pressed == 0
+		&& PUT_CEILING == true
+		&& main->player.holding
 		&& main->game.weapon_animation == 0 && keydata.key == MLX_KEY_SPACE
 		&& keydata.action == MLX_PRESS)
 	{
@@ -87,11 +97,9 @@ void	init_game(t_main *main)
 	main->time.speed = 1.0;
 	main->hook.move_step = MOV_SPEED * 0.05;
 	main->hook.rot_step = ROT_SPEED * 0.05;
-	printf("hook move step: %f\n", main->hook.move_step);
-	printf("hook rot step: %f\n", main->hook.rot_step);
 	mlx_loop_hook(main->game.mlx, &handle_keys, main);
 	mlx_close_hook(main->game.mlx, &exit_clean, main);
 	mlx_key_hook(main->game.mlx, &keys_hook, main);
 	mlx_set_cursor_mode(main->game.mlx, MLX_MOUSE_DISABLED);
-	mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCHAR_MAX / 2);
+	mlx_set_mouse_pos(main->game.mlx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }

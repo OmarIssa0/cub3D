@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:32:12 by oissa             #+#    #+#             */
-/*   Updated: 2025/05/10 18:22:55 by lalhindi         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:15:57 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	init_player(t_main *main)
 	else if (main->game.player_direction == 'E')
 	{
 		init_player_value(&main->player, 1, 0, 0);
-		main->player.plane_y = -0.66;
+		main->player.plane_y = 0.66;
 	}
 	else if (main->game.player_direction == 'W')
 	{
 		init_player_value(&main->player, -1, 0, 0);
-		main->player.plane_y = 0.66;
+		main->player.plane_y = -0.66;
 	}
 	main->player.x = main->game.player_x + 0.5;
 	main->player.y = main->game.player_y + 0.5;

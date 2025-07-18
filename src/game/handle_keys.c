@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:18:17 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/14 21:03:46 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/18 20:43:33 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ static void	handle_r_and_f(t_main *main)
 	}
 	else
 		main->hook.key_pressed = 0;
-	if (PUT_CEILING == true && mlx_is_key_down(main->game.mlx, MLX_KEY_R))
+	if (SCREEN_HEIGHT > 750 && SCREEN_WIDTH > 750
+		&& PUT_CEILING == true
+		&& mlx_is_key_down(main->game.mlx, MLX_KEY_R))
 	{
 		if (!main->hook.key_pressed_hoding)
 		{

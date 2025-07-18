@@ -6,7 +6,7 @@
 /*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:42:06 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/12 18:02:00 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/18 20:46:29 by oissa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ void	display_fps(t_main *main)
 		frame_count = 0;
 		main->time.last_time[0] = main->time.now[0];
 		str = ft_itoa((int)fps);
+		if (!str)
+			exit_and_print("Malloc Failed :(", main, DONT_CLOSE_FD);
 		temp = str;
 		str = ft_strjoin("FPS: ", str);
+		if (!str)
+			exit_and_print("Malloc Failed :(", main, DONT_CLOSE_FD);
 		free(temp);
 		if (image)
 			mlx_delete_image(main->game.mlx, image);

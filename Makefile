@@ -7,6 +7,7 @@ MLX_LIB = $(MLX_BUILD_DIR)/libmlx42.a
 LIBS = -I./MLX42/include -L$(MLX_BUILD_DIR) -lmlx42 -ldl -lglfw -lpthread -lm -lX11 
 LIBFT_DIR = ./Libft
 LIBFT = $(LIBFT_DIR)/libft.a
+HEADERS = include/cub3d.h $(LIBFT_DIR)/libft.h $(MLX_DIR)/include/MLX42/MLX42.h
 
 SRC = src/main.c				\
 	src/read_map/read_map.c		\
@@ -70,7 +71,7 @@ $(NAME) : $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) -o $(NAME)
 	@printf "$(Y)%b $(G)%b $(Y)%b$(N)\n" "###############################" "$(NAME) ready" "#####"
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "$(Y)%b $(G)%10b $(R)%-34b $(Y)%b$(N)\n" "#" "compiling" "$@" "#"
