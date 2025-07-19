@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 06:36:08 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/18 21:51:15 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/19 03:02:46 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define BLUE "\033[0;34m"
 # define YELLOW "\033[0;33m"
 
-# define SCREEN_WIDTH 751
-# define SCREEN_HEIGHT 751
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 700
 // # define SCREEN_WIDTH 700
 // # define SCREEN_HEIGHT 600
 # define TILE_SIZE 10
@@ -154,7 +154,7 @@ typedef struct s_helper
 	int				new_x;
 	int				new_y;
 	int				player;
-	bool 			is_open;
+	bool			is_open;
 }					t_helper;
 
 typedef struct s_game
@@ -236,6 +236,7 @@ typedef struct s_2d
 	uint32_t		border;
 	int				px;
 	int				py;
+	int				tile_size;
 }					t_2d;
 
 typedef struct s_rays_2d
@@ -265,6 +266,7 @@ typedef struct s_rays_2d
 	float			step_x;
 	float			side_dist_x;
 	float			side_dist_y;
+	int				tile_size;
 }					t_rays_2d;
 
 typedef struct s_rectangle
@@ -303,6 +305,8 @@ typedef struct s_draw_weapon
 	uint8_t			b;
 	uint8_t			a;
 	uint32_t		color;
+	uint32_t		weapon_width;
+	uint32_t		weapon_height;
 }					t_draw_weapon;
 
 typedef struct s_draw_aim

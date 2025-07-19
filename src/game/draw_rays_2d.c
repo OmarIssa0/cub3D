@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_rays_2d.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 21:59:53 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/18 19:47:40 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/19 03:03:37 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,15 @@ void	calculate_hit(t_main *main)
 void	calculate_ray_end_x_ray_end_y(t_main *m)
 {
 	m->rays_2d.ray_end_x = m->rays_2d.ray_start_x + m->rays_2d.ray_dir_x
-		* m->rays_2d.perp_wall_dist * TILE_SIZE;
+		* m->rays_2d.perp_wall_dist * m->rays_2d.tile_size;
 	m->rays_2d.ray_end_y = m->rays_2d.ray_start_y + m->rays_2d.ray_dir_y
-		* m->rays_2d.perp_wall_dist * TILE_SIZE;
+		* m->rays_2d.perp_wall_dist * m->rays_2d.tile_size;
 	m->rays_2d.min_x = m->rays_2d.offset_x;
 	m->rays_2d.min_y = m->rays_2d.offset_y;
 	m->rays_2d.max_x = m->rays_2d.offset_x + m->rays_2d.map_size
-		* TILE_SIZE;
+		* m->rays_2d.tile_size;
 	m->rays_2d.max_y = m->rays_2d.offset_y + m->rays_2d.map_size
-		* TILE_SIZE;
+		* m->rays_2d.tile_size;
 	if (m->rays_2d.ray_end_x < m->rays_2d.min_x)
 		m->rays_2d.ray_end_x = m->rays_2d.min_x;
 	if (m->rays_2d.ray_end_x > m->rays_2d.max_x)
@@ -113,9 +113,9 @@ void	side(t_main *m)
 		m->rays_2d.perp_wall_dist = (m->rays_2d.map_y - m->player.y + (1
 					- m->rays_2d.step_y) / 2) / m->rays_2d.ray_dir_y;
 	m->rays_2d.ray_start_x = m->rays_2d.offset_x + (m->player.x
-			- (int)m->player.x) * TILE_SIZE + m->rays_2d.map_size / 2
-		* TILE_SIZE;
+			- (int)m->player.x) * m->rays_2d.tile_size + m->rays_2d.map_size / 2
+		* m->rays_2d.tile_size;
 	m->rays_2d.ray_start_y = m->rays_2d.offset_y + (m->player.y
-			- (int)m->player.y) * TILE_SIZE + m->rays_2d.map_size / 2
-		* TILE_SIZE;
+			- (int)m->player.y) * m->rays_2d.tile_size + m->rays_2d.map_size / 2
+		* m->rays_2d.tile_size;
 }

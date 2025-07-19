@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_rays_2d_tow.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oissa <oissa@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: lalhindi <lalhindi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:46:13 by oissa             #+#    #+#             */
-/*   Updated: 2025/07/16 21:06:31 by oissa            ###   ########.fr       */
+/*   Updated: 2025/07/18 21:54:23 by lalhindi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	draw_rays_2d(t_main *m)
 	t_line	line;
 	int		x;
 
-	m->rays_2d.map_size = 12;
-	m->rays_2d.offset_y = SCREEN_HEIGHT - (m->rays_2d.map_size * TILE_SIZE)
-		- 10;
+	m->rays_2d.tile_size = m->map_2d.tile_size;
+	m->rays_2d.map_size = m->map_2d.map_size;
+	m->rays_2d.offset_y = SCREEN_HEIGHT - (m->rays_2d.map_size
+			* m->rays_2d.tile_size) - 10;
 	m->rays_2d.offset_x = 10;
 	x = 0;
 	while (x < SCREEN_WIDTH)
